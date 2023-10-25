@@ -19,7 +19,7 @@ export function UserAccountNav({ name }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <UserAvatar name={name} className="h-8 w-8" />
+        {/* <UserAvatar name={name} className="h-8 w-8" /> */}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">
