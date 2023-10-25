@@ -24,6 +24,7 @@ export const posts = mysqlTable(
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
     name: varchar("name", { length: 256 }),
     content: varchar("content", { length: 256 }),
+    authorId: varchar("userID", { length: 256} ),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -31,5 +32,6 @@ export const posts = mysqlTable(
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
+    authorIndex: index("author_idx").on(example.authorId),
   })
 );
