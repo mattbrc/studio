@@ -16,7 +16,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">
+      <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 font-mono">
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
           <span className="text-[hsl(161,78%,58%)]">AG</span> Studio
         </h1>
