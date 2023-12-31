@@ -25,27 +25,26 @@ export default async function Page() {
         <p>Speed</p>
         <p>Mil Prep</p>
       </div>
-      <CrudShowcase />
     </div>
     // </main>
   );
 }
 
-async function CrudShowcase() {
-  const data = await api.post.getAll.query();
+// async function CrudShowcase() {
+//   const data = await api.post.getAll.query();
 
-  return (
-    <div className="w-full max-w-xs">
-      <div>
-        {data?.map((post) => (
-          <div key={post.id}>
-            <p>{post.id}</p>
-            <p>{post.name}</p>
-          </div>
-        ))}
-      </div>
+//   return (
+//     <div className="w-full max-w-xs">
+//       <div>
+//         {data?.map((post) => (
+//           <div key={post.id}>
+//             <p>{post.id}</p>
+//             <p>{post.name}</p>
+//           </div>
+//         ))}
+//       </div>
 
-      <CreatePost />
-    </div>
-  );
-}
+//       <CreatePost />
+//     </div>
+//   );
+// }

@@ -9,10 +9,17 @@ import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 
-import { currentUser } from "@clerk/nextjs";
+import { currentUser, auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const user = await currentUser();
+  // add for immediate redirect to dashboard if currently auth'd
+  const { userId } = auth();
+
+  if (userId) {
+    redirect("/dashboard");
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
@@ -35,13 +42,13 @@ export default async function Home() {
           </Link>
         ) : (
           <Link
-            href="/sign-in"
+            href=""
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
             )}
           >
-            Enter
+            Coming Soon
           </Link>
         )}
       </div>

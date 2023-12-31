@@ -1,8 +1,12 @@
-import { BiWorld } from "react-icons/bi";
+import { BiWorld, BiSolidDashboard } from "react-icons/bi";
 import { BsDiscord, BsStrava } from "react-icons/bs";
 import { BsFillFileEarmarkSpreadsheetFill } from "react-icons/bs";
 import { IoMdNutrition } from "react-icons/io";
-import { MdOutlineTrackChanges, MdOutlinePayment } from "react-icons/md";
+import {
+  MdOutlineTrackChanges,
+  MdOutlinePayment,
+  MdOutlineExplore,
+} from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 
@@ -16,4 +20,6 @@ export const Icons = {
   billing: MdOutlinePayment,
   settings: FiSettings,
   user: AiOutlineUser,
+  dashboard: BiSolidDashboard,
+  explore: MdOutlineExplore,
 };
