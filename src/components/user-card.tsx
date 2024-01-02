@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { Progress } from "@/components/ui/progress";
 
 interface UserCardProps {
   id: string | undefined;
@@ -17,18 +18,20 @@ interface UserCardProps {
 
 export function UserCard({ ...props }: UserCardProps) {
   return (
-    <Card {...props} className="w-full">
+    <Card {...props} className="w-full md:w-1/2">
       <CardHeader>
         <CardTitle>{props.username}</CardTitle>
-        <CardDescription>
-          {props.firstName} {props.lastName}
-        </CardDescription>
+        <CardDescription>Level 1 (cult novice)</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p className="pb-2">Progress</p>
+        <Progress value={10} />
+        <CardDescription className="pt-2">
+          Next Level: 9 remaining workouts
+        </CardDescription>
       </CardContent>
       <CardFooter>
-        <p>Card Footer</p>
+        <p>Active Program: None</p>
       </CardFooter>
     </Card>
   );

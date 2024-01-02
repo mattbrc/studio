@@ -41,19 +41,10 @@ export default async function Home() {
             Enter
           </Link>
         ) : (
-          // <Link
-          //   href="/sign-in"
-          //   className={cn(
-          //     buttonVariants({ variant: "secondary", size: "sm" }),
-          //     "px-4",
-          //   )}
-          // >
-          //   Enter
-          // </Link>
-
-          // lock sign in for public deployment:
           <Link
-            href=""
+            // lock sign in for public deployment:
+            // href=""
+            href="/sign-in"
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",

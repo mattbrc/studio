@@ -12,7 +12,7 @@ export default async function Page() {
 
   return (
     // <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-900 text-white">
-    <div className="container flex flex-col items-center justify-center gap-6 border border-red-400 px-4 py-16 ">
+    <div className="container flex flex-col items-center justify-center gap-6 px-4 py-16 ">
       <h1 className="text-2xl font-bold">Training Dashboard</h1>
       <UserCard
         id={userId}
@@ -20,7 +20,7 @@ export default async function Page() {
         lastName={lastName}
         username={username}
       />
-      <div className="border border-red-400">
+      <div>
         <p>user box</p>
         <p>user: {userId}</p>
         <p>name: {user?.firstName}</p>
