@@ -33,7 +33,7 @@ export function MainNav({ items, children }: MainNavProps) {
               key={index}
               href={item.disabled ? "#" : item.href}
               className={cn(
-                "hover:text-foreground/80 flex items-center text-lg font-medium transition-colors sm:text-sm",
+                "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
                 item.href.startsWith(`/${segment}`)
                   ? "text-foreground"
                   : "text-foreground/60",
@@ -50,7 +50,7 @@ export function MainNav({ items, children }: MainNavProps) {
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
         {/* {showMobileMenu ? <Icons.close /> : <Icons.logo />} */}
-        <span className="font-bold">Menu</span>
+        <span className="font-bold">Studio</span>
       </button>
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>

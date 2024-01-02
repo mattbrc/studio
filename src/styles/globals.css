@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  /* :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 
@@ -33,9 +33,9 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
-  }
+  } */
 
-  .dark {
+  :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
 
@@ -63,6 +63,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
   }
 }
 
@@ -71,6 +72,42 @@
     @apply border-border;
   }
   body {
-    @apply bg-zinc-800 text-white;
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
+}
+
+/* Clerk form customization */
+
+.cl-formButtonPrimary {
+  color: #000000;
+  background-color: #40e7b2;
+}
+
+.cl-formButtonPrimary:hover {
+  color: #000000;
+  background-color: #16b683;
+}
+
+.cl-footerActionLink {
+  color: #40e7b2;
+}
+
+.cl-footerActionLink:hover {
+  color: #49e9b6;
+}
+
+.cl-profileSectionPrimaryButton {
+  color: #40e7b2;
+}
+
+.cl-profileSectionPrimaryButton:hover {
+  background-color: #252526;
+}
+
+.cl-badge {
+  color: #40e7b2;
+  background-color: #4c4c4d;
 }
