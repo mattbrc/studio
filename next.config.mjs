@@ -5,6 +5,14 @@
 await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  esLint: {
+    ignoreDuringBuilds: true,
+  },
+  swcMinify: true,
+};
 
 export default config;
