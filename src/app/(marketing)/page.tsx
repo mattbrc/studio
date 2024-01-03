@@ -1,9 +1,3 @@
-// import Link from "next/link"
-
-// import { env } from "@/env.mjs"
-// import { siteConfig } from "@/config/site"
-// import { buttonVariants } from "@/components/ui/button"
-
 import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
@@ -13,7 +7,6 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
   const user = await currentUser();
-  // add for immediate redirect to dashboard if currently auth'd
   const { userId } = auth();
 
   if (userId) {
@@ -42,14 +35,14 @@ export default async function Home() {
         ) : (
           <Link
             // lock sign in for public deployment:
-            // href=""
-            href="/sign-in"
+            href=""
+            // href="/sign-in"
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
             )}
           >
-            Enter
+            Coming Soon
           </Link>
         )}
       </div>

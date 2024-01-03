@@ -1,10 +1,6 @@
 import { notFound } from "next/navigation";
-
-import { dashboardConfig } from "@/config/dashboard";
 import { MainNav } from "@/components/main-nav";
-import { SiteFooter } from "@/components/site-footer";
-import { auth, currentUser } from "@clerk/nextjs";
-// import { UserAccountNav } from "~/components/user-account-nav";
+import { currentUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 
 interface DashboardLayoutProps {

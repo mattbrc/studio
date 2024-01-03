@@ -1,27 +1,37 @@
-import type { User } from "@clerk/nextjs/dist/types/server";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { cn } from "~/lib/utils";
-import { buttonVariants } from "~/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import Link from "next/link";
+import { api } from "~/trpc/server";
 
-export function Wod() {
+type WodData = Record<string, string>;
+
+export async function Wod() {
+  const data = await api.wod.getLatest.query();
+
+  const wod: WodData = data?.workout as WodData;
+
   return (
     <Card className="w-full md:w-1/2">
       <CardHeader>
         <CardTitle>Workout of the Day</CardTitle>
-        <CardDescription>Todays Date</CardDescription>
+        <CardDescription>
+          {data?.date ? data.date.toLocaleDateString() : "No date available"}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <p>workout name</p>
-        <CardDescription>workout details</CardDescription>
+        <p>{data?.title}</p>
+        <span>
+          <ul>
+            {Object.entries(wod).map(([key, value]) => (
+              <li key={key}>{`${key}: ${value}`}</li>
+            ))}
+          </ul>
+        </span>
+        <CardDescription>{data?.notes}</CardDescription>
       </CardContent>
     </Card>
   );
