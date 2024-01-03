@@ -8,6 +8,9 @@ import {
   mysqlTableCreator,
   timestamp,
   varchar,
+  json,
+  date,
+  text,
 } from "drizzle-orm/mysql-core";
 
 /**
@@ -18,6 +21,7 @@ import {
  */
 export const mysqlTable = mysqlTableCreator((name) => `studio_${name}`);
 
+// Sample schema for posts. From T3 repo
 export const posts = mysqlTable(
   "post",
   {
@@ -35,3 +39,37 @@ export const posts = mysqlTable(
     authorIndex: index("author_idx").on(example.authorId),
   })
 );
+
+// Workout Log for tracking completed WODs by users
+// Tracks individual workout history for users by WOD
+export const workoutsLog = mysqlTable(
+  "log",
+  {
+    athleteId: varchar("userID", { length: 256 }).primaryKey(),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    workoutId: bigint("id", { mode: "number" }).autoincrement(),
+  },
+  (workoutsTable) => ({
+    athleteIndex: index("athlete_idx").on(workoutsTable.athleteId),
+    workoutIndex: index("workout_idx").on(workoutsTable.workoutId),
+  })
+);
+
+// Simple storage of WODs by ID as JSON
+export const wods = mysqlTable(
+  "wod",
+  {
+    wodId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+    date: timestamp("date").notNull(),
+    title: text("title"),
+    workout: json("workout").notNull(),
+    notes: text("notes"),
+  },
+  (wodTable) => ({
+    wodIndex: index("wod_idx").on(wodTable.wodId),
+  })
+);
+

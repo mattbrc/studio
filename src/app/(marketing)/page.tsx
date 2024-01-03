@@ -2,7 +2,6 @@
 
 // import { env } from "@/env.mjs"
 // import { siteConfig } from "@/config/site"
-// import { cn } from "@/lib/utils"
 // import { buttonVariants } from "@/components/ui/button"
 
 import Link from "next/link";
@@ -43,8 +42,8 @@ export default async function Home() {
         ) : (
           <Link
             // lock sign in for public deployment:
-            href=""
-            // href="/sign-in"
+            // href=""
+            href="/sign-in"
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",

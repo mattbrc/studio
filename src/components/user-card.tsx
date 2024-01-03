@@ -7,7 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { cn } from "~/lib/utils";
+import { buttonVariants } from "~/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
 
 interface UserCardProps {
   id: string | undefined;
@@ -20,8 +23,21 @@ export function UserCard({ ...props }: UserCardProps) {
   return (
     <Card {...props} className="w-full md:w-1/2">
       <CardHeader>
-        <CardTitle>{props.username}</CardTitle>
-        <CardDescription>Level 1 (cult novice)</CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="pb-1">{props.username}</CardTitle>
+            <CardDescription>Level 1 (cult novice)</CardDescription>
+          </div>
+          <Link
+            href=""
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "sm" }),
+              "px-4",
+            )}
+          >
+            Profile
+          </Link>
+        </div>
       </CardHeader>
       <CardContent>
         <p className="pb-2">Progress</p>
