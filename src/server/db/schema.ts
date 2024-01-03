@@ -9,7 +9,6 @@ import {
   timestamp,
   varchar,
   json,
-  date,
   text,
 } from "drizzle-orm/mysql-core";
 
