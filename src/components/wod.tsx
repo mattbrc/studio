@@ -14,12 +14,19 @@ export async function Wod() {
 
   const wod: WodData = data?.workout as WodData;
 
+  function formatUTCDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toUTCString().split(" ").slice(0, 4).join(" ");
+  }
+
   return (
     <Card className="w-full md:w-1/2">
       <CardHeader>
         <CardTitle>Workout of the Day</CardTitle>
         <CardDescription>
-          {data?.date ? data.date.toLocaleDateString() : "No date available"}
+          {data?.date
+            ? formatUTCDate(data.date.toUTCString())
+            : "No date available"}
         </CardDescription>
       </CardHeader>
       <CardContent>
