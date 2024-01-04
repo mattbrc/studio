@@ -9,6 +9,7 @@ import {
 } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
+import { LuLoader2 } from "react-icons/lu";
 
 export const Icons = {
   discord: BsDiscord,
@@ -22,4 +23,5 @@ export const Icons = {
   user: AiOutlineUser,
   dashboard: BiSolidDashboard,
   explore: MdOutlineExplore,
+  spinner: LuLoader2,
 };

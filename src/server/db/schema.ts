@@ -48,7 +48,7 @@ export const workoutsLog = mysqlTable(
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    workoutId: bigint("id", { mode: "number" }).autoincrement(),
+    workoutId: bigint("workoutId", { mode: "number" }),
   },
   (workoutsTable) => ({
     athleteIndex: index("athlete_idx").on(workoutsTable.athleteId),

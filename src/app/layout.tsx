@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { GeistSans, GeistMono } from "geist/font";
 import { dark } from "@clerk/themes";
+import { Toaster } from "react-hot-toast";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { cn } from "~/lib/utils";
@@ -23,6 +24,15 @@ export default function RootLayout({
       >
         <body className={cn("min-h-screen antialiased")}>
           <TRPCReactProvider headers={headers()}>
+            <Toaster
+              toastOptions={{
+                className: "",
+                style: {
+                  background: "#27272A",
+                  color: "#fff",
+                },
+              }}
+            />
             {children}
             <Analytics />
           </TRPCReactProvider>

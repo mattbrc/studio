@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -6,6 +7,9 @@ import {
   CardTitle,
 } from "./ui/card";
 import { api } from "~/trpc/server";
+import { cn } from "~/lib/utils";
+import { Button, buttonVariants } from "./ui/button";
+import { WodOperations } from "./wod-operations";
 
 type WodData = Record<string, string>;
 
@@ -19,15 +23,42 @@ export async function Wod() {
     return date.toUTCString().split(" ").slice(0, 4).join(" ");
   }
 
+  if (!data)
+    return (
+      <Card className="w-full md:w-1/2">
+        <CardHeader>
+          <CardTitle>Workout of the Day</CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CardDescription>No workout available.</CardDescription>
+        </CardContent>
+      </Card>
+    );
+
   return (
     <Card className="w-full md:w-1/2">
       <CardHeader>
-        <CardTitle>Workout of the Day</CardTitle>
-        <CardDescription>
-          {data?.date
-            ? formatUTCDate(data.date.toUTCString())
-            : "No date available"}
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Workout of the Day</CardTitle>
+            <CardDescription>
+              {data?.date
+                ? formatUTCDate(data.date.toUTCString())
+                : "No date available"}
+            </CardDescription>
+          </div>
+          {/* <WodOperations /> */}
+          {/* <Link
+            href=""
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "sm" }),
+              "px-4",
+            )}
+          >
+            Complete Workout
+          </Link> */}
+        </div>
       </CardHeader>
       <CardContent>
         <p>{data?.title}</p>
