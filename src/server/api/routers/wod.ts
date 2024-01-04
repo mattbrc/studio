@@ -1,6 +1,16 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
 import { workoutsLog } from "~/server/db/schema";
 import { z } from "zod";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis"; 
+import { TRPCError } from "@trpc/server";
+
+// Create a new ratelimiter, that allows 3 requests per 1 minute
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  analytics: true,
+});
 
 export const wodRouter = createTRPCRouter({
   getLatest: publicProcedure.query(({ ctx }) => {
@@ -23,8 +33,8 @@ export const wodRouter = createTRPCRouter({
       const athleteId = ctx.userId;
       const { workoutId } = input;
 
-      // const { success } = await ratelimit.limit(athleteId);
-      // if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+      const { success } = await ratelimit.limit(athleteId);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"})
 
       const submit = await ctx.db.insert(workoutsLog).values({ athleteId: athleteId, workoutId: workoutId });
 
