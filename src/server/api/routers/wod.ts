@@ -34,7 +34,18 @@ export const wodRouter = createTRPCRouter({
       const { workoutId } = input;
 
       const { success } = await ratelimit.limit(athleteId);
-      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"})
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
+
+      const existingSubmission = await ctx.db.query.workoutsLog.findFirst({
+        where: (wodLog, { eq }) => eq(wodLog.athleteId, athleteId) && eq(wodLog.workoutId, workoutId),
+      });
+  
+      if (existingSubmission) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'Workout has already been submitted'
+        });
+      }
 
       const submit = await ctx.db.insert(workoutsLog).values({ athleteId: athleteId, workoutId: workoutId });
 

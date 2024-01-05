@@ -13,8 +13,6 @@ import Link from "next/link";
 
 interface UserCardProps {
   id: string | undefined;
-  firstName: string | null | undefined;
-  lastName: string | null | undefined;
   username: string | null | undefined;
 }
 

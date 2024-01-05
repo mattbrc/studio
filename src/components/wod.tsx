@@ -1,3 +1,4 @@
+// "use client";
 import Link from "next/link";
 import {
   Card,
@@ -10,10 +11,12 @@ import { api } from "~/trpc/server";
 import { cn } from "~/lib/utils";
 import { Button, buttonVariants } from "./ui/button";
 import { WodOperations } from "./wod-operations";
+// import * as React from "react";
 
 type WodData = Record<string, string>;
 
 export async function Wod() {
+  // const { data, isLoading: wodLoading } = api.wod.getLatest.useQuery();
   const data = await api.wod.getLatest.query();
 
   const wod: WodData = data?.workout as WodData;
@@ -48,7 +51,7 @@ export async function Wod() {
                 : "No date available"}
             </CardDescription>
           </div>
-          {/* <WodOperations /> */}
+          <WodOperations workoutId={data?.wodId} />
           {/* <Link
             href=""
             className={cn(

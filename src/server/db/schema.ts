@@ -11,6 +11,7 @@ import {
   json,
   text,
 } from "drizzle-orm/mysql-core";
+import { createId } from '@paralleldrive/cuid2';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -44,7 +45,8 @@ export const posts = mysqlTable(
 export const workoutsLog = mysqlTable(
   "log",
   {
-    athleteId: varchar("userID", { length: 256 }).primaryKey(),
+    logId: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
+    athleteId: varchar("userID", { length: 256 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),

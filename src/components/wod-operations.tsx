@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 import { Button } from "./ui/button";
 import {
@@ -17,23 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Icons } from "@/components/icons";
 import toast from "react-hot-toast";
-
-async function submitWod(workoutId: number) {
-  const response = await fetch(`/api/posts/${workoutId}`, {
-    method: "DELETE",
-  });
-
-  if (!response?.ok) {
-    // toast({
-    //   title: "Something went wrong.",
-    //   description: "Your post was not deleted. Please try again.",
-    //   variant: "destructive",
-    // })
-    toast.success("Well done! Workout Completed.");
-  }
-
-  return true;
-}
+import { api } from "~/trpc/react";
 
 interface WodOperationsProps {
   workoutId: number;
@@ -41,14 +26,38 @@ interface WodOperationsProps {
 
 export function WodOperations({ workoutId }: WodOperationsProps) {
   const router = useRouter();
-  const [showSubmitAlert, setShowSubmitAlert] = React.useState<boolean>(false);
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
+
+  const mutation = api.wod.submitWod.useMutation({
+    onSuccess: () => {
+      toast.success("Well done! Workout completed.");
+      setIsSubmitLoading(false);
+      router.refresh();
+    },
+    onError: (e) => {
+      const errorCode = e.data?.code;
+      if (errorCode === "CONFLICT") {
+        toast.error("Workout has already been submitted");
+      } else {
+        toast.error("Error, please try again later");
+      }
+      setIsSubmitLoading(false);
+    },
+  });
+
+  const handleSubmit = () => {
+    setIsSubmitLoading(true);
+    mutation.mutate({ workoutId });
+  };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button size="sm" variant="secondary">
-          Complete WOD
+        <Button disabled={isSubmitLoading} size="sm" variant="secondary">
+          {isSubmitLoading && (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          )}
+          <span>Complete WOD</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -61,26 +70,9 @@ export function WodOperations({ workoutId }: WodOperationsProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          {/* <AlertDialogAction>Submit</AlertDialogAction> */}
-          <AlertDialogAction
-            onClick={async (event) => {
-              event.preventDefault();
-              setIsSubmitLoading(true);
-
-              const completed = await submitWod(workoutId);
-
-              if (completed) {
-                setIsSubmitLoading(false);
-                setShowSubmitAlert(false);
-                router.refresh();
-              }
-            }}
-            className="bg-red-600 focus:ring-red-600"
-          >
-            {isSubmitLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span>Delete</span>
+          <AlertDialogAction disabled={isSubmitLoading} onClick={handleSubmit}>
+            {/* <AlertDialogAction disabled={isSubmitLoading}> */}
+            <span>Submit</span>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
