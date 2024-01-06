@@ -2,7 +2,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
@@ -27,6 +26,8 @@ export function ResourcesCard() {
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
             )}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Writing
           </Link>
@@ -36,6 +37,8 @@ export function ResourcesCard() {
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
             )}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Coaching
           </Link>
@@ -46,6 +49,8 @@ export function ResourcesCard() {
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
             )}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Discord
           </Link>
@@ -55,18 +60,13 @@ export function ResourcesCard() {
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
             )}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Shop
           </Link>
         </div>
-        {/* <p className="pb-2">Progress</p> */}
-        {/* <CardDescription className="pt-2">
-          Next Level remaining workouts
-        </CardDescription> */}
       </CardContent>
-      {/* <CardFooter>
-        <p>Active Program: None</p>
-      </CardFooter> */}
     </Card>
   );
 }

@@ -50,7 +50,7 @@ export async function Wod() {
       </CardHeader>
       <CardContent>
         <div>
-          <p>{data?.title}</p>
+          <p className="underline">{data?.title}</p>
           <span>
             <ul>
               {Object.entries(wod).map(([key, value]) => (
