@@ -20,7 +20,7 @@ export default async function Home() {
           <span className="text-[hsl(161,78%,58%)]">AG</span> Studio
         </h1>
         <p className="text-center text-xl">
-          (another) official acid gambit training app
+          The official ACIDGAMBIT training app
         </p>
         {user ? (
           <Link
@@ -42,7 +42,7 @@ export default async function Home() {
               "px-4",
             )}
           >
-            Coming Soon
+            Enter
           </Link>
         )}
       </div>

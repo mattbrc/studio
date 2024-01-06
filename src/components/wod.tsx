@@ -54,7 +54,7 @@ export async function Wod() {
           <span>
             <ul>
               {Object.entries(wod).map(([key, value]) => (
-                <li key={key}>{`${key}: ${value}`}</li>
+                <li key={key}>{`${value}`}</li>
               ))}
             </ul>
           </span>
