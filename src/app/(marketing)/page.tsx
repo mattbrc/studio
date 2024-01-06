@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 
-import { currentUser, auth } from "@clerk/nextjs";
+import { currentUser, auth, SignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -45,6 +45,7 @@ export default async function Home() {
             Enter
           </Link>
         )}
+        <SignIn />
       </div>
     </main>
   );

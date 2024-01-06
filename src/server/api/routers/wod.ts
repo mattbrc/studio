@@ -14,13 +14,21 @@ const ratelimit = new Ratelimit({
 });
 
 export const wodRouter = createTRPCRouter({
-  getLatest: publicProcedure.query(({ ctx }) => {
+  getLatest: publicProcedure.query(async({ ctx }) => {
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
-    return ctx.db.query.wods.findFirst({
+    const result = await ctx.db.query.wods.findFirst({
       where: (wods, { eq }) => eq(wods.date, today),
       orderBy: (wods, { desc }) => [desc(wods.date)],
     });
+    if (!result) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'No workout available today'
+      });
+    }
+
+    return result;
   }),
 
   getLevel: publicProcedure.input(z.object({ count: z.number() })).query(async ({ ctx, input }) => {

@@ -20,19 +20,6 @@ export async function Wod() {
     return date.toUTCString().split(" ").slice(0, 4).join(" ");
   }
 
-  if (!data)
-    return (
-      <Card className="w-full md:w-1/2">
-        <CardHeader>
-          <CardTitle>Workout of the Day</CardTitle>
-          <CardDescription></CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CardDescription>No workout available.</CardDescription>
-        </CardContent>
-      </Card>
-    );
-
   return (
     <Card className="w-full md:w-1/2">
       <CardHeader>
@@ -49,16 +36,14 @@ export async function Wod() {
         </div>
       </CardHeader>
       <CardContent>
-        <div>
-          <p className="underline">{data?.title}</p>
-          <span>
-            <ul>
-              {Object.entries(wod).map(([key, value]) => (
-                <li key={key}>{`${value}`}</li>
-              ))}
-            </ul>
-          </span>
-        </div>
+        <p className="underline">{data?.title}</p>
+        <span>
+          <ul>
+            {Object.entries(wod).map(([key, value]) => (
+              <li key={key}>{`${value}`}</li>
+            ))}
+          </ul>
+        </span>
         <CardDescription>{data?.notes}</CardDescription>
       </CardContent>
     </Card>
