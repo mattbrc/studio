@@ -15,7 +15,7 @@ export function ResourcesCard() {
       <CardHeader>
         <div>
           <CardTitle className="pb-1">Resources</CardTitle>
-          <CardDescription>More from ACID</CardDescription>
+          <CardDescription>More from ACID GAMBIT</CardDescription>
         </div>
       </CardHeader>
       <CardContent>
