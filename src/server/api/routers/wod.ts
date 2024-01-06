@@ -1,9 +1,10 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { workoutsLog } from "~/server/db/schema";
+import { levels, workoutsLog } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
+import { sql } from "drizzle-orm";
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
@@ -22,10 +23,42 @@ export const wodRouter = createTRPCRouter({
     });
   }),
 
-  // getLatestSql: publicProcedure.query(({ ctx }) => {
-  //   const result = ctx.db.select().from(wods).where(sql`DATE(date) = CURDATE()`).execute()
-  //   return result;
-  // }),
+  getLevel: publicProcedure.input(z.object({ count: z.number() })).query(async ({ ctx, input }) => {
+    const { count } = input;
+    const success = await ctx.db.select({
+      requiredWorkouts: levels.requiredWorkouts,
+      nextLevelWorkouts: levels.nextLevelWorkouts,
+      level: levels.title
+    })
+    .from(levels)
+    .where(sql`${levels.nextLevelWorkouts} > ${count} AND ${levels.requiredWorkouts} < ${count}`);
+
+    const result = success[0];
+    if (result !== undefined) {
+      return result
+    } else {
+      return {
+        requiredWorkouts: 0,
+        nextLevelWorkouts: 10,
+        level: 'level 1'
+      };
+    }
+  }),
+
+  getWodCount: publicProcedure.query(async ({ ctx }) => {
+    const athleteId = ctx.userId;
+    const success = await ctx.db.select({ 
+      userId: workoutsLog.athleteId,
+      count: sql<number>`count(${workoutsLog.athleteId})`.mapWith(Number)
+  }).from(workoutsLog)
+    .where(sql`${workoutsLog.athleteId} = ${athleteId}`);
+    const result = success[0]?.count
+    if (result !== undefined) {
+      return result
+    } else {
+      return 0
+    }
+  }),
 
   submitWod: privateProcedure
     .input(z.object({ workoutId: z.number() }))

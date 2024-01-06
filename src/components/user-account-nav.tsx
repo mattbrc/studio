@@ -9,6 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UserAvatar } from "./user-avatar";
+import UserProfileModal from "./profile-modal";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string | null;
@@ -18,7 +20,7 @@ export function UserAccountNav({ name }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        {/* <UserAvatar name={name} className="h-8 w-8" /> */}
+        <UserAvatar name={name} className="h-8 w-8" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">
@@ -42,6 +44,9 @@ export function UserAccountNav({ name }: UserAccountNavProps) {
           <Link href="/dashboard/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <UserProfileModal />
+        </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">Sign out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

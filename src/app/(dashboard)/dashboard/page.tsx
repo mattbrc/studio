@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs";
+import { ResourcesCard } from "~/components/resources";
 import { UserCard } from "~/components/user-card";
 import { Wod } from "~/components/wod";
 
@@ -10,6 +11,7 @@ export default async function Page() {
       <h1 className="text-2xl font-bold">Training Dashboard</h1>
       <UserCard id={user?.id} username={user?.username} />
       <Wod />
+      <ResourcesCard />
     </div>
   );
 }

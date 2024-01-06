@@ -74,3 +74,13 @@ export const wods = mysqlTable(
   })
 );
 
+export const levels = mysqlTable(
+  "level",
+  {
+    levelId: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
+    title: text("level").notNull(),
+    requiredWorkouts: bigint("requiredWorkouts", { mode: "number" }).notNull(),
+    nextLevelWorkouts: bigint("nextLevelWorkouts", { mode: "number" }).notNull(),
+  }
+)
+
