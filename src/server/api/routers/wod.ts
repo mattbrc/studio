@@ -71,24 +71,26 @@ export const wodRouter = createTRPCRouter({
   submitWod: privateProcedure
     .input(z.object({ workoutId: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      const athleteId = ctx.userId;
+      const id = ctx.userId;
       const { workoutId } = input;
 
-      const { success } = await ratelimit.limit(athleteId);
+      const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
 
-      const existingSubmission = await ctx.db.query.workoutsLog.findFirst({
-        where: (wodLog, { eq }) => eq(wodLog.athleteId, athleteId) && eq(wodLog.workoutId, workoutId),
-      });
+      const existingSubmission = await ctx.db
+      .select()
+      .from(workoutsLog)
+      .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId}`)
   
-      if (existingSubmission) {
+      if (existingSubmission.length !== 0) {
+        console.log("existing: ", existingSubmission)
         throw new TRPCError({
           code: 'CONFLICT',
           message: 'Workout has already been submitted'
         });
       }
 
-      const submit = await ctx.db.insert(workoutsLog).values({ athleteId: athleteId, workoutId: workoutId });
+      const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
 
       return submit;
     }),

@@ -30,7 +30,7 @@ export async function UserCard({ ...props }: UserCardProps) {
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="pb-1">{props.username}</CardTitle>
-            <CardDescription>{level}</CardDescription>
+            <CardDescription>{props.id}</CardDescription>
           </div>
           {/* <Link
             href=""

@@ -34,8 +34,6 @@ export default async function Home() {
           </Link>
         ) : (
           <Link
-            // lock sign in for public deployment:
-            // href=""
             href="/sign-in"
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
