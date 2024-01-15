@@ -21,12 +21,12 @@ export const wodRouter = createTRPCRouter({
       where: (wods, { eq }) => eq(wods.date, today),
       orderBy: (wods, { desc }) => [desc(wods.date)],
     });
-    if (!result) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'No workout available today'
-      });
-    }
+    // if (!result) {
+    //   throw new TRPCError({
+    //     code: 'NOT_FOUND',
+    //     message: 'No workout available today'
+    //   });
+    // }
 
     return result;
   }),
