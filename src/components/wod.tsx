@@ -10,10 +10,28 @@ import { WodOperations } from "./wod-operations";
 
 type WodData = Record<string, string>;
 
-export async function Wod() {
-  const data = await api.wod.getLatest.query();
+interface Workout {
+  date: Date;
+  createdAt: Date;
+  wodId: number;
+  title: string | null;
+  strength: unknown; // You may want to define a more specific type here if possible
+  conditioning: unknown; // Same as above
+  program: string | null;
+  notes: string | null;
+}
 
-  const wod: WodData = data?.workout as WodData;
+// Use the interface in a component
+interface WorkoutProps {
+  data?: Workout; // The '?' makes 'workout' optional
+}
+
+export function Wod({ data }: WorkoutProps) {
+  // const data = await api.wod.getLatest.query();
+
+  const str: WodData = data?.strength as WodData;
+  const cond: WodData = data?.conditioning as WodData;
+  console.log("rendering");
 
   function formatUTCDate(dateString: string): string {
     const date = new Date(dateString);
@@ -51,12 +69,20 @@ export async function Wod() {
           <WodOperations workoutId={data?.wodId} />
         </div>
       </CardHeader>
-
       <CardContent>
         <p className="underline">{data?.title}</p>
+        <p className="font-bold">Strength:</p>
         <span>
           <ul>
-            {Object.entries(wod).map(([key, value]) => (
+            {Object.entries(str).map(([key, value]) => (
+              <li key={key}>{`${value}`}</li>
+            ))}
+          </ul>
+        </span>
+        <p className="font-bold">Conditioning:</p>
+        <span>
+          <ul>
+            {Object.entries(cond).map(([key, value]) => (
               <li key={key}>{`${value}`}</li>
             ))}
           </ul>

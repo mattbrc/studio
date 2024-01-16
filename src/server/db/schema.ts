@@ -66,7 +66,9 @@ export const wods = mysqlTable(
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
     date: timestamp("date").notNull(),
     title: text("title"),
-    workout: json("workout").notNull(),
+    strength: json("strength"),
+    conditioning: json("conditioning"),
+    program: text("program"),
     notes: text("notes"),
   },
   (wodTable) => ({
