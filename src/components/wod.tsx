@@ -87,7 +87,7 @@ export function Wod({ data }: WorkoutProps) {
             ))}
           </ul>
         </span>
-        <p className="font-bold">Conditioning:</p>
+        <p className="mt-2 font-bold">Conditioning:</p>
         <span>
           <ul>
             {Object.entries(cond).map(([key, value]) => (
