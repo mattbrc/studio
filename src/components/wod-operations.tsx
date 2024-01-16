@@ -25,7 +25,6 @@ interface WodOperationsProps {
 }
 
 export function WodOperations({ workoutId }: WodOperationsProps) {
-  console.log("rendering");
   const router = useRouter();
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
 
