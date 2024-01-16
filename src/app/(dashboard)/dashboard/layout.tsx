@@ -3,6 +3,7 @@ import { MainNav } from "@/components/main-nav";
 import { currentUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { SiteFooter } from "~/components/site-footer";
+import { MenuDropdown } from "~/components/menu-dropdown";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -21,6 +22,7 @@ export default async function DashboardLayout({
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40">
         <div className="container flex h-16 items-center justify-between py-4">
+          <MenuDropdown />
           <MainNav />
           <UserButton afterSignOutUrl="/" />
         </div>
