@@ -42,13 +42,14 @@ export const wodRouter = createTRPCRouter({
     .where(sql`${levels.nextLevelWorkouts} > ${count} AND ${levels.requiredWorkouts} < ${count}`);
 
     const result = success[0];
+    console.log("result: ", result);
     if (result !== undefined) {
       return result
     } else {
       return {
         requiredWorkouts: 0,
         nextLevelWorkouts: 10,
-        level: 'level 1'
+        level: 'Level 1: Cult Novice'
       };
     }
   }),
