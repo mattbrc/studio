@@ -21,7 +21,7 @@ export default async function DashboardLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40">
-        <div className="container flex h-16 items-center justify-between py-4">
+        <div className="header-bg container flex h-16 items-center justify-between py-4">
           <MenuDropdown />
           <MainNav />
           <UserButton afterSignOutUrl="/" />

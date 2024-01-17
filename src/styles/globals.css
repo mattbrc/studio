@@ -38,6 +38,7 @@
   :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
+    --background-opaque: 0 0% 98%;
 
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -77,6 +78,10 @@
       "rlig" 1,
       "calt" 1;
   }
+}
+
+.header-bg {
+  background-color: rgba(0, 0, 0, 0.75); /* White with 50% opacity */
 }
 
 /* Clerk form customization */
