@@ -3,7 +3,7 @@ import type { SiteConfig } from "../types"
 export const siteConfig: SiteConfig = {
   name: "AG Studio",
   description:
-    "An open source training app built by Acid Gambit",
+    "The official Acid Gambit training app.",
   url: "https://app.acidgambit.com",
   ogImage: "https://tx.shadcn.com/og.jpg",
   links: {
