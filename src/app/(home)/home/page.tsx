@@ -4,6 +4,10 @@ import { UserCard } from "~/components/user-card";
 import { Wod } from "~/components/wod";
 import { api } from "~/trpc/server";
 
+export const metadata = {
+  title: "Studio - Home",
+};
+
 export default async function Page() {
   const user = await currentUser();
   const data = await api.wod.getLatest.query();
