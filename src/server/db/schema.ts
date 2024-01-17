@@ -10,6 +10,7 @@ import {
   varchar,
   json,
   text,
+  datetime,
 } from "drizzle-orm/mysql-core";
 import { createId } from '@paralleldrive/cuid2';
 

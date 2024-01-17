@@ -15,8 +15,9 @@ const ratelimit = new Ratelimit({
 
 export const wodRouter = createTRPCRouter({
   getLatest: publicProcedure.query(async({ ctx }) => {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
+    const today = new Date(); // get today's date in UTC
+    today.setHours(today.getHours() - 5); // convert to EST
+    today.setUTCHours(0, 0, 0, 0); // set date to 0000 UTC time
     const result = await ctx.db.query.wods.findFirst({
       where: (wods, { eq }) => eq(wods.date, today),
       orderBy: (wods, { desc }) => [desc(wods.date)],
@@ -42,7 +43,6 @@ export const wodRouter = createTRPCRouter({
     .where(sql`${levels.nextLevelWorkouts} > ${count} AND ${levels.requiredWorkouts} < ${count}`);
 
     const result = success[0];
-    console.log("result: ", result);
     if (result !== undefined) {
       return result
     } else {
@@ -84,7 +84,6 @@ export const wodRouter = createTRPCRouter({
       .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId}`)
   
       if (existingSubmission.length !== 0) {
-        console.log("existing: ", existingSubmission)
         throw new TRPCError({
           code: 'CONFLICT',
           message: 'Workout has already been submitted'
