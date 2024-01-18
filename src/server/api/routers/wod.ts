@@ -32,6 +32,19 @@ export const wodRouter = createTRPCRouter({
     return result;
   }),
 
+  getRecap: publicProcedure.query(async({ ctx }) => {
+    const today = new Date(); // get today's date in UTC
+    today.setHours(today.getHours() + 19); // convert to EST
+    today.setUTCHours(0, 0, 0, 0); // set date to 0000 UTC time
+    const result = await ctx.db.query.wods.findMany({
+      where: (wods, { lte }) => lte(wods.date, today),
+      orderBy: (wods, { desc }) => [desc(wods.date)],
+      limit: 3,
+    });
+
+    return result;
+  }),
+
   getLevel: publicProcedure.input(z.object({ count: z.number() })).query(async ({ ctx, input }) => {
     const { count } = input;
     const success = await ctx.db.select({

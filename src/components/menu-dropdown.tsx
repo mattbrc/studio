@@ -34,14 +34,16 @@ export function MenuDropdown({ items, children }: MainNavProps) {
             </div>
           </div> */}
           <DropdownMenuItem>
-            <p className="text-md font-bold">AG Studio</p>
+            <Link href="/home" className="text-md font-bold">
+              AG Studio
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href="/home">Home</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="text-zinc-500" asChild>
-            <Link href="">Training</Link>
+          <DropdownMenuItem asChild>
+            <Link href="/home/training">Training</Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Nutrition</Link>
