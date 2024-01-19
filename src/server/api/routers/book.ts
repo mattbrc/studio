@@ -36,6 +36,8 @@ export const bookRouter = createTRPCRouter({
   // }),
 
   getAll: publicProcedure.query(({ ctx }) => {
+    // simulate a slow db call
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     return ctx.db.query.bookclub.findMany({
       orderBy: (book, { desc }) => [desc(book.date)],
     });
