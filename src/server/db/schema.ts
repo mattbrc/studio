@@ -85,5 +85,20 @@ export const levels = mysqlTable(
     requiredWorkouts: bigint("requiredWorkouts", { mode: "number" }).notNull(),
     nextLevelWorkouts: bigint("nextLevelWorkouts", { mode: "number" }).notNull(),
   }
+);
+
+export const bookclub = mysqlTable(
+  "bookclub",
+    {
+      bookId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+      createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+      date: timestamp("date").notNull(),
+      title: text("title").notNull(),
+      author: text("author").notNull(),
+      description: text("desc").notNull(),
+    },
+    (bookclubTable) => ({
+      bookIndex: index("book_idx").on(bookclubTable.bookId),
+    })
 )
 

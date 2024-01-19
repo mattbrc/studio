@@ -45,11 +45,17 @@ export function MenuDropdown({ items, children }: MainNavProps) {
           <DropdownMenuItem asChild>
             <Link href="/home/training">Training</Link>
           </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/home/bookclub">Bookclub</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Nutrition</Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Settings</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/home/about">About</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -45,6 +45,10 @@ export function Recap({ data }: RecapProps) {
 
   return (
     <div className="w-full md:w-1/2">
+      <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
+        <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Training</h1>
+        <p className="text-gray-400">3-Day Recap of daily training</p>
+      </header>
       <WodCard title="Tomorrow" data={data[0]} />
       <WodCard title="Today" data={data[1]} />
       <WodCard title="Yesterday" data={data[2]} />
