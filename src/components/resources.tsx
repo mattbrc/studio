@@ -65,8 +65,74 @@ export function ResourcesCard() {
           >
             Shop
           </Link>
+          {/* <Link
+            href="https://acidgambit.gumroad.com/"
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "sm" }),
+              "px-4",
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Whoop Team
+          </Link> */}
+          <WhoopButton />
+          <Link
+            href="https://strava.app.link/bGuqx7kFuGb"
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "sm" }),
+              "px-4",
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Strava Run Club
+          </Link>
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+export function WhoopButton() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="secondary" size="sm">
+          Whoop Team
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Whoop Team Code</DialogTitle>
+          <DialogDescription>
+            Code: <span className="font-bold text-white">COMM-FA1355</span>
+          </DialogDescription>
+          <DialogDescription>
+            In the whoop app, go to the communities tab -&gt; Teams -&gt; 3 Dots
+            -&gt; Enter invite code
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
