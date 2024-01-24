@@ -9,6 +9,18 @@ import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 export function ResourcesCard() {
   return (
     <Card className="w-full md:w-1/2">
@@ -93,18 +105,6 @@ export function ResourcesCard() {
     </Card>
   );
 }
-
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 export function WhoopButton() {
   return (

@@ -148,10 +148,10 @@ export default ProgramDetails;
 
 // {
 //   "a": "RDL: 1x6-9, 1x12-15",
-//   "b": "Shoulder Press: 1x6-9, 1x12-15",
-//   "c": "Powercleans: 3x3",
-//   "d": "CG Lat Pulldown: 1x6-9, 1x12-15",
-//   "e": "Preacher Curls: 2x15-20",
-//   "f": "Tricep Ext: 2x15-20",
-//   "g": "Deep Squat Jumps: 3x5"
+//   "b": "Powercleans: 3x3",
+//   "c": "Deep Squat Jumps: 3x5"
+//   "d": "Shoulder Press: 1x6-9, 1x12-15",
+//   "e": "CG Lat Pulldown: 1x6-9, 1x12-15",
+//   "f": "Preacher Curls: 2x15-20",
+//   "g": "Tricep Ext: 2x15-20",
 // }

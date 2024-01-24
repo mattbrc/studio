@@ -18,6 +18,7 @@ interface Book {
   createdAt: Date;
   date: Date;
   title: string;
+  type: string;
   author: string;
   description: string;
 }
@@ -78,11 +79,19 @@ const BookCard = ({ book }: BookcardProps) => (
     </CardHeader>
     <CardContent>{book.description}</CardContent>
     <CardFooter className="flex items-center justify-between">
-      <Badge variant="acid">
-        <span>
-          {getMonthName(book.date).month} {getMonthName(book.date).year}
-        </span>
-      </Badge>
+      <div>
+        <Badge variant="acid">
+          <span>
+            {getMonthName(book.date).month} {getMonthName(book.date).year}
+          </span>
+        </Badge>
+        <Badge className="mx-2" variant="secondary">
+          <span>
+            {/* {getMonthName(book.date).month} {getMonthName(book.date).year} */}
+            {book.type}
+          </span>
+        </Badge>
+      </div>
       {/* <div className="flex items-center gap-2">
         <Icons.bookmark />
         <span>69</span>

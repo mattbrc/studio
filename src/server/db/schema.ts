@@ -4,15 +4,16 @@
 import { sql } from "drizzle-orm";
 import {
   bigint,
+  int,
   index,
   mysqlTableCreator,
   timestamp,
   varchar,
   json,
   text,
-  datetime,
 } from "drizzle-orm/mysql-core";
 import { createId } from '@paralleldrive/cuid2';
+import { relations } from 'drizzle-orm';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -94,6 +95,7 @@ export const bookclub = mysqlTable(
       createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
       date: timestamp("date").notNull(),
       title: text("title").notNull(),
+      type: text("type"),
       author: text("author").notNull(),
       description: text("desc").notNull(),
     },
@@ -102,3 +104,69 @@ export const bookclub = mysqlTable(
     })
 )
 
+export const programs = mysqlTable(
+  "programs",
+  {
+    programId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+    title: text("title").notNull(),
+    length: text("length").notNull(),
+    description: text("desc").notNull(),
+  },
+  (programTable) => ({
+    programIndex: index("program_idx").on(programTable.programId),
+  })
+)
+
+export const userPrograms = mysqlTable(
+  "userPrograms",
+  {
+    userId: varchar("userId", { length: 256 }).primaryKey(),
+    programId: bigint("programId", { mode: "number" }),
+    currentWorkoutId: int("currentWorkoutId").notNull().default(0),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+    updatedAt: timestamp("updatedAt").onUpdateNow(),
+  },
+  (userProgramTable) => ({
+    userProgramIndex: index("user_program_idx").on(userProgramTable.userId),
+  })
+)
+
+export const programWorkouts = mysqlTable(
+  "wod",
+  {
+    workoutId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+    orderId: int("orderId").notNull(),
+    title: text("title"),
+    strength: json("strength"),
+    conditioning: json("conditioning"),
+    programId: bigint("id", { mode: "number" }),
+    notes: text("notes"),
+  },
+  (programWorkoutsTable) => ({
+    programWorkoutsIndex: index("wod_idx").on(programWorkoutsTable.workoutId),
+  })
+);
+
+export const userProgramRelations = relations(userPrograms, ({ one }) => ({
+  program: one(programs, {
+    fields: [userPrograms.programId],
+    references: [programs.programId],
+  }),
+}));
+
+export const workoutProgramRelations = relations(programWorkouts, ({ one }) => ({
+  program: one(programs, {
+    fields: [programWorkouts.programId],
+    references: [programs.programId],
+  }),
+}));
+
+// example query using relation:
+
+// const selectedProgramsWithDetails = await db.query.userSelectedPrograms.findMany({
+//   with: {
+//     program: true,
+//   },
+// });
