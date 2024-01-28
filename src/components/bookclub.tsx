@@ -10,7 +10,6 @@ import {
   CardFooter,
   Card,
 } from "@/components/ui/card";
-import { Icons } from "./icons";
 import { Badge } from "./ui/badge";
 
 interface Book {
@@ -18,7 +17,7 @@ interface Book {
   createdAt: Date;
   date: Date;
   title: string;
-  type: string;
+  type: string | null;
   author: string;
   description: string;
 }
