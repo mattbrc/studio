@@ -60,9 +60,10 @@ export const wodRouter = createTRPCRouter({
       level: levels.title
     })
     .from(levels)
-    .where(sql`${levels.nextLevelWorkouts} > ${count} AND ${levels.requiredWorkouts} < ${count}`);
+    .where(sql`${levels.nextLevelWorkouts} > ${count} AND ${levels.requiredWorkouts} <= ${count}`);
 
     const result = success[0];
+
     if (result !== undefined) {
       return result
     } else {

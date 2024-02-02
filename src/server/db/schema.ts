@@ -133,7 +133,7 @@ export const userPrograms = mysqlTable(
 )
 
 export const programWorkouts = mysqlTable(
-  "wod",
+  "programWorkouts",
   {
     workoutId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
