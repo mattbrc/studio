@@ -22,6 +22,10 @@ export default async function Home() {
         <p className="py-2 text-center text-xl">
           The official ACIDGAMBIT training app
         </p>
+        <p className="text-center text-sm">
+          aka The Acid Gambit Center for Kids Who Can&apos;t Read Good and Who
+          Wanna Learn to Do Other Stuff Good Too
+        </p>
         {user ? (
           <Link
             href="/dashboard"
