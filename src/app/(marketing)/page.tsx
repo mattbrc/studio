@@ -6,6 +6,16 @@ import { currentUser, auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
+  /**
+          ___   ______________     _________    __  _______  __________
+          /   | / ____/  _/ __ \   / ____/   |  /  |/  / __ )/  _/_  __/
+          / /| |/ /    / // / / /  / / __/ /| | / /|_/ / __  |/ /  / /   
+        / ___ / /____/ // /_/ /  / /_/ / ___ |/ /  / / /_/ // /  / /    
+        /_/  |_\____/___/_____/   \____/_/  |_/_/  /_/_____/___/ /_/     
+                                                                          
+   
+        https://patorjk.com/software/taag/#p=display&f=Slant&t=ACID%20GAMBIT
+        */
   const user = await currentUser();
   const { userId } = auth();
 
