@@ -68,20 +68,18 @@ export function Training({ data }: TrainingProps) {
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
         <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Training</h1>
-        <p className="text-gray-400">
-          View today&apos;s workout or start a new program
-        </p>
+        <p className="text-gray-400">View or start a new program</p>
       </header>
       <div className="pt-4">
         <div className="mx-1 space-y-1">
           <h4 className="text-sm font-medium leading-none">
             Available Programs
           </h4>
-          <p className="text-sm text-muted-foreground">
-            Continue Training or select a new programs.
-          </p>
+          {/* <p className="text-sm text-muted-foreground">
+            Continue Training or select a new program.
+          </p> */}
         </div>
-        <Separator className="my-4" />
+        {/* <Separator className="my-4" /> */}
         {/* <TrainingCard program={data[0]} /> */}
         {data.map((program) => (
           <TrainingCard key={program.programId} program={program} />

@@ -24,10 +24,8 @@ interface Workout {
   createdAt: Date;
   wodId: number;
   title: string | null;
-  strength: unknown; // You may want to define a more specific type here if possible
-  conditioning: unknown; // Same as above
-  program: string | null;
-  notes: string | null;
+  strength: unknown;
+  conditioning: unknown;
 }
 interface WorkoutProps {
   data?: Workout;
@@ -95,7 +93,6 @@ export function Wod({ data }: WorkoutProps) {
             ))}
           </ul>
         </span>
-        <CardDescription>{data?.notes}</CardDescription>
       </CardContent>
     </Card>
   );

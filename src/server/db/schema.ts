@@ -70,8 +70,8 @@ export const wods = mysqlTable(
     title: text("title"),
     strength: json("strength"),
     conditioning: json("conditioning"),
-    program: text("program"),
-    notes: text("notes"),
+    // program: text("program"),
+    // notes: text("notes"),
   },
   (wodTable) => ({
     wodIndex: index("wod_idx").on(wodTable.wodId),
@@ -141,7 +141,7 @@ export const programWorkouts = mysqlTable(
     title: text("title"),
     strength: json("strength"),
     conditioning: json("conditioning"),
-    programId: bigint("id", { mode: "number" }),
+    programId: bigint("programId", { mode: "number" }),
     notes: text("notes"),
   },
   (programWorkoutsTable) => ({
