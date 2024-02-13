@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, userPrograms, wods, workoutsLog } from "~/server/db/schema";
+import { levels, userProgramRelations, userPrograms, wods, workoutsLog } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
@@ -120,6 +120,20 @@ export const wodRouter = createTRPCRouter({
         level: 'Level 1: Cult Novice'
       };
     }
+  }),
+
+  getUserProgram: publicProcedure.query(async ({ ctx }) => {
+    const id = ctx.userId;
+    if (!id) {
+      return
+    }
+    const result = await ctx.db.query.userPrograms.findFirst({
+      where: (userPrograms, { eq }) => eq(userPrograms.userId, id),
+      with: {
+        program: true
+      }
+    })
+    return result
   }),
 
   getWodCount: publicProcedure.query(async ({ ctx }) => {

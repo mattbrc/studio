@@ -6,10 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { cn } from "~/lib/utils";
-import { buttonVariants } from "~/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import Link from "next/link";
 import { api } from "~/trpc/server";
 import { Badge } from "./ui/badge";
 
@@ -21,6 +18,7 @@ interface UserCardProps {
 export async function UserCard({ ...props }: UserCardProps) {
   const count = await api.wod.getWodCount.query();
   const levelQuery = await api.wod.getLevel.query({ count });
+  const userProgram = await api.wod.getUserProgram.query();
   const level = levelQuery.level;
   const nextLevel = levelQuery.nextLevelWorkouts;
   const remaining = nextLevel - count;
@@ -31,21 +29,17 @@ export async function UserCard({ ...props }: UserCardProps) {
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="pb-1">{props.username}</CardTitle>
-            <div>
+            <div className="flex flex-row gap-2 pt-1">
               <Badge variant="acid">
                 <span>{level}</span>
               </Badge>
+              {userProgram && (
+                <Badge variant="secondary">
+                  <span>{userProgram?.program?.title}</span>
+                </Badge>
+              )}
             </div>
           </div>
-          {/* <Link
-            href=""
-            className={cn(
-              buttonVariants({ variant: "secondary", size: "sm" }),
-              "px-4",
-            )}
-          >
-            Profile
-          </Link> */}
         </div>
       </CardHeader>
       <CardContent>
@@ -57,9 +51,6 @@ export async function UserCard({ ...props }: UserCardProps) {
           Next Level: {remaining} remaining workouts
         </CardDescription>
       </CardContent>
-      {/* <CardFooter>
-        <p>Active Program: None</p>
-      </CardFooter> */}
     </Card>
   );
 }
