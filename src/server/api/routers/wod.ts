@@ -1,10 +1,10 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, wods, workoutsLog } from "~/server/db/schema";
+import { levels, userPrograms, wods, workoutsLog } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
@@ -39,7 +39,6 @@ const bulkInsertWodsInput = z.array(z.object({
   program: z.string().optional(),
   notes: z.string().optional(),
 }));
-
 
 export const wodRouter = createTRPCRouter({
   bulkInsertWods: privateProcedure
@@ -160,6 +159,32 @@ export const wodRouter = createTRPCRouter({
       }
 
       const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
+
+      return submit;
+    }),
+
+    startProgram: privateProcedure
+    .input(z.object({ programId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const id = ctx.userId;
+      const { programId } = input;
+
+      const { success } = await ratelimit.limit(id);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
+
+      const existingSubmission = await ctx.db
+      .select()
+      .from(userPrograms)
+      .where(sql`${userPrograms.userId} = ${id}`)
+  
+      // if program exists, update row
+      if (existingSubmission.length !== 0) {
+        const update = await ctx.db.update(userPrograms).set({ programId: programId }).where(eq(userPrograms.userId, id));
+        return update
+      }
+
+      // if no program, add new row for userId
+      const submit = await ctx.db.insert(userPrograms).values({ userId: id, programId: programId });
 
       return submit;
     }),

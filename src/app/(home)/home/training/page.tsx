@@ -1,4 +1,3 @@
-import { Recap } from "~/components/recap";
 import { Training } from "~/components/training";
 import { api } from "~/trpc/server";
 
@@ -7,14 +6,11 @@ export const metadata = {
 };
 
 export default async function Page() {
-  // const programs = await api.wod.getAllPrograms.query();
-  const recap = await api.wod.getRecap.query();
-  console.log("recap: ", recap);
+  const programs = await api.wod.getAllPrograms.query();
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
-      {/* <Training data={programs} /> */}
-      <Recap data={recap} />
+      <Training data={programs} />
     </div>
   );
 }

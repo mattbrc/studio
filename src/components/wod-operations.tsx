@@ -54,10 +54,11 @@ export function WodOperations({ workoutId }: WodOperationsProps) {
       <AlertDialogTrigger asChild>
         <Button disabled={isSubmitLoading} size="sm" variant="secondary">
           <div>
-            {isSubmitLoading && (
+            {isSubmitLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <span>Complete WOD</span>
             )}
-            <span>Complete WOD</span>
           </div>
         </Button>
       </AlertDialogTrigger>

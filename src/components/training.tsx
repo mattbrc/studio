@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "./ui/button";
 import {
   Card,
@@ -7,6 +9,22 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Separator } from "./ui/separator";
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Icons } from "@/components/icons";
+import toast from "react-hot-toast";
+import { api } from "~/trpc/react";
 
 interface Program {
   title: string;
@@ -24,6 +42,11 @@ interface TrainingCardProps {
   program?: Program;
 }
 
+interface SubmitProgramProps {
+  programId: number;
+  name: string;
+}
+
 export function Training({ data }: TrainingProps) {
   if (!data)
     return (
@@ -31,12 +54,12 @@ export function Training({ data }: TrainingProps) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>No program</CardTitle>
+              <CardTitle>An error occurred.</CardTitle>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <p>Nothing...</p>
+          <p>No program available.</p>
         </CardContent>
       </Card>
     );
@@ -49,7 +72,6 @@ export function Training({ data }: TrainingProps) {
           View today&apos;s workout or start a new program
         </p>
       </header>
-      <TrainingCard program={data[0]} />
       <div className="pt-4">
         <div className="mx-1 space-y-1">
           <h4 className="text-sm font-medium leading-none">
@@ -60,7 +82,10 @@ export function Training({ data }: TrainingProps) {
           </p>
         </div>
         <Separator className="my-4" />
-        <TrainingCard program={data[0]} />
+        {/* <TrainingCard program={data[0]} /> */}
+        {data.map((program) => (
+          <TrainingCard key={program.programId} program={program} />
+        ))}
       </div>
     </div>
   );
@@ -92,38 +117,63 @@ const TrainingCard = ({ program }: TrainingCardProps) => {
             <CardDescription>Duration: {program.length}</CardDescription>
           </div>
           <div className="flex flex-col gap-2">
-            <Button size="sm" variant="secondary">
-              <div>
-                <span>Start</span>
-              </div>
-            </Button>
+            <StartProgram programId={program.programId} name={program.title} />
           </div>
         </div>
       </CardHeader>
-      {/* <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>{program.title}</CardTitle>
-            <CardDescription>Duration: {program.length}</CardDescription>
-            <Button size="sm" variant="secondary">
-              <div>
-                <span>Complete WOD</span>
-              </div>
-            </Button>
-          </div>
-        </div>
-      </CardHeader> */}
       <CardContent>
         <p>{program.description}</p>
-        {/* <span>
-          <ul>
-            {Object.entries(cond).map(([key, value]) => (
-              <li key={key}>{`${value}`}</li>
-            ))}
-          </ul>
-        </span>
-        <CardDescription>{data?.notes}</CardDescription> */}
       </CardContent>
     </Card>
   );
 };
+
+function StartProgram({ programId, name }: SubmitProgramProps) {
+  const router = useRouter();
+  const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
+
+  const mutation = api.wod.startProgram.useMutation({
+    onSuccess: () => {
+      toast.success("Program Started");
+      setIsSubmitLoading(false);
+      router.refresh();
+    },
+    onError: () => {
+      toast.error("Error, Something went wrong.");
+      setIsSubmitLoading(false);
+    },
+  });
+
+  const handleSubmit = () => {
+    setIsSubmitLoading(true);
+    mutation.mutate({ programId });
+  };
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button disabled={isSubmitLoading} size="sm" variant="secondary">
+          <div>
+            {isSubmitLoading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <span>Start Program</span>
+            )}
+          </div>
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Confirm New Program</AlertDialogTitle>
+          <AlertDialogDescription>Begin {name}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction disabled={isSubmitLoading} onClick={handleSubmit}>
+            <span>Submit</span>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
