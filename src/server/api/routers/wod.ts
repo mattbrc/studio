@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, workoutsLog } from "~/server/db/schema";
+import { levels, wods, workoutsLog } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
@@ -13,7 +13,55 @@ const ratelimit = new Ratelimit({
   analytics: true,
 });
 
+// Define the input schema for the bulk insert procedure
+const bulkInsertWodsInput = z.array(z.object({
+  date: z.date(),
+  title: z.string(),
+  strength: z.object({
+    // Define the specific structure of the strength field
+    a: z.string(),
+    b: z.string().optional(),
+    c: z.string().optional(),
+    d: z.string().optional(),
+    e: z.string().optional(),
+    f: z.string().optional(),
+    g: z.string().optional(),
+    h: z.string().optional(),
+    i: z.string().optional(),
+    j: z.string().optional(),
+    k: z.string().optional(),
+  }),
+  conditioning: z.object({
+    // Define the specific structure of the conditioning field
+    a: z.string(),
+    b: z.string().optional(),
+  }),
+  program: z.string().optional(),
+  notes: z.string().optional(),
+}));
+
+
 export const wodRouter = createTRPCRouter({
+  bulkInsertWods: privateProcedure
+    .input(bulkInsertWodsInput)
+    .mutation(async ({ ctx, input }) => {
+      // The input is an array of WOD objects
+      const wodsToInsert = input.map(wod => ({
+        date: wod.date,
+        title: wod.title,
+        strength: wod.strength,
+        conditioning: wod.conditioning,
+        program: wod.program,
+        notes: wod.notes,
+      }));
+
+      // Perform the bulk insert operation
+      const result = await ctx.db.insert(wods).values(wodsToInsert);
+
+      // Return the result of the insert operation
+      return result;
+    }),
+
   getLatest: publicProcedure.query(async({ ctx }) => {
     const today = new Date(); // get today's date in UTC
     today.setHours(today.getHours() - 5); // convert to EST
