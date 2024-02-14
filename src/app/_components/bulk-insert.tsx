@@ -2,8 +2,8 @@
 
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
-import { wodData } from "~/lib/data/10-miler";
-import { speed } from "~/lib/data/speed-1";
+// import { data } from "~/lib/data/10-miler";
+import { data } from "~/lib/data/hybrid-1";
 
 export function BulkInsert() {
   // insert into wods table
@@ -13,7 +13,7 @@ export function BulkInsert() {
   const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
 
   const handleInsert = () => {
-    mutation.mutate(speed, {
+    mutation.mutate(data, {
       onSuccess: () => {
         console.log("success");
       },

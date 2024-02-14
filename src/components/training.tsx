@@ -75,12 +75,7 @@ export function Training({ data }: TrainingProps) {
           <h4 className="text-sm font-medium leading-none">
             Available Programs
           </h4>
-          {/* <p className="text-sm text-muted-foreground">
-            Continue Training or select a new program.
-          </p> */}
         </div>
-        {/* <Separator className="my-4" /> */}
-        {/* <TrainingCard program={data[0]} /> */}
         {data.map((program) => (
           <TrainingCard key={program.programId} program={program} />
         ))}

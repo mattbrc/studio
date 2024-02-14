@@ -5,6 +5,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
 import { eq, sql } from "drizzle-orm";
+import { getDay } from "~/lib/utils";
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
@@ -135,6 +136,7 @@ export const wodRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const id = ctx.userId;
       const { programId } = input;
+      const today = getDay(); // return today as an integer from 0-6 (mon-sun)
 
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
@@ -146,12 +148,12 @@ export const wodRouter = createTRPCRouter({
   
       // if program exists, update row
       if (existingSubmission.length !== 0) {
-        const update = await ctx.db.update(userPrograms).set({ programId: programId }).where(eq(userPrograms.userId, id));
+        const update = await ctx.db.update(userPrograms).set({ programId: programId, currentWorkoutId: today }).where(eq(userPrograms.userId, id));
         return update
       }
 
       // if no program, add new row for userId
-      const submit = await ctx.db.insert(userPrograms).values({ userId: id, programId: programId });
+      const submit = await ctx.db.insert(userPrograms).values({ userId: id, programId: programId, currentWorkoutId: today });
 
       return submit;
     }),
