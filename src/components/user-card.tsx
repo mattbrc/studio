@@ -48,7 +48,7 @@ export async function UserCard({ ...props }: UserCardProps) {
           value={((count - levelQuery.requiredWorkouts) / nextLevel) * 100}
         />
         <CardDescription className="pt-2">
-          Next Level: {remaining} remaining workouts
+          Next Level: {remaining} remaining
         </CardDescription>
       </CardContent>
     </Card>

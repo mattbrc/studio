@@ -202,13 +202,10 @@ export const wodRouter = createTRPCRouter({
 
       const now = new Date();
       now.setHours(now.getHours() - 5);
-      console.log("now: ", now)
       const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       todayStart.setHours(todayStart.getHours() - 5)
-      console.log("today start: ", todayStart)
       const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
       todayEnd.setHours(todayEnd.getHours() - 5)
-      console.log("today end: ", todayEnd)
       
       const existingSubmission = await ctx.db
         .select()
