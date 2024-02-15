@@ -129,26 +129,3 @@ const ProgramDetails = () => {
 };
 
 export default ProgramDetails;
-
-// a
-
-// {
-//   "a": "Back Squat/Leg Press: 1x6-9, 1x12-15",
-//   "b": "Weighted Chin-Ups: 2x6-9",
-//   "c": "Bench/Chest Press: 1x6-9, 1x12-15",
-//   "d": "Lunges: 2x15-20",
-//   "e": "DB Hammer Curls: 2x15-20",
-//   "f": "Superset: Box Jumps 3x5 + Shuffle Hops 3x20-30"
-// }
-
-// b
-
-// {
-//   "a": "RDL: 1x6-9, 1x12-15",
-//   "b": "Powercleans: 3x3",
-//   "c": "Deep Squat Jumps: 3x5"
-//   "d": "Shoulder Press: 1x6-9, 1x12-15",
-//   "e": "CG Lat Pulldown: 1x6-9, 1x12-15",
-//   "f": "Preacher Curls: 2x15-20",
-//   "g": "Tricep Ext: 2x15-20",
-// }

@@ -13,12 +13,12 @@ import { Badge } from "./ui/badge";
 interface UserCardProps {
   id: string | undefined;
   username: string | null | undefined;
+  title: string | undefined;
 }
 
 export async function UserCard({ ...props }: UserCardProps) {
   const count = await api.wod.getWodCount.query();
   const levelQuery = await api.wod.getLevel.query({ count });
-  const userProgram = await api.wod.getUserProgram.query();
   const level = levelQuery.level;
   const nextLevel = levelQuery.nextLevelWorkouts;
   const remaining = nextLevel - count;
@@ -33,9 +33,9 @@ export async function UserCard({ ...props }: UserCardProps) {
               <Badge variant="acid">
                 <span>{level}</span>
               </Badge>
-              {userProgram && (
+              {props.title && (
                 <Badge variant="secondary">
-                  <span>{userProgram?.program?.title}</span>
+                  <span>{props.title}</span>
                 </Badge>
               )}
             </div>

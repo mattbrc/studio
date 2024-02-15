@@ -1,7 +1,7 @@
 import { currentUser } from "@clerk/nextjs";
 import { ResourcesCard } from "~/components/resources";
+import TrainingWod from "~/components/training-wod";
 import { UserCard } from "~/components/user-card";
-import { Wod } from "~/components/wod";
 import { api } from "~/trpc/server";
 
 export const metadata = {
@@ -10,13 +10,21 @@ export const metadata = {
 
 export default async function Page() {
   const user = await currentUser();
-  const data = await api.wod.getLatest.query();
+  const userWorkoutDetails = await api.wod.getUserSingleWorkout.query();
+  // console.log("user program today workout:", userWorkout?.program?.title);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-6 px-4 py-6">
       <h1 className="text-2xl font-bold">Home</h1>
-      <UserCard id={user?.id} username={user?.username} />
-      <Wod data={data} />
+      <UserCard
+        id={user?.id}
+        username={user?.username}
+        title={userWorkoutDetails?.program?.title}
+      />
+      <TrainingWod
+        workout={userWorkoutDetails?.workouts[0]}
+        currentWorkoutId={userWorkoutDetails?.currentWorkoutId}
+      />
       <ResourcesCard />
     </div>
   );

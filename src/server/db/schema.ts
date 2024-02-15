@@ -53,6 +53,7 @@ export const workoutsLog = mysqlTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     workoutId: bigint("workoutId", { mode: "number" }),
+    programId: bigint("programId", { mode: "number" }).default(0),
   },
   (workoutsTable) => ({
     athleteIndex: index("athlete_idx").on(workoutsTable.athleteId),
@@ -149,12 +150,23 @@ export const programWorkouts = mysqlTable(
   })
 );
 
-export const userProgramRelations = relations(userPrograms, ({ one }) => ({
+// define the many relationship between userProgram ID and workouts for that program ID
+// define one relationship between userProgram ID and associated program info
+export const userProgramRelations = relations(userPrograms, ({ one, many }) => ({
   program: one(programs, {
     fields: [userPrograms.programId],
     references: [programs.programId],
   }),
+  workouts: many(programWorkouts)
 }));
+
+// define one relationship between programIds in programWorkouts ID and userProgram ID
+export const workoutsRelations = relations(programWorkouts, ({ one }) => ({
+  user: one(userPrograms, {
+    fields: [programWorkouts.programId],
+    references: [userPrograms.programId]
+  })
+}))
 
 export const workoutProgramRelations = relations(programWorkouts, ({ one }) => ({
   program: one(programs, {
@@ -163,10 +175,4 @@ export const workoutProgramRelations = relations(programWorkouts, ({ one }) => (
   }),
 }));
 
-// example query using relation:
 
-// const selectedProgramsWithDetails = await db.query.userSelectedPrograms.findMany({
-//   with: {
-//     program: true,
-//   },
-// });

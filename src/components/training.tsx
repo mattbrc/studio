@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Separator } from "./ui/separator";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -25,6 +24,9 @@ import {
 import { Icons } from "@/components/icons";
 import toast from "react-hot-toast";
 import { api } from "~/trpc/react";
+import { Separator } from "./ui/separator";
+import { Badge } from "./ui/badge";
+import Link from "next/link";
 
 interface Program {
   title: string;
@@ -36,6 +38,7 @@ interface Program {
 
 interface TrainingProps {
   data?: Program[];
+  activeProgram: string | undefined;
 }
 
 interface TrainingCardProps {
@@ -47,23 +50,7 @@ interface SubmitProgramProps {
   name: string;
 }
 
-export function Training({ data }: TrainingProps) {
-  if (!data)
-    return (
-      <Card className="w-full md:w-1/2">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>An error occurred.</CardTitle>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <p>No program available.</p>
-        </CardContent>
-      </Card>
-    );
-
+export function Training({ data, activeProgram }: TrainingProps) {
   return (
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
@@ -71,14 +58,32 @@ export function Training({ data }: TrainingProps) {
         <p className="text-gray-400">View or start a new program</p>
       </header>
       <div className="pt-4">
+        {activeProgram && (
+          <div className="pb-4">
+            <p>Current Program:</p>
+            <Link href="/home">
+              <Badge variant="acid">{activeProgram}</Badge>
+            </Link>
+            <div className="pt-4">
+              <Separator />
+            </div>
+          </div>
+        )}
+
         <div className="mx-1 space-y-1">
           <h4 className="text-sm font-medium leading-none">
             Available Programs
           </h4>
         </div>
-        {data.map((program) => (
-          <TrainingCard key={program.programId} program={program} />
-        ))}
+        {data ? (
+          <div>
+            {data.map((program) => (
+              <TrainingCard key={program.programId} program={program} />
+            ))}
+          </div>
+        ) : (
+          <div>No programs available</div>
+        )}
       </div>
     </div>
   );
@@ -91,12 +96,12 @@ const TrainingCard = ({ program }: TrainingCardProps) => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>No program card</CardTitle>
+              <CardTitle>No programs available</CardTitle>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <p>Nothing...</p>
+          <p>Try again later...</p>
         </CardContent>
       </Card>
     );
