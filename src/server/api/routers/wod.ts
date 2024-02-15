@@ -6,6 +6,7 @@ import { Redis } from "@upstash/redis";
 import { TRPCError } from "@trpc/server";
 import { eq, gte, sql } from "drizzle-orm";
 import { getDay } from "~/lib/utils";
+import { createId } from '@paralleldrive/cuid2';
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
@@ -181,20 +182,20 @@ export const wodRouter = createTRPCRouter({
       if (existingSubmission.length !== 0) {
         throw new TRPCError({
           code: 'CONFLICT',
-          message: 'Workout has already been submitted today'
+          message: 'Workout has already been submitted'
         });
       }
 
-      const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId, programId: 0 });
+      const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
 
       return submit;
     }),
 
     submitTrainingWod: privateProcedure
-    .input(z.object({ workoutId: z.number(), programId: z.number().nullish(), currentWorkoutId: z.number().nullish() }))
+    .input(z.object({ workoutId: z.number(), uniqueProgramId: z.string().nullish(), currentWorkoutId: z.number().nullish() }))
     .mutation(async ({ ctx, input }) => {
       const id = ctx.userId;
-      const { workoutId, programId, currentWorkoutId } = input;
+      const { workoutId, uniqueProgramId, currentWorkoutId } = input;
 
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
@@ -210,21 +211,20 @@ export const wodRouter = createTRPCRouter({
       const existingSubmission = await ctx.db
         .select()
         .from(workoutsLog)
-        .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.createdAt} >= ${todayStart} AND ${workoutsLog.createdAt} < ${todayEnd} AND ${workoutsLog.programId} = ${programId}`)
+        .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.createdAt} >= ${todayStart} AND ${workoutsLog.createdAt} < ${todayEnd} AND ${workoutsLog.uniqueProgramId} = ${uniqueProgramId}`)
         .execute();
-        
 
       if (existingSubmission.length !== 0) {
         throw new TRPCError({
           code: 'CONFLICT',
-          message: 'Program workout has already been completed today'
+          message: 'Workout for this program has already been submitted today.'
         });
       }
 
-      if (currentWorkoutId && programId) {
+      if (currentWorkoutId && uniqueProgramId) {
         const nextWorkoutId = currentWorkoutId + 1;
         const update = await ctx.db.update(userPrograms).set({ currentWorkoutId: nextWorkoutId }).where(eq(userPrograms.userId, ctx.userId))
-        const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId, programId: programId });
+        const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId, uniqueProgramId: uniqueProgramId });
         return {update, submit}
       }
     }),
@@ -246,7 +246,8 @@ export const wodRouter = createTRPCRouter({
   
       // if program exists, update row
       if (existingSubmission.length !== 0) {
-        const update = await ctx.db.update(userPrograms).set({ programId: programId, currentWorkoutId: today }).where(eq(userPrograms.userId, id));
+        const newUniqueProgramId = createId();
+        const update = await ctx.db.update(userPrograms).set({ programId: programId, uniqueProgramId: newUniqueProgramId, currentWorkoutId: today }).where(eq(userPrograms.userId, id));
         return update
       }
 

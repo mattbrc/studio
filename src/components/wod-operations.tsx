@@ -36,7 +36,7 @@ export function WodOperations({ workoutId }: WodOperationsProps) {
     onError: (e) => {
       const errorCode = e.data?.code;
       if (errorCode === "CONFLICT") {
-        toast.error("Workout has already been submitted");
+        toast.error(e.message);
       } else {
         toast.error("Error, please try again later");
       }

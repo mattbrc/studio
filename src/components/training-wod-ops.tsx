@@ -21,13 +21,14 @@ import { api } from "~/trpc/react";
 
 interface WodOperationsProps {
   workoutId: number;
-  programId: number | null;
+  // uniqueProgramId: string | null;
+  uniqueProgramId: string | null | undefined;
   currentWorkoutId: number | undefined;
 }
 
 export function TrainingWodOperations({
   workoutId,
-  programId,
+  uniqueProgramId,
   currentWorkoutId,
 }: WodOperationsProps) {
   const router = useRouter();
@@ -52,7 +53,7 @@ export function TrainingWodOperations({
 
   const handleSubmit = () => {
     setIsSubmitLoading(true);
-    mutation.mutate({ workoutId, programId, currentWorkoutId });
+    mutation.mutate({ workoutId, uniqueProgramId, currentWorkoutId });
   };
 
   return (

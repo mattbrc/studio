@@ -53,7 +53,7 @@ export const workoutsLog = mysqlTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     workoutId: bigint("workoutId", { mode: "number" }),
-    programId: bigint("programId", { mode: "number" }).default(0),
+    uniqueProgramId: varchar("uniqueProgramId", { length: 128 }),
   },
   (workoutsTable) => ({
     athleteIndex: index("athlete_idx").on(workoutsTable.athleteId),
@@ -124,6 +124,7 @@ export const userPrograms = mysqlTable(
   {
     userId: varchar("userId", { length: 256 }).primaryKey(),
     programId: bigint("programId", { mode: "number" }),
+    uniqueProgramId: varchar('uniqueProgramId', { length: 128 }).$defaultFn(() => createId()),
     currentWorkoutId: int("currentWorkoutId").notNull().default(0),
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: timestamp("updatedAt").onUpdateNow(),

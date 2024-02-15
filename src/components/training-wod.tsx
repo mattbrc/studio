@@ -26,6 +26,7 @@ interface Workout {
 interface WorkoutProps {
   workout: Workout | undefined;
   currentWorkoutId: number | undefined;
+  uniqueProgramId: string | null | undefined;
 }
 
 // pass current program and today's wod from program
@@ -33,6 +34,7 @@ interface WorkoutProps {
 export default function TrainingWod({
   workout,
   currentWorkoutId,
+  uniqueProgramId,
 }: WorkoutProps) {
   const str: WodData = workout?.strength as WodData;
   const cond: WodData = workout?.conditioning as WodData;
@@ -79,7 +81,7 @@ export default function TrainingWod({
           <div className="flex flex-col gap-2">
             <TrainingWodOperations
               workoutId={workout?.workoutId}
-              programId={workout?.programId}
+              uniqueProgramId={uniqueProgramId}
               currentWorkoutId={currentWorkoutId}
             />
           </div>

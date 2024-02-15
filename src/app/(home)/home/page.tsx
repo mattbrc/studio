@@ -24,6 +24,7 @@ export default async function Page() {
       <TrainingWod
         workout={userWorkoutDetails?.workouts[0]}
         currentWorkoutId={userWorkoutDetails?.currentWorkoutId}
+        uniqueProgramId={userWorkoutDetails?.uniqueProgramId}
       />
       <ResourcesCard />
     </div>
