@@ -199,11 +199,22 @@ export const wodRouter = createTRPCRouter({
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
 
+      const now = new Date();
+      now.setHours(now.getHours() - 5);
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      todayStart.setHours(todayStart.getHours() - 5)
+      const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      todayEnd.setHours(todayEnd.getHours() - 5)
+      console.log("now: ", now);
+      console.log("today start: ", todayStart);
+      console.log("today end: ", todayEnd);
+
       const existingSubmission = await ctx.db
-      .select()
-      .from(workoutsLog)
-      .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId} AND ${workoutsLog.programId} = ${programId}`)
-  
+        .select()
+        .from(workoutsLog)
+        .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.createdAt} >= ${todayStart} AND ${workoutsLog.createdAt} < ${todayEnd} AND ${workoutsLog.programId} = ${programId}`)
+        .execute();
+
       if (existingSubmission.length !== 0) {
         throw new TRPCError({
           code: 'CONFLICT',

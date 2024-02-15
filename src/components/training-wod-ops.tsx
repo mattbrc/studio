@@ -42,7 +42,7 @@ export function TrainingWodOperations({
     onError: (e) => {
       const errorCode = e.data?.code;
       if (errorCode === "CONFLICT") {
-        toast.error("Workout has already been submitted");
+        toast.error("Workout has already been submitted today");
       } else {
         toast.error("Error, please try again later");
       }
