@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
-import { eq, sql } from "drizzle-orm";
+import { eq, gte, sql } from "drizzle-orm";
 import { getDay } from "~/lib/utils";
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
@@ -199,16 +199,28 @@ export const wodRouter = createTRPCRouter({
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
 
+
+      const now = new Date();
+      now.setHours(now.getHours() - 5);
+      console.log("now: ", now)
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      todayStart.setHours(todayStart.getHours() - 5)
+      console.log("today start: ", todayStart)
+      const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      todayEnd.setHours(todayEnd.getHours() - 5)
+      console.log("today end: ", todayEnd)
+      
       const existingSubmission = await ctx.db
         .select()
         .from(workoutsLog)
-        .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId} AND ${workoutsLog.programId} = ${programId}`)
+        .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.createdAt} >= ${todayStart} AND ${workoutsLog.createdAt} < ${todayEnd} AND ${workoutsLog.programId} = ${programId}`)
         .execute();
+        
 
       if (existingSubmission.length !== 0) {
         throw new TRPCError({
           code: 'CONFLICT',
-          message: 'Workout has already been completed today'
+          message: 'Program workout has already been completed today'
         });
       }
 
