@@ -56,19 +56,37 @@ const bulkInsertProgramWorkoutsInput = z.array(z.object({
 }));
 
 export const bulkRouter = createTRPCRouter({
-  bulkInsertWods: privateProcedure
+  // bulkInsertWods: privateProcedure
+  //   .input(bulkInsertWodsInput)
+  //   .mutation(async ({ ctx, input }) => {
+  //     // The input is an array of WOD objects
+  //     const wodsToInsert = input.map(wod => ({
+  //       date: wod.date,
+  //       title: wod.title,
+  //       strength: wod.strength,
+  //       conditioning: wod.conditioning,
+  //     }));
+
+  //     // Perform the bulk insert operation
+  //     const result = await ctx.db.insert(wods).values(wodsToInsert);
+
+  //     // Return the result of the insert operation
+  //     return result;
+  //   }),
+
+    bulkInsertWods: privateProcedure
     .input(bulkInsertWodsInput)
     .mutation(async ({ ctx, input }) => {
       // The input is an array of WOD objects
-      const wodsToInsert = input.map(wod => ({
-        date: wod.date,
-        title: wod.title,
-        strength: wod.strength,
-        conditioning: wod.conditioning,
+      const workoutsToInsert = input.map(workout => ({
+        date: workout.date,
+        title: workout.title,
+        strength: workout.strength,
+        conditioning: workout.conditioning,
       }));
 
       // Perform the bulk insert operation
-      const result = await ctx.db.insert(wods).values(wodsToInsert);
+      const result = await ctx.db.insert(wods).values(workoutsToInsert);
 
       // Return the result of the insert operation
       return result;

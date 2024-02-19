@@ -3,14 +3,14 @@
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 // import { data } from "~/lib/data/10-miler";
-import { data } from "~/lib/data/hybrid-1";
+import { data } from "~/lib/data/studio_wod";
 
 export function BulkInsert() {
   // insert into wods table
-  // const mutation = api.wod.bulkInsertWods.useMutation();
+  const mutation = api.bulk.bulkInsertWods.useMutation();
 
   // insert into programWorkouts table
-  const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
+  // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
 
   const handleInsert = () => {
     mutation.mutate(data, {
