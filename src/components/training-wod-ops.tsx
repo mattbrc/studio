@@ -45,9 +45,11 @@ export function TrainingWodOperations({
       if (errorCode === "CONFLICT") {
         console.log("e.message: ", e.data?.code);
         toast.error(e.message);
+      } else if (errorCode === "TOO_MANY_REQUESTS") {
+        toast.error("Rate limit reached. Try again in 1 minute");
       } else {
         toast.error("Error, please try again later");
-        console.log("e.message (else): ", e.data?.code);
+        console.log("e.message: ", e.data?.code);
       }
       setIsSubmitLoading(false);
     },

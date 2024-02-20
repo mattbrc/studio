@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 
 import { TrainingWodOperations } from "./training-wod-ops";
 import { cn } from "~/lib/utils";

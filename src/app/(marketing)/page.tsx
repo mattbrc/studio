@@ -7,13 +7,7 @@ import { redirect } from "next/navigation";
 import { db } from "~/server/db";
 import { sql } from "drizzle-orm";
 import { workoutsLog } from "~/server/db/schema";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export default async function Home() {
   /**

@@ -1,10 +1,10 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, programWorkouts, userProgramRelations, userPrograms, wods, workoutsLog } from "~/server/db/schema";
+import { levels, userPrograms, workoutsLog } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
-import { eq, gte, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { getDay } from "~/lib/utils";
 import { createId } from '@paralleldrive/cuid2';
 

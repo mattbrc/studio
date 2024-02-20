@@ -134,10 +134,15 @@ function StartProgram({ programId, name }: SubmitProgramProps) {
     onSuccess: () => {
       toast.success("Program Started");
       setIsSubmitLoading(false);
-      router.push("/home");
+      router.refresh();
     },
-    onError: () => {
-      toast.error("Error, Something went wrong.");
+    onError: (e) => {
+      const errorCode = e.data?.code;
+      if (errorCode === "TOO_MANY_REQUESTS") {
+        toast.error("Rate limit reached. Try again in 1 minute.");
+      } else {
+        toast.error("Error, Something went wrong.");
+      }
       setIsSubmitLoading(false);
     },
   });
