@@ -208,6 +208,13 @@ export const wodRouter = createTRPCRouter({
       }
     }),
 
+    getTotalWorkoutsCount: publicProcedure.query(async ({ ctx }) => {
+      const success = await ctx.db.select({ 
+        count: sql<number>`count(*)`
+    }).from(workoutsLog)
+      return success[0]?.count
+    }),
+
     startProgram: privateProcedure
     .input(z.object({ programId: z.number() }))
     .mutation(async ({ ctx, input }) => {

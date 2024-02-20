@@ -4,6 +4,16 @@ import { buttonVariants } from "~/components/ui/button";
 
 import { currentUser, auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { db } from "~/server/db";
+import { sql } from "drizzle-orm";
+import { workoutsLog } from "~/server/db/schema";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 
 export default async function Home() {
   /**
@@ -18,6 +28,12 @@ export default async function Home() {
         */
   const user = await currentUser();
   const { userId } = auth();
+  const count = await db
+    .select({
+      count: sql<number>`count(*)`,
+    })
+    .from(workoutsLog);
+  console.log("count: ", count[0]?.count);
 
   if (userId) {
     redirect("/home");
@@ -49,13 +65,25 @@ export default async function Home() {
         ) : (
           <Link
             href="/sign-in"
-            className={cn(
-              buttonVariants({ variant: "secondary", size: "sm" }),
-              "px-4",
-            )}
+            className={cn(buttonVariants({ variant: "secondary" }), "px-4")}
           >
             Enter
           </Link>
+        )}
+        {count[0]?.count && (
+          <Card className="mx-8">
+            <CardContent>
+              <CardHeader>
+                <CardTitle className="font-sm text-center">
+                  Total workouts completed by the community:
+                </CardTitle>
+                {/* <CardDescription>Card Description</CardDescription> */}
+              </CardHeader>
+              <p className="text-center font-bold text-[hsl(161,78%,58%)]">
+                {count[0].count}
+              </p>
+            </CardContent>
+          </Card>
         )}
       </div>
     </main>
