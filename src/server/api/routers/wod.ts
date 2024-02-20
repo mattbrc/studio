@@ -200,26 +200,6 @@ export const wodRouter = createTRPCRouter({
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
 
-      // const now = new Date();
-      // console.log('now: ', now);
-      // const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      // console.log('today start: ', todayStart);
-      // const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-      // console.log('today end: ', todayEnd);
-      
-      // const existingSubmission = await ctx.db
-      //   .select()
-      //   .from(workoutsLog)
-      //   .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.createdAt} >= ${todayStart} AND ${workoutsLog.createdAt} < ${todayEnd} AND ${workoutsLog.uniqueProgramId} = ${uniqueProgramId}`)
-      //   .execute();
-
-      // if (existingSubmission.length !== 0) {
-      //   throw new TRPCError({
-      //     code: 'CONFLICT',
-      //     message: 'Workout for this program has already been submitted today.'
-      //   });
-      // }
-
       if (currentWorkoutId && uniqueProgramId) {
         const nextWorkoutId = currentWorkoutId + 1;
         const update = await ctx.db.update(userPrograms).set({ currentWorkoutId: nextWorkoutId }).where(eq(userPrograms.userId, ctx.userId))

@@ -134,7 +134,7 @@ function StartProgram({ programId, name }: SubmitProgramProps) {
     onSuccess: () => {
       toast.success("Program Started");
       setIsSubmitLoading(false);
-      router.refresh();
+      router.push("/home");
     },
     onError: () => {
       toast.error("Error, Something went wrong.");
