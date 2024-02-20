@@ -65,19 +65,21 @@ export default async function Home() {
           </Link>
         )}
         {count[0]?.count && (
-          <Card className="mx-8">
-            <CardContent>
-              <CardHeader>
-                <CardTitle className="font-sm text-center">
-                  Total workouts completed by the community:
-                </CardTitle>
-                {/* <CardDescription>Card Description</CardDescription> */}
-              </CardHeader>
-              <p className="text-center font-bold text-[hsl(161,78%,58%)]">
-                {count[0].count}
-              </p>
-            </CardContent>
-          </Card>
+          <div className="pt-4">
+            <Card className="mx-8">
+              <CardContent>
+                <CardHeader>
+                  <CardTitle className="font-sm text-center">
+                    Total workouts completed by the community:
+                  </CardTitle>
+                  {/* <CardDescription>Card Description</CardDescription> */}
+                </CardHeader>
+                <p className="text-center font-bold text-[hsl(161,78%,58%)]">
+                  {count[0].count}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </main>
