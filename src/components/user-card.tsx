@@ -19,6 +19,8 @@ interface UserCardProps {
 export async function UserCard({ ...props }: UserCardProps) {
   const count = await api.wod.getWodCount.query();
   const levelQuery = await api.wod.getLevel.query({ count });
+  console.log("level query: ", levelQuery);
+  console.log("level query: ", count);
   const level = levelQuery.level;
   const nextLevel = levelQuery.nextLevelWorkouts;
   const remaining = nextLevel - count;
@@ -45,7 +47,11 @@ export async function UserCard({ ...props }: UserCardProps) {
       <CardContent>
         <p className="pb-2">Progress</p>
         <Progress
-          value={((count - levelQuery.requiredWorkouts) / nextLevel) * 100}
+          value={
+            ((count - levelQuery.requiredWorkouts) /
+              (nextLevel - levelQuery.requiredWorkouts)) *
+            100
+          }
         />
         <CardDescription className="pt-2">
           Next Level: {remaining} remaining
