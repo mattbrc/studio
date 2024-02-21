@@ -54,6 +54,8 @@ export default function RootLayout({
         <body className={cn("min-h-screen antialiased")}>
           <TRPCReactProvider headers={headers()}>
             <Toaster
+              position="bottom-center"
+              reverseOrder={false}
               toastOptions={{
                 className: "",
                 style: {
