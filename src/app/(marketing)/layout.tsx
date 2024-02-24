@@ -3,7 +3,6 @@ import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 import { SiteFooter } from "~/components/site-footer";
-import { P } from "@upstash/redis/zmscore-fa7fc9c8";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;

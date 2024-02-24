@@ -7,8 +7,6 @@ import { redirect } from "next/navigation";
 import { db } from "~/server/db";
 import { sql } from "drizzle-orm";
 import { workoutsLog } from "~/server/db/schema";
-import { siteConfig } from "~/config/site";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 
 export default async function Home() {
