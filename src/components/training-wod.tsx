@@ -73,7 +73,7 @@ export default function TrainingWod({
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Today&apos;s Workout</CardTitle>
+            <CardTitle>{workout?.title}</CardTitle>
             <CardDescription>
               {workout?.title ? formatUTCDate(Date()) : "No date available"}
             </CardDescription>
@@ -88,7 +88,6 @@ export default function TrainingWod({
         </div>
       </CardHeader>
       <CardContent>
-        <p className="underline">{workout?.title}</p>
         <p className="font-bold">Strength:</p>
         <span>
           <ul>

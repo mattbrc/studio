@@ -61,7 +61,7 @@ export function Wod({ data }: WorkoutProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Workout of the Day</CardTitle>
+            <CardTitle>{data?.title}</CardTitle>
             <CardDescription>
               {data?.date
                 ? formatUTCDate(data.date.toUTCString())
@@ -76,7 +76,7 @@ export function Wod({ data }: WorkoutProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <p className="underline">{data?.title}</p>
+        {/* <p className="underline">{data?.title}</p> */}
         <p className="font-bold">Strength:</p>
         <span>
           <ul>
