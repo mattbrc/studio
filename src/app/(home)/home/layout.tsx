@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { SiteFooter } from "~/components/site-footer";
 import { MenuDropdown } from "~/components/menu-dropdown";
+import { Icons } from "~/components/icons";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -24,7 +25,12 @@ export default async function DashboardLayout({
         <div className="header-bg container flex h-16 items-center justify-between py-4">
           <MenuDropdown />
           <MainNav />
+
           <UserButton afterSignOutUrl="/" />
+        </div>
+        <div className="flex h-8 items-center justify-center gap-1 bg-emerald-400 text-black">
+          <Icons.warning />
+          <p>Notice: App in testing</p>
         </div>
       </header>
       <div>

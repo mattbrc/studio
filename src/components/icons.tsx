@@ -13,6 +13,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { LuLoader2 } from "react-icons/lu";
 import { RiMenuFill } from "react-icons/ri";
 import { FaBookmark } from "react-icons/fa6";
+import { IoWarning } from "react-icons/io5";
 
 export const Icons = {
   discord: BsDiscord,
@@ -31,4 +32,5 @@ export const Icons = {
   x: BsTwitterX,
   menu: RiMenuFill,
   bookmark: FaBookmark,
+  warning: IoWarning,
 };
