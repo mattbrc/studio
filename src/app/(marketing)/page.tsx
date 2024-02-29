@@ -73,7 +73,7 @@ export default async function Home() {
         <Separator />
       </div>
 
-      <section
+      {/* <section
         id="features"
         className="container space-y-6 py-8 dark:bg-transparent md:py-12 lg:py-24"
       >
@@ -87,7 +87,7 @@ export default async function Home() {
             Next.js 13 app dir.
           </p>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }
