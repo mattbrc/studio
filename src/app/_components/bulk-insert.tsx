@@ -3,7 +3,7 @@
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 // import { data } from "~/lib/data/10-miler";
-import { data } from "~/lib/data/studio_wod";
+// import { data } from "~/lib/data/studio_wod";
 
 export function BulkInsert() {
   // insert into wods table
