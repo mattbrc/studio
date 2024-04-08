@@ -14,7 +14,7 @@ import * as React from "react";
 export function MarketingCard() {
   return (
     <div>
-      <Card className="mx-2 max-w-[375px] bg-zinc-800 pt-10 sm:max-w-[500px]">
+      <Card className="mx-2 mt-14 max-w-[375px] bg-zinc-800 sm:max-w-[500px]">
         <CardHeader>
           <CardTitle>Our lives are shaped by our daily rituals.</CardTitle>
         </CardHeader>
