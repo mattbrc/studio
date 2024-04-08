@@ -27,11 +27,17 @@ export default function Home() {
   return (
     <>
       <section className="flex h-screen snap-start flex-col justify-between">
-        <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
           <p className="text-3xl font-extrabold tracking-tight sm:text-[3rem]">
             Something must be{" "}
             <span className="text-[hsl(161,78%,58%)]">done.</span>
           </p>
+          <Link
+            href="/sign-in"
+            className={cn(buttonVariants({ variant: "acid" }), "px-4")}
+          >
+            Sign In
+          </Link>
         </div>
 
         <div className="container flex max-w-[64rem] flex-col items-center gap-2 pb-16 text-center">
