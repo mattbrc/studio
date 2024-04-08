@@ -40,7 +40,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="container flex max-w-[64rem] flex-col items-center gap-2 pb-16 text-center">
+        <div className="container flex max-w-[64rem] flex-col items-center gap-2 pb-24 text-center">
           {/* Content at the bottom */}
           <p className="font-mono">Our Story</p>
           <Icons.arrow />
