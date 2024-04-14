@@ -1,8 +1,8 @@
-export default function About() {
+export default function Pricing() {
   return (
     <div>
       <header className="mb-6 md:mb-6 lg:mb-8">
-        <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">About</h1>
+        <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Pricing</h1>
         <p className="text-gray-400">What is Acid Gambit and this website?</p>
       </header>
       <div className="p-1">

@@ -25,12 +25,7 @@ export default async function DashboardLayout({
         <div className="header-bg container flex h-16 items-center justify-between py-4">
           <MenuDropdown />
           <MainNav />
-
           <UserButton afterSignOutUrl="/" />
-        </div>
-        <div className="flex h-8 items-center justify-center gap-1 bg-emerald-400 text-black">
-          <Icons.warning />
-          <p>Notice: App in testing</p>
         </div>
       </header>
       <div>

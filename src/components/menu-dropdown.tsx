@@ -54,8 +54,8 @@ export function MenuDropdown({ items, children }: MainNavProps) {
           <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Settings</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/home/about">About</Link>
+          <DropdownMenuItem className="text-zinc-500" asChild>
+            <Link href="">Pricing</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
