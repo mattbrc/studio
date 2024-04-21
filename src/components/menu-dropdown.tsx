@@ -43,6 +43,9 @@ export function MenuDropdown({ items, children }: MainNavProps) {
             <Link href="/home">Home</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
+            <Link href="/home/coaching">Coaching</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href="/home/training">Training</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
