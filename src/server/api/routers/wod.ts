@@ -5,7 +5,6 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
 import { eq, sql } from "drizzle-orm";
-import { getDay } from "~/lib/utils";
 import { createId } from '@paralleldrive/cuid2';
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
@@ -109,7 +108,7 @@ export const wodRouter = createTRPCRouter({
         where: (userPrograms, { eq }) => eq(userPrograms.userId, id),
         with: {
           workouts: {
-            limit: 2,
+            limit: 7,
             where: (programWorkouts, { gte }) => gte(programWorkouts.orderId, result?.currentWorkoutId),
             orderBy: (programWorkouts, { asc }) => [asc(programWorkouts.orderId)],
           },
@@ -220,7 +219,6 @@ export const wodRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const id = ctx.userId;
       const { programId } = input;
-      const today = getDay(); // return today as an integer from 0-6 (mon-sun)
 
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
@@ -233,12 +231,12 @@ export const wodRouter = createTRPCRouter({
       // if program exists, update row
       if (existingSubmission.length !== 0) {
         const newUniqueProgramId = createId();
-        const update = await ctx.db.update(userPrograms).set({ programId: programId, uniqueProgramId: newUniqueProgramId, currentWorkoutId: today }).where(eq(userPrograms.userId, id));
+        const update = await ctx.db.update(userPrograms).set({ programId: programId, uniqueProgramId: newUniqueProgramId, currentWorkoutId: 0 }).where(eq(userPrograms.userId, id));
         return update
       }
 
       // if no program, add new row for userId
-      const submit = await ctx.db.insert(userPrograms).values({ userId: id, programId: programId, currentWorkoutId: today });
+      const submit = await ctx.db.insert(userPrograms).values({ userId: id, programId: programId, currentWorkoutId: 0 });
 
       return submit;
     }),

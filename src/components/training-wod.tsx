@@ -58,7 +58,7 @@ export default function TrainingWod({
           <p>No workout available. Select a program to get started.</p>
           <div className="pt-4">
             <Link
-              href="/home/training"
+              href="/home/training/programs"
               className={cn(buttonVariants({ size: "sm" }), "px-4")}
             >
               Select a Program

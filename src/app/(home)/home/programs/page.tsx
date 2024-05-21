@@ -1,4 +1,4 @@
-import { Training } from "~/components/training";
+import { Programs } from "~/components/programs";
 import { api } from "~/trpc/server";
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default async function Page() {
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
-      <Training
+      <Programs
         data={programs}
         activeProgram={userProgramDetails?.program?.title}
       />

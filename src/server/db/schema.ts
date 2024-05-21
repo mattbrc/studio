@@ -123,6 +123,8 @@ export const userPrograms = mysqlTable(
   "userPrograms",
   {
     userId: varchar("userId", { length: 256 }).primaryKey(),
+    isBeingCoached: int("isBeingCoached").notNull().default(0),
+    coachId: varchar("coachId", { length: 256 }),
     programId: bigint("programId", { mode: "number" }),
     uniqueProgramId: varchar('uniqueProgramId', { length: 128 }).$defaultFn(() => createId()),
     currentWorkoutId: int("currentWorkoutId").notNull().default(0),

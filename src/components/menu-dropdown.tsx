@@ -8,19 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserAvatar } from "./user-avatar";
-
-import type { MainNavItem } from "../types";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 
-interface MainNavProps {
-  items?: MainNavItem[];
-  children?: React.ReactNode;
-}
-
-export function MenuDropdown({ items, children }: MainNavProps) {
+export function MenuDropdown() {
   return (
     <div>
       <DropdownMenu>
@@ -28,11 +18,6 @@ export function MenuDropdown({ items, children }: MainNavProps) {
           <Icons.menu size={20} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48" align="start">
-          {/* <div className="flex items-center justify-start gap-2 p-2">
-            <div className="flex flex-col space-y-1 leading-none">
-              <p className="font-bold">AG Studio</p>
-            </div>
-          </div> */}
           <DropdownMenuItem>
             <Link href="/home" className="text-md font-bold">
               AG Studio
@@ -43,16 +28,10 @@ export function MenuDropdown({ items, children }: MainNavProps) {
             <Link href="/home">Home</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/home/coaching">Coaching</Link>
+            <Link href="/home/programs">Programs</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/home/training">Training</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/home/bookclub">Bookclub</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/home/wod">WOD</Link>
+            <Link href="/home/wod">Daily Workouts</Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Settings</Link>

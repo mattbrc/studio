@@ -50,11 +50,11 @@ interface SubmitProgramProps {
   name: string;
 }
 
-export function Training({ data, activeProgram }: TrainingProps) {
+export function Programs({ data, activeProgram }: TrainingProps) {
   return (
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
-        <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Training</h1>
+        <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Programs</h1>
         <p className="text-gray-400">View or start a new program</p>
       </header>
       <div className="pt-4">
@@ -70,11 +70,6 @@ export function Training({ data, activeProgram }: TrainingProps) {
           </div>
         )}
 
-        <div className="mx-1 space-y-1">
-          <h4 className="text-sm font-medium leading-none">
-            Available Programs
-          </h4>
-        </div>
         {data ? (
           <div>
             {data.map((program) => (
