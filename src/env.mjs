@@ -14,10 +14,10 @@ export const env = createEnv({
         (str) => !str.includes("YOUR_MYSQL_URL_HERE"),
         "You forgot to change the default URL",
       ),
+    STRIPE_API_KEY: z.string().min(1),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    // STRIPE_API_KEY: z.string().min(1),
   },
 
   /**
@@ -36,7 +36,7 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    // STRIPE_API_KEY: process.env.STRIPE_API_KEY,
+    STRIPE_API_KEY: process.env.STRIPE_API_KEY,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
