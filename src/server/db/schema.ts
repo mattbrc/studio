@@ -153,6 +153,16 @@ export const programWorkouts = mysqlTable(
   })
 );
 
+export const subscriptions = mysqlTable("subscriptions", {
+  userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
+  stripeSubscriptionId: text("stripeSubscriptionId").notNull(),
+  stripeCustomerId: text("stripeCustomerId").notNull(),
+  stripePriceId: text("stripePriceId").notNull(),
+  stripeCurrentPeriodEnd: timestamp("stripeCurrentPeriodEnd", {
+    mode: "string",
+  }).notNull(),
+});
+
 // define the many relationship between userProgram ID and workouts for that program ID
 // define one relationship between userProgram ID and associated program info
 export const userProgramRelations = relations(userPrograms, ({ one, many }) => ({
