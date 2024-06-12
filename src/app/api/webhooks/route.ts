@@ -41,6 +41,13 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
+  if (event.type === "checkout.session.completed") {
+    const subscription = await stripe.subscriptions.retrieve(
+      session.subscription as string
+    );
+    console.log("sub details: ", subscription);
+  }
+
   // if (event.type === "checkout.session.completed") {
   //   // Retrieve the subscription details from Stripe.
   //   const subscription = await stripe.subscriptions.retrieve(

@@ -46,7 +46,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <ClerkProvider appearance={{}}>
+      <ClerkProvider>
         <body className={cn("min-h-screen antialiased")}>
           <TRPCReactProvider headers={headers()}>
             <Toaster

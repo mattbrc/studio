@@ -22,7 +22,7 @@ import {
 } from '@clerk/nextjs/server';
 
 const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)', '/home(.*)'
+  '/dashboard(.*)', '/home(.*)', '/home/wod(.*)', '/home/programs(.*)'
 ]);
 
 // const isPublicRoute = createRouteMatcher(["/","/api/webhooks"]);
