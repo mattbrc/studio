@@ -1,4 +1,4 @@
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { ResourcesCard } from "~/components/resources";
 import TrainingWod from "~/components/training-wod";
 import { UserCard } from "~/components/user-card";

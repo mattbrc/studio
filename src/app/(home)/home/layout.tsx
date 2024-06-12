@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { MainNav } from "@/components/main-nav";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { SiteFooter } from "~/components/site-footer";
 import { MenuDropdown } from "~/components/menu-dropdown";
