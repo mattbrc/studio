@@ -4,7 +4,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { SiteFooter } from "~/components/site-footer";
 import { MenuDropdown } from "~/components/menu-dropdown";
-import { Icons } from "~/components/icons";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;

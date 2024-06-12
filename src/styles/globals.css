@@ -83,39 +83,3 @@
 .header-bg {
   background-color: rgba(11, 10, 11, 0.75); /* White with 50% opacity */
 }
-
-/* Clerk form customization */
-
-.cl-formButtonPrimary {
-  color: #000000;
-  background-color: #40e7b2;
-}
-
-.cl-formButtonPrimary:hover {
-  color: #000000;
-  background-color: #16b683;
-}
-
-.cl-footerActionLink {
-  color: #40e7b2;
-}
-
-.cl-footerActionLink:hover {
-  color: #49e9b6;
-}
-
-.cl-profileSectionPrimaryButton {
-  color: #40e7b2;
-}
-
-.cl-profileSectionPrimaryButton:hover {
-  background-color: #252526;
-}
-
-.cl-badge {
-  color: #40e7b2;
-  background-color: #4c4c4d;
-}
-
-.cl-userButtonPopoverCard {
-}

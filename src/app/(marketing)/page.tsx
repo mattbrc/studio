@@ -2,22 +2,22 @@ import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Icons } from "~/components/icons";
 import { MarketingCard } from "~/components/marketing-card";
 
 export default function Home() {
   /**
-          ___   ______________     _________    __  _______  __________
-          /   | / ____/  _/ __ \   / ____/   |  /  |/  / __ )/  _/_  __/
-          / /| |/ /    / // / / /  / / __/ /| | / /|_/ / __  |/ /  / /   
-        / ___ / /____/ // /_/ /  / /_/ / ___ |/ /  / / /_/ // /  / /    
-        /_/  |_\____/___/_____/   \____/_/  |_/_/  /_/_____/___/ /_/     
-                                                                          
-   
-        https://patorjk.com/software/taag/#p=display&f=Slant&t=ACID%20GAMBIT
-        */
+    ___   ______________     _________    __  _______  __________
+    /   | / ____/  _/ __ \   / ____/   |  /  |/  / __ )/  _/_  __/
+    / /| |/ /    / // / / /  / / __/ /| | / /|_/ / __  |/ /  / /   
+  / ___ / /____/ // /_/ /  / /_/ / ___ |/ /  / / /_/ // /  / /    
+  /_/  |_\____/___/_____/   \____/_/  |_/_/  /_/_____/___/ /_/     
+                                                                    
+
+  https://patorjk.com/software/taag/#p=display&f=Slant&t=ACID%20GAMBIT
+  */
   const { userId } = auth();
 
   if (userId) {
