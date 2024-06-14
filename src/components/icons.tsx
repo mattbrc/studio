@@ -15,6 +15,8 @@ import { RiMenuFill } from "react-icons/ri";
 import { FaBookmark } from "react-icons/fa6";
 import { IoWarning } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoArrowForward } from "react-icons/io5";
+import { GoCheckCircle } from "react-icons/go";
 
 export const Icons = {
   discord: BsDiscord,
@@ -35,4 +37,6 @@ export const Icons = {
   bookmark: FaBookmark,
   warning: IoWarning,
   arrow: IoIosArrowDown,
+  subscribeArrow: IoArrowForward,
+  check: GoCheckCircle,
 };
