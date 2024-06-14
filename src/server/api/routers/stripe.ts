@@ -1,9 +1,10 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { checkoutWithStripe, handleUserSignupOrLogin } from "~/lib/stripe/admin";
 
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
-import { posts } from "~/server/db/schema";
 
-export const postRouter = createTRPCRouter({
+export const stripeRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -12,69 +13,22 @@ export const postRouter = createTRPCRouter({
       };
     }),
 
-  // createSubscription: privateProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .input(z.object({ content: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+  createCheckoutSession: privateProcedure.mutation(async ({ ctx }) => {
+    const userId = ctx.userId;
+    if (!userId) {
+      throw new TRPCError({ code: "NOT_FOUND" });
+    }
 
-  //     await ctx.db.insert(posts).values({
-  //       name: input.name,
-  //       content: input.content,
-  //     });
-  //   }),
+    // Check if the user already has a Stripe customer ID
+    // if not, create a new Stripe customer and store the mapping in DB
+    const customerId = await handleUserSignupOrLogin();
+    if (!customerId) {
+      throw new TRPCError({ code: "NOT_FOUND" });
+    }
 
-    // submit workout row for WOD (programId = 0)
-  // createSubscription: privateProcedure
-  // .input(z.object({ workoutId: z.number() }))
-  // .mutation(async ({ ctx, input }) => {
-  //   const id = ctx.userId;
-  //   const { workoutId } = input;
+    const sessionUrl = await checkoutWithStripe(customerId);
 
-  //   const { success } = await ratelimit.limit(id);
-  //   if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
-
-  //   const existingSubmission = await ctx.db
-  //   .select()
-  //   .from(workoutsLog)
-  //   .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId}`)
-
-  //   if (existingSubmission.length !== 0) {
-  //     throw new TRPCError({
-  //       code: 'CONFLICT',
-  //       message: 'Workout has already been submitted'
-  //     });
-  //   }
-
-  //   const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
-
-  //   return submit;
-  // }),
-
-    updateSubscription: privateProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .input(z.object({ content: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      await ctx.db.insert(posts).values({
-        name: input.name,
-        content: input.content,
-      });
-    }),
-
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.query.posts.findFirst({
-      orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-    });
+    return sessionUrl;
   }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.query.posts.findMany({
-      orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-      limit: 5,
-    });
-  }),
 });

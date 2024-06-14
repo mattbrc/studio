@@ -1,26 +1,24 @@
-import { headers } from "next/headers"
-import type Stripe from "stripe"
-import { api } from "~/trpc/server";
-import { stripe } from "@/lib/stripe/config"
-import { auth } from '@clerk/nextjs/server';
+import { headers } from "next/headers";
+import type Stripe from "stripe";
+import { stripe } from "@/lib/stripe/config";
 
-import { subscriptions } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
-import { env } from "~/env.mjs";
+import { subscriptions } from "~/server/db/schema";
+
+// Stripe webhook handler
+// cases:
+// - new subscription (handles new users and changes to subscription)
+// - payment succeeded (update subscription w/ new period end and price ID)
+// - canceled subscription: no action needed, period end is already set
 
 export async function POST(req: Request) {
-  console.log("webhook request received");
   const body = await req.text();
   const signature = headers().get("Stripe-Signature")!;
-  const userId = auth();
-
   let event: Stripe.Event;
 
   const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!stripeWebhookSecret) {
-    console.error("Stripe webhook secret is not set");
     return new Response("Internal Server Error", { status: 500 });
   }
 
@@ -41,54 +39,59 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
+  // new subscription, create new subscription row in db
   if (event.type === "checkout.session.completed") {
+
+    const userRecord = await db.query.customers.findFirst({
+      where: (customers, { eq }) => eq(customers.stripeCustomerId, session.customer as string),
+    });
+
+    if (!userRecord) {
+      return new Response(`User not found for customer ID: ${session.customer as string}`, { status: 404 });
+    }
+    // return the application user ID from the stripe customer ID mapping
+    const userId = userRecord.userId;
+
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     );
-    console.log("sub details: ", subscription);
+    
+    await db.insert(subscriptions).values({
+      userId: userId,
+      stripeSubscriptionId: session.subscription as string,
+      stripeCustomerId: session.customer as string,
+      stripePriceId: subscription.id,
+      stripeCurrentPeriodEnd: subscription.current_period_end,
+    });
   }
 
-  // if (event.type === "checkout.session.completed") {
-  //   // Retrieve the subscription details from Stripe.
-  //   const subscription = await stripe.subscriptions.retrieve(
-  //     session.subscription as string
-  //   );
-  //   console.log("sub details from sign up: ", subscription);
-  //   // Update the user stripe into in our database.
-  //   // await db.user.update({
-  //   //   where: {
-  //   //     id: session?.metadata?.userId,
-  //   //   },
-  //   //   data: {
-  //   //     stripeSubscriptionId: subscription.id,
-  //   //     stripeCustomerId: subscription.customer as string,
-  //   //     stripePriceId: subscription.items.data[0].price.id,
-  //   //     stripeCurrentPeriodEnd: new Date(
-  //   //       subscription.current_period_end * 1000
-  //   //     ),
-  //   //   },
-  //   // });
-  // }
+  // payment succeeded, update subscription w/ new period end and price ID
+  if (event.type === "invoice.payment_succeeded") {
+    const userRecord = await db.query.customers.findFirst({
+      where: (customers, { eq }) => eq(customers.stripeCustomerId, session.customer as string),
+    });
 
-  // if (event.type === "invoice.payment_succeeded") {
-  //   // Retrieve the subscription details from Stripe.
-  //   const subscription = await stripe.subscriptions.retrieve(
-  //     session.subscription as string
-  //   );
-  //   console.log("sub details from payment: ", subscription);
-  //   // Update the price id and set the new period end.
-  //   // await db.user.update({
-  //   //   where: {
-  //   //     stripeSubscriptionId: subscription.id,
-  //   //   },
-  //   //   data: {
-  //   //     stripePriceId: subscription.items.data[0].price.id,
-  //   //     stripeCurrentPeriodEnd: new Date(
-  //   //       subscription.current_period_end * 1000
-  //   //     ),
-  //   //   },
-  //   // });
-  // }
+    if (!userRecord) {
+      return new Response(`User not found for customer ID: ${session.customer as string}`, { status: 404 });
+    }
+    // return the application user ID from the stripe customer ID mapping
+    const userId = userRecord.userId;
 
+    
+    const subscription = await stripe.subscriptions.retrieve(
+      session.subscription as string
+    );
+    // console.log("----------------PAYMENT SUCCEEDED: ----------------");
+    // console.log(subscription);
+    // console.log("-----------------------------------------------------------");
+
+    await db.insert(subscriptions).values({
+      userId: userId,
+      stripeSubscriptionId: session.subscription as string,
+      stripeCustomerId: session.customer as string,
+      stripePriceId: subscription.id,
+      stripeCurrentPeriodEnd: subscription.current_period_end,
+    });
+  }
   return new Response(null, { status: 200 });
 }

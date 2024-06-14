@@ -158,9 +158,15 @@ export const subscriptions = mysqlTable("subscriptions", {
   stripeSubscriptionId: text("stripeSubscriptionId").notNull(),
   stripeCustomerId: text("stripeCustomerId").notNull(),
   stripePriceId: text("stripePriceId").notNull(),
-  stripeCurrentPeriodEnd: timestamp("stripeCurrentPeriodEnd", {
-    mode: "string",
-  }).notNull(),
+  // stripeCurrentPeriodEnd: timestamp("stripeCurrentPeriodEnd", {
+  //   mode: "string",
+  // }).notNull(),
+  stripeCurrentPeriodEnd: bigint("stripeCurrentPeriodEnd", { mode: "number" }).notNull(),
+});
+
+export const customers = mysqlTable("customers", {
+  userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
+  stripeCustomerId: text("stripeCustomerId").notNull(),
 });
 
 // define the many relationship between userProgram ID and workouts for that program ID
