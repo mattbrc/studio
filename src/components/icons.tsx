@@ -17,6 +17,7 @@ import { IoWarning } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoArrowForward } from "react-icons/io5";
 import { GoCheckCircle } from "react-icons/go";
+import { GrCircleAlert } from "react-icons/gr";
 
 export const Icons = {
   discord: BsDiscord,
@@ -39,4 +40,5 @@ export const Icons = {
   arrow: IoIosArrowDown,
   subscribeArrow: IoArrowForward,
   check: GoCheckCircle,
+  alert: GrCircleAlert,
 };
