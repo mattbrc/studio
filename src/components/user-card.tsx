@@ -40,7 +40,11 @@ export async function UserCard({ ...props }: UserCardProps) {
           <div>
             <CardTitle className="pb-1">{props.username}</CardTitle>
             <div className="flex flex-row gap-2 pt-1">
-              <Badge variant="acid">{sub ? "Paid Tier" : "Free Tier"}</Badge>
+              {sub ? (
+                <Badge variant="acid">Paid Tier</Badge>
+              ) : (
+                <Badge variant="secondary">Free Tier</Badge>
+              )}
               {props.title && (
                 <Badge variant="secondary">
                   <span>{props.title}</span>
