@@ -77,7 +77,7 @@ export async function POST(req: Request) {
     // return the application user ID from the stripe customer ID mapping
     const userId = userRecord.userId;
 
-    
+
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     );
@@ -91,7 +91,12 @@ export async function POST(req: Request) {
       stripeCustomerId: session.customer as string,
       stripePriceId: subscription.id,
       stripeCurrentPeriodEnd: subscription.current_period_end,
-    });
+    }).onDuplicateKeyUpdate({
+      set: {
+        stripePriceId: subscription.id,
+        stripeCurrentPeriodEnd: subscription.current_period_end,
+      }
+    })
   }
   return new Response(null, { status: 200 });
 }

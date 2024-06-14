@@ -158,9 +158,6 @@ export const subscriptions = mysqlTable("subscriptions", {
   stripeSubscriptionId: text("stripeSubscriptionId").notNull(),
   stripeCustomerId: text("stripeCustomerId").notNull(),
   stripePriceId: text("stripePriceId").notNull(),
-  // stripeCurrentPeriodEnd: timestamp("stripeCurrentPeriodEnd", {
-  //   mode: "string",
-  // }).notNull(),
   stripeCurrentPeriodEnd: bigint("stripeCurrentPeriodEnd", { mode: "number" }).notNull(),
 });
 

@@ -11,6 +11,7 @@ export const metadata = {
 export default async function Page() {
   const user = await currentUser();
   const userWorkoutDetails = await api.wod.getUserSingleWorkout.query();
+  const sub = await api.stripe.getSubscription.query();
   // console.log("user program today workout:", userWorkout?.program?.title);
 
   return (
@@ -20,6 +21,7 @@ export default async function Page() {
         id={user?.id}
         username={user?.username}
         title={userWorkoutDetails?.program?.title}
+        subscription={sub}
       />
       <TrainingWod
         workout={userWorkoutDetails?.workouts[0]}

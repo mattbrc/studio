@@ -9,15 +9,24 @@ import { Progress } from "@/components/ui/progress";
 import { api } from "~/trpc/server";
 import { Badge } from "./ui/badge";
 
+interface Subscription {
+  userId: string;
+  stripeSubscriptionId: string;
+  stripeCustomerId: string;
+  stripePriceId: string;
+  stripeCurrentPeriodEnd: number;
+}
 interface UserCardProps {
   id: string | undefined;
   username: string | null | undefined;
   title: string | undefined;
+  subscription: Subscription | null;
 }
 
 export async function UserCard({ ...props }: UserCardProps) {
   const count = await api.wod.getWodCount.query();
   const levelQuery = await api.wod.getLevel.query({ count });
+  const sub = props.subscription;
   console.log("level query: ", levelQuery);
   console.log("level query: ", count);
   const level = levelQuery.level;
@@ -31,9 +40,7 @@ export async function UserCard({ ...props }: UserCardProps) {
           <div>
             <CardTitle className="pb-1">{props.username}</CardTitle>
             <div className="flex flex-row gap-2 pt-1">
-              <Badge variant="acid">
-                <span>{level}</span>
-              </Badge>
+              <Badge variant="acid">{sub ? "Paid Tier" : "Free Tier"}</Badge>
               {props.title && (
                 <Badge variant="secondary">
                   <span>{props.title}</span>
@@ -44,7 +51,10 @@ export async function UserCard({ ...props }: UserCardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <p className="pb-2">Progress</p>
+        <p className="">Progress</p>
+        <CardDescription className="pb-1">
+          Next Level: {remaining} remaining
+        </CardDescription>
         <Progress
           value={
             ((count - levelQuery.requiredWorkouts) /
@@ -52,9 +62,9 @@ export async function UserCard({ ...props }: UserCardProps) {
             100
           }
         />
-        <CardDescription className="pt-2">
-          Next Level: {remaining} remaining
-        </CardDescription>
+        <Badge className="mt-2" variant="acid">
+          <span>{level}</span>
+        </Badge>
       </CardContent>
     </Card>
   );
