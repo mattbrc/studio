@@ -41,9 +41,9 @@ export async function UserCard({ ...props }: UserCardProps) {
             <CardTitle className="pb-1">{props.username}</CardTitle>
             <div className="flex flex-row gap-2 pt-1">
               {sub ? (
-                <Badge variant="acid">Paid Tier</Badge>
+                <Badge variant="acid">Studio Pro</Badge>
               ) : (
-                <Badge variant="secondary">Free Tier</Badge>
+                <Badge variant="secondary">Studio Free</Badge>
               )}
               {props.title && (
                 <Badge variant="secondary">

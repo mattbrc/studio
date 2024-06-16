@@ -21,11 +21,11 @@ export default async function Page() {
   return (
     <div className="container flex flex-col items-center justify-center gap-6 px-4 py-6">
       <h1 className="text-2xl font-bold">Home</h1>
-      {!sub && (
+      {/* {!sub && (
         <Alert className="w-full md:w-1/2">
           <Icons.alert />
           <AlertTitle className="font-bold">
-            You&apos;re on the free tier!
+            You&apos;re on the free plan!
           </AlertTitle>
           <AlertDescription>
             Upgrade now to get full access to all programs.
@@ -36,7 +36,7 @@ export default async function Page() {
             </Link>
           </div>
         </Alert>
-      )}
+      )} */}
       <UserCard
         id={user?.id}
         username={user?.username}
