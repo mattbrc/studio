@@ -1,6 +1,5 @@
-import { notFound } from "next/navigation";
 import { MainNav } from "@/components/main-nav";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { SiteFooter } from "~/components/site-footer";
 import { MenuDropdown } from "~/components/menu-dropdown";
@@ -9,14 +8,8 @@ interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
-export default async function DashboardLayout({
-  children,
-}: DashboardLayoutProps) {
-  const user = await currentUser();
-
-  if (!user) {
-    return notFound();
-  }
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
+  auth().protect();
 
   return (
     <div className="flex min-h-screen flex-col">

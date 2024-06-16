@@ -23,7 +23,7 @@ export async function handleUserSignupOrLogin() {
       },
     });
 
-    // Store the mapping in your database
+    // Store the mapping in DB
     await db.insert(customers).values({
       userId: userId,
       stripeCustomerId: customer.id,
@@ -32,9 +32,11 @@ export async function handleUserSignupOrLogin() {
     return customer.id;
   }
 
+  // If user already has a Stripe customer ID, return it
   return userRecord.stripeCustomerId;
 }
 
+// Create a new checkout session for a user 
 export async function checkoutWithStripe(customerId: string) {
   const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === "production" ? "https://app.acidgambit.com" : "http://localhost:3000";
   const session = await stripe.checkout.sessions.create({

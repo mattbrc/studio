@@ -64,13 +64,11 @@ export function TrainingWodOperations({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button disabled={isSubmitLoading} size="sm" variant="secondary">
-          <div>
-            {isSubmitLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <span>Complete WOD</span>
-            )}
-          </div>
+          {isSubmitLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <span>Complete WOD</span>
+          )}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

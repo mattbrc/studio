@@ -10,6 +10,7 @@ import { buttonVariants } from "./ui/button";
 import { TrainingWodOperations } from "./training-wod-ops";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
+import { unique } from "drizzle-orm/mysql-core";
 
 type WodData = Record<string, string>;
 
@@ -78,13 +79,11 @@ export default function TrainingWod({
               {workout?.title ? formatUTCDate(Date()) : "No date available"}
             </CardDescription>
           </div>
-          <div className="flex flex-col gap-2">
-            <TrainingWodOperations
-              workoutId={workout?.workoutId}
-              uniqueProgramId={uniqueProgramId}
-              currentWorkoutId={currentWorkoutId}
-            />
-          </div>
+          <TrainingWodOperations
+            workoutId={workout?.workoutId}
+            uniqueProgramId={uniqueProgramId}
+            currentWorkoutId={currentWorkoutId}
+          />
         </div>
       </CardHeader>
       <CardContent>
