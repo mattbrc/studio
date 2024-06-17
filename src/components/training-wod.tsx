@@ -10,7 +10,6 @@ import { buttonVariants } from "./ui/button";
 import { TrainingWodOperations } from "./training-wod-ops";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
-import { unique } from "drizzle-orm/mysql-core";
 
 type WodData = Record<string, string>;
 

@@ -20,27 +20,25 @@ export function MarketingCard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-2">
+            <p>Find commonality with the uncommon.</p>
             <p>
-              We have a unique approach to training. It&apos;s not one that
-              should be uncommon. But rare to find individuals today that are
-              able to move their bodies well, lift multiples of their
-              bodyweight, and rapidly recover for the next day.
+              AG is a community of like-minded individuals seeking more:
+              completing daily rituals to be able to move our bodies well, lift
+              multiples of our bodyweight, and rapidly recover for the next day.
             </p>
             <p>
               The unique blend of training required to achieve this is what
               creates these daily rituals.
             </p>
             <p>
-              Daily rituals that turn into weeks. And months, then years. That
-              then reflect in our physiques, our performance, and approach to
+              Each ritual is a day that turn into weeks, months, then years.
+              This reflects in our physiques, our performance, and approach to
               life.
             </p>
 
             <p>
               There&apos;s plenty of places to find &quot;workouts&quot;. But AG
-              has grown into a community of like-minded individuals seeking
-              more. Join us as we build out this app and continue to seek
-              perfection (we never will but it&apos;s the thought that counts).
+              is for those seeking more. Join us.
             </p>
           </div>
         </CardContent>

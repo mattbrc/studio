@@ -1,9 +1,7 @@
-import { currentUser } from "@clerk/nextjs/server";
 import { Icons } from "~/components/icons";
-import { ResourcesCard } from "~/components/resources";
-import TrainingWod from "~/components/training-wod";
+import StripeCheckout from "~/components/stripe-checkout";
+import { StripeBillingPortal } from "~/components/stripe-checkout";
 import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,7 +9,6 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import { UserCard } from "~/components/user-card";
 import { api } from "~/trpc/server";
 
 export const metadata = {
@@ -55,12 +52,7 @@ const BillingDetails = () => {
           </ul>
         </CardContent>
         <CardFooter>
-          <Button>
-            <div className="flex flex-row gap-2">
-              <p className="font-bold">Subscribe</p>
-              <Icons.subscribeArrow size={20} />
-            </div>
-          </Button>
+          <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
         </CardFooter>
       </Card>
       {/* Monthly Card */}
@@ -92,12 +84,7 @@ const BillingDetails = () => {
           </ul>
         </CardContent>
         <CardFooter>
-          <Button>
-            <div className="flex flex-row gap-2">
-              <p className="font-bold">Subscribe</p>
-              <Icons.subscribeArrow size={20} />
-            </div>
-          </Button>
+          <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
         </CardFooter>
       </Card>
     </div>
@@ -105,15 +92,13 @@ const BillingDetails = () => {
 };
 
 export default async function Page() {
-  const user = await currentUser();
-  const userWorkoutDetails = await api.wod.getUserSingleWorkout.query();
   const sub = await api.stripe.getSubscription.query();
-  // console.log("user program today workout:", userWorkout?.program?.title);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-6 px-4 py-6">
       <h1 className="text-2xl font-bold">Billing and Plans</h1>
       <BillingDetails />
+      <StripeBillingPortal />
     </div>
   );
 }

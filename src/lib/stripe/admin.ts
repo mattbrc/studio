@@ -37,13 +37,13 @@ export async function handleUserSignupOrLogin() {
 }
 
 // Create a new checkout session for a user 
-export async function checkoutWithStripe(customerId: string) {
+export async function checkoutWithStripe(customerId: string, priceId: string) {
   const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === "production" ? "https://app.acidgambit.com" : "http://localhost:3000";
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     line_items: [
       {
-        price: 'price_1NJzLHL1iXnkfppRQVnpTCZg',
+        price: priceId,
         quantity: 1,
       },
     ],
@@ -53,4 +53,13 @@ export async function checkoutWithStripe(customerId: string) {
   });
   console.log("session URL: ", session.url);
   return session.url;
+}
+
+export async function createBillingPortal(customerId: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === "production" ? "https://app.acidgambit.com" : "http://localhost:3000";
+  const portal = await stripe.billingPortal.sessions.create({
+    customer: customerId,
+    return_url: `${baseUrl}/home`,
+  });
+  return portal.url;
 }

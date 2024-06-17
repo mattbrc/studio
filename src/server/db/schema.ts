@@ -153,6 +153,7 @@ export const programWorkouts = mysqlTable(
   })
 );
 
+// stripe sub info for each user
 export const subscriptions = mysqlTable("subscriptions", {
   userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
   stripeSubscriptionId: text("stripeSubscriptionId").notNull(),
@@ -161,6 +162,7 @@ export const subscriptions = mysqlTable("subscriptions", {
   stripeCurrentPeriodEnd: bigint("stripeCurrentPeriodEnd", { mode: "number" }).notNull(),
 });
 
+// userId to strieCustomerId xRef table - route handler can now access clerk userID
 export const customers = mysqlTable("customers", {
   userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
   stripeCustomerId: text("stripeCustomerId").notNull(),
