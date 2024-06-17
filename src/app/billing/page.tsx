@@ -1,7 +1,9 @@
 import { Icons } from "~/components/icons";
 import StripeCheckout from "~/components/stripe-checkout";
 import { StripeBillingPortal } from "~/components/stripe-checkout";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,9 +17,24 @@ export const metadata = {
   title: "Studio - Home",
 };
 
-const BillingDetails = () => {
+const BillingDetails = async () => {
+  const sub = await api.stripe.getSubscription.query();
+  console.log("sub: ", sub);
   return (
     <div className="max-w flex flex-col gap-4 md:w-1/2">
+      {sub && (
+        <Alert className="w-full">
+          <Icons.check />
+          <AlertTitle className="font-bold">
+            You&apos;re subscribed to{" "}
+            <span className="text-emerald-400">Studio Pro</span>
+          </AlertTitle>
+          <AlertDescription>Manage your subscription here.</AlertDescription>
+          <div className="flex py-2">
+            <StripeBillingPortal />
+          </div>
+        </Alert>
+      )}
       {/* Annual Card */}
       <Card className="border border-emerald-500">
         <CardHeader>
@@ -52,7 +69,16 @@ const BillingDetails = () => {
           </ul>
         </CardContent>
         <CardFooter>
-          <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
+          {sub ? (
+            <Button disabled={true} size="sm" variant="secondary">
+              <span className="flex flex-row items-center gap-2">
+                <p className="font-bold">Subscribe</p>
+                <Icons.subscribeArrow size={20} />
+              </span>
+            </Button>
+          ) : (
+            <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
+          )}
         </CardFooter>
       </Card>
       {/* Monthly Card */}
@@ -84,21 +110,27 @@ const BillingDetails = () => {
           </ul>
         </CardContent>
         <CardFooter>
-          <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
+          {sub ? (
+            <Button disabled={true} size="sm" variant="secondary">
+              <span className="flex flex-row items-center gap-2">
+                <p className="font-bold">Subscribe</p>
+                <Icons.subscribeArrow size={20} />
+              </span>
+            </Button>
+          ) : (
+            <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
+          )}
         </CardFooter>
       </Card>
     </div>
   );
 };
 
-export default async function Page() {
-  const sub = await api.stripe.getSubscription.query();
-
+export default function Page() {
   return (
     <div className="container flex flex-col items-center justify-center gap-6 px-4 py-6">
       <h1 className="text-2xl font-bold">Billing and Plans</h1>
       <BillingDetails />
-      <StripeBillingPortal />
     </div>
   );
 }

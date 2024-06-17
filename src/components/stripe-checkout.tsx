@@ -104,7 +104,7 @@ export function StripeBillingPortal() {
           </span>
         ) : (
           <span className="flex flex-row items-center gap-2">
-            <p className="font-bold">Manag Subscription</p>
+            <p className="font-bold">Manage Subscription</p>
           </span>
         )}
       </div>
