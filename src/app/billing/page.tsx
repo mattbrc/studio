@@ -19,7 +19,6 @@ export const metadata = {
 
 const BillingDetails = async () => {
   const sub = await api.stripe.getSubscription.query();
-  console.log("sub: ", sub);
   return (
     <div className="max-w flex flex-col gap-4 md:w-1/2">
       {sub && (
