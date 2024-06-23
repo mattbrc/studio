@@ -54,7 +54,7 @@ export async function UserCard({ ...props }: UserCardProps) {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      {/* <CardContent>
         <p className="">Progress</p>
         <CardDescription className="pb-1">
           Next Level: {remaining} remaining
@@ -69,7 +69,7 @@ export async function UserCard({ ...props }: UserCardProps) {
         <Badge className="mt-2" variant="acid">
           <span>{level}</span>
         </Badge>
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 }
