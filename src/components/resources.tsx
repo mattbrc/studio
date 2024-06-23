@@ -54,9 +54,8 @@ export function ResourcesCard() {
           >
             Coaching
           </Link>
-
           <Link
-            href="https://discord.gg/W4x3Eej95q"
+            href="https://acidgambit.com/"
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
               "px-4",
@@ -64,30 +63,8 @@ export function ResourcesCard() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Discord
+            Shop Merch
           </Link>
-          <Link
-            href="https://acidgambit.gumroad.com/"
-            className={cn(
-              buttonVariants({ variant: "secondary", size: "sm" }),
-              "px-4",
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Shop
-          </Link>
-          {/* <Link
-            href="https://acidgambit.gumroad.com/"
-            className={cn(
-              buttonVariants({ variant: "secondary", size: "sm" }),
-              "px-4",
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Whoop Team
-          </Link> */}
           <WhoopButton />
           <Link
             href="https://strava.app.link/bGuqx7kFuGb"
@@ -99,6 +76,17 @@ export function ResourcesCard() {
             rel="noopener noreferrer"
           >
             Strava Run Club
+          </Link>
+          <Link
+            href="https://instagram.com/acidgambit"
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "sm" }),
+              "px-4",
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
           </Link>
         </div>
       </CardContent>

@@ -2,14 +2,14 @@ import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Icons } from "~/components/icons";
 import { ResourcesCard } from "~/components/resources";
-import TrainingWod from "~/components/training-wod";
+import ProgramCard from "~/components/program-card-home";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { UserCard } from "~/components/user-card";
 import { api } from "~/trpc/server";
 
 export const metadata = {
-  title: "Studio - Home",
+  title: "Home",
 };
 
 export default async function Page() {
@@ -29,11 +29,11 @@ export default async function Page() {
           <AlertDescription>
             Upgrade now to get full access to all programs.
           </AlertDescription>
-          <div className="flex py-2">
+          {/* <div className="flex py-2">
             <Link href="/billing">
               <Button>Upgrade</Button>
             </Link>
-          </div>
+          </div> */}
         </Alert>
       )}
       <UserCard
@@ -42,9 +42,8 @@ export default async function Page() {
         title={userWorkoutDetails?.program?.title}
         subscription={sub}
       />
-      <TrainingWod
+      <ProgramCard
         workout={userWorkoutDetails?.workouts[0]}
-        currentWorkoutId={userWorkoutDetails?.currentWorkoutId}
         uniqueProgramId={userWorkoutDetails?.uniqueProgramId}
       />
       <ResourcesCard />

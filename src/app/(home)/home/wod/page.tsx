@@ -2,7 +2,7 @@ import { Wod } from "~/components/wod";
 import { api } from "~/trpc/server";
 
 export const metadata = {
-  title: "Studio - Home",
+  title: "WOD",
 };
 
 export default async function Page() {

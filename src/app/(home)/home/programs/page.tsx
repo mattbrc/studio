@@ -6,7 +6,7 @@ import { api } from "~/trpc/server";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Studio - Training",
+  title: "Programs",
 };
 
 export default async function Page() {

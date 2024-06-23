@@ -53,7 +53,7 @@ export const workoutsLog = mysqlTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     workoutId: bigint("workoutId", { mode: "number" }),
-    uniqueProgramId: varchar("uniqueProgramId", { length: 128 }),
+    programId: bigint("programId", { mode: "number" }),
   },
   (workoutsTable) => ({
     athleteIndex: index("athlete_idx").on(workoutsTable.athleteId),
@@ -71,8 +71,6 @@ export const wods = mysqlTable(
     title: text("title"),
     strength: json("strength"),
     conditioning: json("conditioning"),
-    // program: text("program"),
-    // notes: text("notes"),
   },
   (wodTable) => ({
     wodIndex: index("wod_idx").on(wodTable.wodId),
@@ -88,22 +86,6 @@ export const levels = mysqlTable(
     nextLevelWorkouts: bigint("nextLevelWorkouts", { mode: "number" }).notNull(),
   }
 );
-
-export const bookclub = mysqlTable(
-  "bookclub",
-    {
-      bookId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-      createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
-      date: timestamp("date").notNull(),
-      title: text("title").notNull(),
-      type: text("type"),
-      author: text("author").notNull(),
-      description: text("desc").notNull(),
-    },
-    (bookclubTable) => ({
-      bookIndex: index("book_idx").on(bookclubTable.bookId),
-    })
-)
 
 export const programs = mysqlTable(
   "programs",

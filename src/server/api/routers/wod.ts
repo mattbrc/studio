@@ -23,12 +23,6 @@ export const wodRouter = createTRPCRouter({
       where: (wods, { eq }) => eq(wods.date, today),
       orderBy: (wods, { desc }) => [desc(wods.date)],
     });
-    // if (!result) {
-    //   throw new TRPCError({
-    //     code: 'NOT_FOUND',
-    //     message: 'No workout available today'
-    //   });
-    // }
 
     return result;
   }),
@@ -148,6 +142,8 @@ export const wodRouter = createTRPCRouter({
     }
   }),
 
+
+
   getWodCount: publicProcedure.query(async ({ ctx }) => {
     const athleteId = ctx.userId;
     const success = await ctx.db.select({ 
@@ -190,21 +186,58 @@ export const wodRouter = createTRPCRouter({
       return submit;
     }),
 
-    submitTrainingWod: privateProcedure
-    .input(z.object({ workoutId: z.number(), uniqueProgramId: z.string().nullish(), currentWorkoutId: z.number().nullish() }))
+    submitProgramWorkout: privateProcedure
+    .input(z.object({ workoutId: z.number().nullish() }))
     .mutation(async ({ ctx, input }) => {
       const id = ctx.userId;
-      const { workoutId, uniqueProgramId, currentWorkoutId } = input;
+      const { workoutId } = input;
 
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
 
-      if (currentWorkoutId && uniqueProgramId) {
-        const nextWorkoutId = currentWorkoutId + 1;
-        const update = await ctx.db.update(userPrograms).set({ currentWorkoutId: nextWorkoutId }).where(eq(userPrograms.userId, ctx.userId))
-        const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId, uniqueProgramId: uniqueProgramId });
-        return {update, submit}
+      const existingSubmission = await ctx.db
+      .select()
+      .from(workoutsLog)
+      .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId}`)
+  
+      if (existingSubmission.length !== 0) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'Workout has already been submitted'
+        });
       }
+
+      await ctx.db
+        .update(userPrograms)
+        .set({ currentWorkoutId: sql`${userPrograms.currentWorkoutId} + 1` })
+        .where(eq(userPrograms.userId, id));
+      await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
+
+      return { success: true};
+    }),
+
+    testWorkout: privateProcedure
+    .input(z.object({ currentWorkoutId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const id = ctx.userId;
+      const { currentWorkoutId } = input;
+
+      const { success } = await ratelimit.limit(id);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
+      
+      const newId = currentWorkoutId + 1;
+      const update = await ctx.db.update(userPrograms).set({ currentWorkoutId: newId }).where(eq(userPrograms.userId, id));
+      return update
+    }),
+
+    updateWorkoutId: privateProcedure.mutation(async ({ ctx }) => {
+      const id = ctx.userId;
+      await ctx.db
+        .update(userPrograms)
+        .set({ currentWorkoutId: sql`${userPrograms.currentWorkoutId} + 1` })
+        .where(eq(userPrograms.userId, id));
+
+      return { success: true };
     }),
 
     getTotalWorkoutsCount: publicProcedure.query(async ({ ctx }) => {

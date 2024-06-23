@@ -26,6 +26,15 @@ const bulkInsertWodsInput = z.array(z.object({
     // Define the specific structure of the conditioning field
     a: z.string(),
     b: z.string().optional(),
+    c: z.string().optional(),
+    d: z.string().optional(),
+    e: z.string().optional(),
+    f: z.string().optional(),
+    g: z.string().optional(),
+    h: z.string().optional(),
+    i: z.string().optional(),
+    j: z.string().optional(),
+    k: z.string().optional(),
   }),
 }));
 
@@ -51,6 +60,15 @@ const bulkInsertProgramWorkoutsInput = z.array(z.object({
     // Define the specific structure of the conditioning field
     a: z.string(),
     b: z.string().optional(),
+    c: z.string().optional(),
+    d: z.string().optional(),
+    e: z.string().optional(),
+    f: z.string().optional(),
+    g: z.string().optional(),
+    h: z.string().optional(),
+    i: z.string().optional(),
+    j: z.string().optional(),
+    k: z.string().optional(),
   }),
   programId: z.number(),
 }));

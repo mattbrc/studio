@@ -46,12 +46,17 @@ export function Wod({ data }: WorkoutProps) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Workout of the Day</CardTitle>
+              <CardTitle>Coming Monday, June 24th, 2024</CardTitle>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <p>No workout available</p>
+          <CardDescription>
+            Daily functional workouts written by our resident CrossFit coach and
+            endurance athlete, Lee. The focus is on building a functional base
+            around the core compound lifts, steady state endurance, and nasty
+            heart pounders.
+          </CardDescription>
         </CardContent>
       </Card>
     );
@@ -61,13 +66,12 @@ export function Wod({ data }: WorkoutProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>{data?.title}</CardTitle>
+            <CardTitle>Daily Functional</CardTitle>
             <CardDescription>
               {data?.date
                 ? formatUTCDate(data.date.toUTCString())
                 : "No date available"}
             </CardDescription>
-            <CardDescription>10-Miler Prep</CardDescription>
           </div>
           <div className="flex flex-col gap-2">
             <WodOperations workoutId={data?.wodId} />
@@ -76,7 +80,6 @@ export function Wod({ data }: WorkoutProps) {
         </div>
       </CardHeader>
       <CardContent>
-        {/* <p className="underline">{data?.title}</p> */}
         <p className="font-bold">Strength:</p>
         <span>
           <ul>
@@ -110,14 +113,12 @@ const ProgramDetails = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            10-Miler Strength + Conditioning Program
-          </AlertDialogTitle>
+          <AlertDialogTitle>Daily Functional</AlertDialogTitle>
           <AlertDialogDescription>
-            The focus of this program is to improve speed specifically in the
-            10-miler distance, and slightly improve strength in the compound
-            movements, as well as explosive power and lower body stability and
-            injury prevention. This program will run from 15JAN-20APR 2024.
+            Daily functional workouts written by our resident CrossFit coach and
+            endurance athlete, Lee. The focus is on building a functional base
+            around the core compound lifts, steady state endurance, and nasty
+            heart pounders.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

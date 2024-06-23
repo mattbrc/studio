@@ -14,7 +14,7 @@ import {
 import { api } from "~/trpc/server";
 
 export const metadata = {
-  title: "Studio - Home",
+  title: "Billing",
 };
 
 const BillingDetails = async () => {

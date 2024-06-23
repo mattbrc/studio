@@ -36,7 +36,6 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     apple: "/apple-icon.png",
   },
-  manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 export default function RootLayout({
