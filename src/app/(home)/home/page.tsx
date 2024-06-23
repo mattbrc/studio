@@ -29,11 +29,11 @@ export default async function Page() {
           <AlertDescription>
             Upgrade now to get full access to all programs.
           </AlertDescription>
-          {/* <div className="flex py-2">
+          <div className="flex py-2">
             <Link href="/billing">
               <Button>Upgrade</Button>
             </Link>
-          </div> */}
+          </div>
         </Alert>
       )}
       <UserCard
