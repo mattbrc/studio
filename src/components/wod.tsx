@@ -93,7 +93,7 @@ export function Wod({ data, isComplete }: WorkoutProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="font-bold">{data?.title}</p>
+          <p className="pb-2 font-bold underline">{data?.title}</p>
           <p className="font-bold">Strength:</p>
           <span>
             <ul>

@@ -1,7 +1,6 @@
 import { postRouter } from "~/server/api/routers/post";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { wodRouter } from "./routers/wod";
-import { bookRouter } from "./routers/book";
 import { bulkRouter } from "./routers/bulk";
 import { stripeRouter } from "./routers/stripe";
 
@@ -13,7 +12,6 @@ import { stripeRouter } from "./routers/stripe";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   wod: wodRouter,
-  book: bookRouter,
   bulk: bulkRouter,
   stripe: stripeRouter,
 });

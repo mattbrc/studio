@@ -32,6 +32,7 @@ export const wodRouter = createTRPCRouter({
     const today = new Date(); // get today's date in UTC
     today.setHours(today.getHours() - 5); // convert to EST
     today.setUTCHours(0, 0, 0, 0); // set date to 0000 UTC time
+
     const result = await ctx.db.query.wods.findFirst({
       where: (wods, { eq }) => eq(wods.date, today),
       orderBy: (wods, { desc }) => [desc(wods.date)],
