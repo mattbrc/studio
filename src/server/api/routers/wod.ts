@@ -14,6 +14,19 @@ const ratelimit = new Ratelimit({
   analytics: true,
 });
 
+const getDateTime = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  const ms = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}.${ms}Z`;
+}
+
 export const wodRouter = createTRPCRouter({
   getLatest: publicProcedure.query(async({ ctx }) => {
     const today = new Date(); // get today's date in UTC
@@ -142,8 +155,6 @@ export const wodRouter = createTRPCRouter({
     }
   }),
 
-
-
   getWodCount: publicProcedure.query(async ({ ctx }) => {
     const athleteId = ctx.userId;
     const success = await ctx.db.select({ 
@@ -157,6 +168,20 @@ export const wodRouter = createTRPCRouter({
     } else {
       return 0
     }
+  }),
+
+  isWodComplete: publicProcedure.query(async ({ ctx }) => {
+    const id = ctx.userId;
+    const existingSubmission = await ctx.db
+    .select()
+    .from(workoutsLog)
+    .where(sql`${workoutsLog.athleteId} = ${id} AND DATE(${workoutsLog.createdAt}) = CURRENT_DATE AND ${workoutsLog.programId} = 0`);
+
+    if (existingSubmission.length !== 0) {
+      return true;
+    }
+
+    return false;
   }),
 
   // submit workout row for WOD (programId = 0)
@@ -181,7 +206,7 @@ export const wodRouter = createTRPCRouter({
         });
       }
 
-      const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
+      const submit = await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId, programId: 0 });
 
       return submit;
     }),

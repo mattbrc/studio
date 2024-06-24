@@ -1,3 +1,4 @@
+import { currentUser } from "@clerk/nextjs/server";
 import { Icons } from "~/components/icons";
 import StripeCheckout from "~/components/stripe-checkout";
 import { StripeBillingPortal } from "~/components/stripe-checkout";
@@ -19,6 +20,8 @@ export const metadata = {
 
 const BillingDetails = async () => {
   const sub = await api.stripe.getSubscription.query();
+  const user = await currentUser();
+  console.log("user: ", user);
   return (
     <div className="max-w flex flex-col gap-4 md:w-1/2">
       {sub && (
@@ -76,7 +79,14 @@ const BillingDetails = async () => {
               </span>
             </Button>
           ) : (
-            <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
+            // disabled to prevent users subscribing on test mode
+            // <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
+            <Button disabled={true} size="sm" variant="secondary">
+              <span className="flex flex-row items-center gap-2">
+                <p className="font-bold">Subscribe</p>
+                <Icons.subscribeArrow size={20} />
+              </span>
+            </Button>
           )}
         </CardFooter>
       </Card>
@@ -117,7 +127,14 @@ const BillingDetails = async () => {
               </span>
             </Button>
           ) : (
-            <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
+            // disabled to prevent users subscribing on test mode
+            // <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
+            <Button disabled={true} size="sm" variant="secondary">
+              <span className="flex flex-row items-center gap-2">
+                <p className="font-bold">Subscribe</p>
+                <Icons.subscribeArrow size={20} />
+              </span>
+            </Button>
           )}
         </CardFooter>
       </Card>

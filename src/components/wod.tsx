@@ -29,9 +29,10 @@ interface Workout {
 }
 interface WorkoutProps {
   data?: Workout;
+  isComplete: boolean;
 }
 
-export function Wod({ data }: WorkoutProps) {
+export function Wod({ data, isComplete }: WorkoutProps) {
   const str: WodData = data?.strength as WodData;
   const cond: WodData = data?.conditioning as WodData;
 
@@ -87,7 +88,7 @@ export function Wod({ data }: WorkoutProps) {
               </CardDescription>
             </div>
             <div className="flex flex-col gap-2">
-              <WodOperations workoutId={data?.wodId} />
+              <WodOperations workoutId={data?.wodId} isComplete={isComplete} />
             </div>
           </div>
         </CardHeader>
@@ -132,7 +133,7 @@ export function Wod({ data }: WorkoutProps) {
             <p>The general structure will look like:</p>
             <ul>
               <li>- Monday: Strength</li>
-              <li>- Tuesday: HI Intervals</li>
+              <li>- Tuesday: High Intensity Intervals</li>
               <li>- Wednesday: METCON</li>
               <li>- Thursday: Steady State Cardio</li>
               <li>- Friday: Strength</li>

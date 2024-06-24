@@ -21,9 +21,11 @@ import { api } from "~/trpc/react";
 
 interface WodOperationsProps {
   workoutId: number;
+  isComplete: boolean;
 }
 
-export function WodOperations({ workoutId }: WodOperationsProps) {
+// submit a workout row to log table in DB for daily workouts (/home/wod)
+export function WodOperations({ workoutId, isComplete }: WodOperationsProps) {
   const router = useRouter();
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
 
@@ -48,6 +50,14 @@ export function WodOperations({ workoutId }: WodOperationsProps) {
     setIsSubmitLoading(true);
     mutation.mutate({ workoutId });
   };
+
+  if (isComplete) {
+    return (
+      <Button disabled={true} size="sm" variant="secondary">
+        Completed ✅
+      </Button>
+    );
+  }
 
   return (
     <AlertDialog>
