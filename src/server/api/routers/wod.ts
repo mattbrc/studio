@@ -197,7 +197,7 @@ export const wodRouter = createTRPCRouter({
       const existingSubmission = await ctx.db
       .select()
       .from(workoutsLog)
-      .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId}`)
+      .where(sql`${workoutsLog.athleteId} = ${id} AND DATE(${workoutsLog.createdAt}) = CURRENT_DATE AND ${workoutsLog.programId} = 0`);
   
       if (existingSubmission.length !== 0) {
         throw new TRPCError({
