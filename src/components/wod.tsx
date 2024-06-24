@@ -51,11 +51,25 @@ export function Wod({ data }: WorkoutProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <CardDescription>
-            Daily functional workouts written by our resident CrossFit coach and
-            endurance athlete, Lee. The focus is on building a functional base
-            around the core compound lifts, steady state endurance, and nasty
-            heart pounders.
+          <CardDescription className="flex flex-col gap-2">
+            <p>
+              Daily functional workouts written by our resident CrossFit coach
+              and endurance athlete, Lee. The focus is on building a functional
+              base around the core compound lifts, steady state endurance, and
+              nasty heart pounders.
+            </p>
+            <p>The general structure will look like:</p>
+            <div>
+              <ul>
+                <li>- Monday: Strength</li>
+                <li>- Tuesday: HI Intervals</li>
+                <li>- Wednesday: METCON</li>
+                <li>- Thursday: Steady State Cardio</li>
+                <li>- Friday: Strength</li>
+                <li>- Saturday: METCON</li>
+                <li>- Sunday: Rest</li>
+              </ul>
+            </div>
           </CardDescription>
         </CardContent>
       </Card>
@@ -75,11 +89,11 @@ export function Wod({ data }: WorkoutProps) {
           </div>
           <div className="flex flex-col gap-2">
             <WodOperations workoutId={data?.wodId} />
-            <ProgramDetails />
           </div>
         </div>
       </CardHeader>
       <CardContent>
+        <p className="font-bold">{data?.title}</p>
         <p className="font-bold">Strength:</p>
         <span>
           <ul>
@@ -105,20 +119,34 @@ const ProgramDetails = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button size="sm" variant="secondary">
+        {/* <Button size="sm" variant="secondary">
           <div>
             <span>Details</span>
           </div>
-        </Button>
+        </Button> */}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Daily Functional</AlertDialogTitle>
-          <AlertDialogDescription>
-            Daily functional workouts written by our resident CrossFit coach and
-            endurance athlete, Lee. The focus is on building a functional base
-            around the core compound lifts, steady state endurance, and nasty
-            heart pounders.
+          <AlertDialogDescription className="flex flex-col gap-2">
+            <p>
+              Daily functional workouts written by our resident CrossFit coach
+              and endurance athlete, Lee. The focus is on building a functional
+              base around the core compound lifts, steady state endurance, and
+              nasty heart pounders.
+            </p>
+            <p>The general structure will look like:</p>
+            <div>
+              <ul>
+                <li>- Monday: Strength</li>
+                <li>- Tuesday: HI Intervals</li>
+                <li>- Wednesday: METCON</li>
+                <li>- Thursday: Steady State Cardio</li>
+                <li>- Friday: Strength</li>
+                <li>- Saturday: METCON</li>
+                <li>- Sunday: Rest</li>
+              </ul>
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
