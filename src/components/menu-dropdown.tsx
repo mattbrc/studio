@@ -33,9 +33,9 @@ export function MenuDropdown() {
           <DropdownMenuItem asChild>
             <Link href="/home/wod">Daily Workouts</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="text-zinc-500" asChild>
+          {/* <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">History</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem asChild>
             <Link href="/billing">Billing + Plans</Link>
           </DropdownMenuItem>
