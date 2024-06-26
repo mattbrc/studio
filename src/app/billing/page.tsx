@@ -38,6 +38,13 @@ const BillingDetails = async () => {
         </Alert>
       )}
       {/* Annual Card */}
+      <Alert className="w-full">
+        <Icons.alert />
+        <AlertTitle className="font-bold text-emerald-400">
+          Subscriptions coming July 1st
+        </AlertTitle>
+        <AlertDescription>Check back soon!</AlertDescription>
+      </Alert>
       <Card className="border border-emerald-500">
         <CardHeader>
           <div>
