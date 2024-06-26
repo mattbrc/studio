@@ -14,10 +14,6 @@ export default async function Page() {
   const userProgramDetails = await api.wod.getUserWorkouts.query();
   const sub = await api.stripe.getSubscription.query();
 
-  // if (!userProgram) return <div>Something went wrong</div>;
-
-  // const data = await api.wod.getLatest.query();
-
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
       {sub ? (
@@ -52,7 +48,3 @@ export default async function Page() {
     </div>
   );
 }
-
-// if no program selected (default everyone) - show nothing
-// select program, show today's workout + 6 days into the future
-// selecting program, can either start today or select a specific day to start on

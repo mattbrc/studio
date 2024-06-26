@@ -42,10 +42,7 @@ export default async function Page() {
         title={userWorkoutDetails?.program?.title}
         subscription={sub}
       />
-      <ProgramCard
-        workout={userWorkoutDetails?.workouts[0]}
-        uniqueProgramId={userWorkoutDetails?.uniqueProgramId}
-      />
+      <ProgramCard workout={userWorkoutDetails?.workouts[0]} />
       <ResourcesCard />
     </div>
   );

@@ -40,7 +40,6 @@ interface Workout {
 
 interface ProgramCardProps {
   workout: Workout | undefined;
-  uniqueProgramId: string | null | undefined;
 }
 
 type WodData = Record<string, string>;
@@ -50,10 +49,7 @@ function formatUTCDate(dateString: string): string {
   return date.toUTCString().split(" ").slice(0, 4).join(" ");
 }
 
-export default function ProgramCard({
-  workout,
-  uniqueProgramId,
-}: ProgramCardProps) {
+export default function ProgramCard({ workout }: ProgramCardProps) {
   const str: WodData = workout?.strength as WodData;
   const cond: WodData = workout?.conditioning as WodData;
 

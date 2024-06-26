@@ -11,8 +11,8 @@ export function BulkInsert() {
   // insert into wods table
   // const mutation = api.bulk.bulkInsertWods.useMutation();
 
-  // insert into programWorkouts table
-  // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
+  // // insert into programWorkouts table
+  // // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
 
   // const handleInsert = () => {
   //   mutation.mutate(data, {
