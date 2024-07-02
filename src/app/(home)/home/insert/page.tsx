@@ -1,4 +1,4 @@
-// import { BulkInsert } from "~/app/_components/bulk-insert";
+// import { BulkInsert } from "~/components/bulk-insert";
 
 export default function Page() {
   return (
