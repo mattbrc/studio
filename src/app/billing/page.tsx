@@ -41,7 +41,7 @@ const BillingDetails = async () => {
       <Alert className="w-full">
         <Icons.alert />
         <AlertTitle className="font-bold text-emerald-400">
-          Subscriptions coming July 1st
+          Subscriptions coming soon.
         </AlertTitle>
         <AlertDescription>Check back soon!</AlertDescription>
       </Alert>
