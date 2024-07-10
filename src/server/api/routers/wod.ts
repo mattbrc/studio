@@ -10,22 +10,9 @@ import { createId } from '@paralleldrive/cuid2';
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  limiter: Ratelimit.slidingWindow(5, "1 m"),
   analytics: true,
 });
-
-const getDateTime = () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
-  const ms = String(date.getUTCMilliseconds()).padStart(3, '0');
-
-  return `${year}-${month}-${day}T${hour}:${minute}:${second}.${ms}Z`;
-}
 
 export const wodRouter = createTRPCRouter({
   getLatest: publicProcedure.query(async({ ctx }) => {
@@ -43,7 +30,7 @@ export const wodRouter = createTRPCRouter({
 
   getAllPrograms: publicProcedure.query(async ({ ctx }) => {
     const programs = await ctx.db.query.programs.findMany({
-      orderBy: (programs, { desc }) => [desc(programs.createdAt)]
+      orderBy: (programs, { asc }) => [asc(programs.createdAt)]
     });
     return programs;
   }),
@@ -213,10 +200,11 @@ export const wodRouter = createTRPCRouter({
     }),
 
     submitProgramWorkout: privateProcedure
-    .input(z.object({ workoutId: z.number().nullish() }))
+    .input(z.object({ workoutId: z.number().nullish(), programId: z.number().nullish() }))
     .mutation(async ({ ctx, input }) => {
       const id = ctx.userId;
       const { workoutId } = input;
+      const { programId } = input;
 
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
@@ -224,7 +212,7 @@ export const wodRouter = createTRPCRouter({
       const existingSubmission = await ctx.db
       .select()
       .from(workoutsLog)
-      .where(sql`${workoutsLog.athleteId} = ${id} AND ${workoutsLog.workoutId} = ${workoutId}`)
+      .where(sql`${workoutsLog.athleteId} = ${id} AND DATE(${workoutsLog.createdAt}) = CURRENT_DATE AND ${workoutsLog.workoutId} = ${workoutId}`);
   
       if (existingSubmission.length !== 0) {
         throw new TRPCError({
@@ -237,23 +225,9 @@ export const wodRouter = createTRPCRouter({
         .update(userPrograms)
         .set({ currentWorkoutId: sql`${userPrograms.currentWorkoutId} + 1` })
         .where(eq(userPrograms.userId, id));
-      await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId });
+      await ctx.db.insert(workoutsLog).values({ athleteId: id, workoutId: workoutId, programId: programId });
 
       return { success: true};
-    }),
-
-    testWorkout: privateProcedure
-    .input(z.object({ currentWorkoutId: z.number() }))
-    .mutation(async ({ ctx, input }) => {
-      const id = ctx.userId;
-      const { currentWorkoutId } = input;
-
-      const { success } = await ratelimit.limit(id);
-      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
-      
-      const newId = currentWorkoutId + 1;
-      const update = await ctx.db.update(userPrograms).set({ currentWorkoutId: newId }).where(eq(userPrograms.userId, id));
-      return update
     }),
 
     updateWorkoutId: privateProcedure.mutation(async ({ ctx }) => {

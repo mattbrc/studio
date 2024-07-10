@@ -23,15 +23,13 @@ interface UserCardProps {
   subscription: Subscription | null;
 }
 
-export async function UserCard({ ...props }: UserCardProps) {
-  const count = await api.wod.getWodCount.query();
-  const levelQuery = await api.wod.getLevel.query({ count });
+export function UserCard({ ...props }: UserCardProps) {
+  // const count = await api.wod.getWodCount.query();
+  // const levelQuery = await api.wod.getLevel.query({ count });
   const sub = props.subscription;
-  console.log("level query: ", levelQuery);
-  console.log("level query: ", count);
-  const level = levelQuery.level;
-  const nextLevel = levelQuery.nextLevelWorkouts;
-  const remaining = nextLevel - count;
+  // const level = levelQuery.level;
+  // const nextLevel = levelQuery.nextLevelWorkouts;
+  // const remaining = nextLevel - count;
 
   return (
     <Card {...props} className="w-full md:w-1/2">

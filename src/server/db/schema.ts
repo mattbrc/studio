@@ -11,6 +11,7 @@ import {
   varchar,
   json,
   text,
+  boolean,
 } from "drizzle-orm/mysql-core";
 import { createId } from '@paralleldrive/cuid2';
 import { relations } from 'drizzle-orm';
@@ -95,6 +96,7 @@ export const programs = mysqlTable(
     title: text("title").notNull(),
     length: text("length").notNull(),
     description: text("desc").notNull(),
+    active: boolean("active").default(false).notNull(),
   },
   (programTable) => ({
     programIndex: index("program_idx").on(programTable.programId),

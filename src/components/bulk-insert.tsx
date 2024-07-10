@@ -2,22 +2,25 @@
 
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
-// import { data } from "~/lib/data/10-miler";
+
+// import { data } from "~/lib/data/int";
+
+// use for daily wod insertions
 // import { data } from "~/lib/data/studio_wod";
-// import { data } from "~/lib/data/hybrid_edit";
-// import { data } from "~/lib/data/metcons";
+import toast from "react-hot-toast";
 
 export function BulkInsert() {
   // insert into wods table
   // const mutation = api.bulk.bulkInsertWods.useMutation();
 
-  // // insert into programWorkouts table
-  // // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
+  // insert into programWorkouts table
+  // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
 
   // const handleInsert = () => {
   //   mutation.mutate(data, {
   //     onSuccess: () => {
   //       console.log("success");
+  //       toast.success("Inserted");
   //     },
   //     onError: (e) => {
   //       console.log("error: ", e);

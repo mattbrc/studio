@@ -34,6 +34,7 @@ interface Program {
   createdAt: Date;
   description: string;
   programId: number;
+  active: boolean;
 }
 
 interface TrainingProps {
@@ -75,6 +76,25 @@ export function Programs({ data, activeProgram }: TrainingProps) {
             {data.map((program) => (
               <TrainingCard key={program.programId} program={program} />
             ))}
+            <Card>
+              <CardHeader>
+                <CardTitle>Don&apos;t see anything you like?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div>
+                  <p>Drop a request here and we&apos;ll make it happen.</p>
+                  <Button className="mt-4" variant={"acid"} asChild>
+                    <Link
+                      href="https://tally.so/r/nG0LNL"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Request a Program
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         ) : (
           <div>No programs available</div>
@@ -110,7 +130,16 @@ const TrainingCard = ({ program }: TrainingCardProps) => {
             <CardDescription>Duration: {program.length}</CardDescription>
           </div>
           <div className="flex flex-col gap-2">
-            <StartProgram programId={program.programId} name={program.title} />
+            {program.active ? (
+              <StartProgram
+                programId={program.programId}
+                name={program.title}
+              />
+            ) : (
+              <Button disabled={true} size="sm" variant="secondary">
+                Coming Soon
+              </Button>
+            )}
           </div>
         </div>
       </CardHeader>
@@ -150,7 +179,7 @@ function StartProgram({ programId, name }: SubmitProgramProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={isSubmitLoading} size="sm" variant="secondary">
+        <Button disabled={isSubmitLoading} size="sm" variant="acid">
           <div>
             {isSubmitLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

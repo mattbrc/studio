@@ -76,7 +76,10 @@ export default function ProgramCard({ workout }: ProgramCardProps) {
 
   const handleUpdate = () => {
     setIsSubmitLoading(true);
-    mutation.mutate({ workoutId: workout?.workoutId });
+    mutation.mutate({
+      workoutId: workout?.workoutId,
+      programId: workout?.programId,
+    });
   };
 
   if (!workout)
