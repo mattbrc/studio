@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { api } from "~/trpc/server";
 import Link from "next/link";
-import { Card, CardHeader } from "~/components/ui/card";
+import { ProgramShowcase } from "~/components/program-showcase";
 
 export const metadata = {
   title: "Programs",
@@ -44,6 +44,7 @@ export default async function Page() {
               </Link>
             </div>
           </Alert>
+          <ProgramShowcase data={programs} />
         </div>
       )}
     </div>
