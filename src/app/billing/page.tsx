@@ -57,7 +57,7 @@ const BillingDetails = async () => {
             <p className="text-5xl font-bold">$16</p>
             <div className="flex flex-col">
               <CardDescription>
-                Over months free, $192 billed annually
+                Over 2 months free, $192 billed annually
               </CardDescription>
               <p>Per Month</p>
             </div>
