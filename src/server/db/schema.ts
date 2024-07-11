@@ -140,6 +140,8 @@ export const programWorkouts = mysqlTable(
 // stripe sub info for each user
 export const subscriptions = mysqlTable("subscriptions", {
   userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
   stripeSubscriptionId: text("stripeSubscriptionId").notNull(),
   stripeCustomerId: text("stripeCustomerId").notNull(),
   stripePriceId: text("stripePriceId").notNull(),

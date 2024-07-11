@@ -41,9 +41,9 @@ const BillingDetails = async () => {
       <Alert className="w-full">
         <Icons.alert />
         <AlertTitle className="font-bold text-emerald-400">
-          Subscriptions coming soon.
+          Subscriptions are now available.
         </AlertTitle>
-        <AlertDescription>Check back soon!</AlertDescription>
+        <AlertDescription>Let&apos;s train.</AlertDescription>
       </Alert>
       <Card className="border border-emerald-500">
         <CardHeader>
@@ -86,14 +86,16 @@ const BillingDetails = async () => {
               </span>
             </Button>
           ) : (
-            // disabled to prevent users subscribing on test mode
+            // test mode
             // <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
-            <Button disabled={true} size="sm" variant="secondary">
-              <span className="flex flex-row items-center gap-2">
-                <p className="font-bold">Subscribe</p>
-                <Icons.subscribeArrow size={20} />
-              </span>
-            </Button>
+            // live mode
+            <StripeCheckout priceId="price_1PbMBBL1iXnkfppRlUf6hWWJ" />
+            // <Button disabled={true} size="sm" variant="secondary">
+            //   <span className="flex flex-row items-center gap-2">
+            //     <p className="font-bold">Subscribe</p>
+            //     <Icons.subscribeArrow size={20} />
+            //   </span>
+            // </Button>
           )}
         </CardFooter>
       </Card>
@@ -134,14 +136,16 @@ const BillingDetails = async () => {
               </span>
             </Button>
           ) : (
-            // disabled to prevent users subscribing on test mode
+            // test mode
             // <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
-            <Button disabled={true} size="sm" variant="secondary">
-              <span className="flex flex-row items-center gap-2">
-                <p className="font-bold">Subscribe</p>
-                <Icons.subscribeArrow size={20} />
-              </span>
-            </Button>
+            // live mode
+            <StripeCheckout priceId="price_1PbMAmL1iXnkfppR1HpjhK6R" />
+            // <Button disabled={true} size="sm" variant="secondary">
+            //   <span className="flex flex-row items-center gap-2">
+            //     <p className="font-bold">Subscribe</p>
+            //     <Icons.subscribeArrow size={20} />
+            //   </span>
+            // </Button>
           )}
         </CardFooter>
       </Card>
