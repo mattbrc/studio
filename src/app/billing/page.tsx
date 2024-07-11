@@ -43,7 +43,9 @@ const BillingDetails = async () => {
         <AlertTitle className="font-bold text-emerald-400">
           Subscriptions are now available.
         </AlertTitle>
-        <AlertDescription>Let&apos;s train.</AlertDescription>
+        <AlertDescription>
+          Let&apos;s train. Official announcement Monday, July 15th.
+        </AlertDescription>
       </Alert>
       <Card className="border border-emerald-500">
         <CardHeader>
