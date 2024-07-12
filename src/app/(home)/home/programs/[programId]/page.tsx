@@ -59,12 +59,8 @@ export default async function Page() {
           </h1>
           <p className="text-gray-400">Next 7 days at a glance</p>
         </header>
-        {/* {workouts.workouts.slice(0, 7).map((workout, index) => (
-          
-          <WorkoutCard key={index} data={workout} />
-        ))} */}
         {workouts.workouts.slice(0, 7).map((workout, index) => {
-          // Calculate the date for each workout
+          // return each workout's date
           const workoutDate = new Date(today);
           workoutDate.setDate(today.getDate() + index);
 
@@ -101,11 +97,6 @@ const WorkoutCard: React.FC<WorkoutProps> = ({ data, date }) => {
   const str: WodData = data.strength as WodData;
   const cond: WodData = data.conditioning as WodData;
 
-  function formatUTCDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toUTCString().split(" ").slice(0, 4).join(" ");
-  }
-
   return (
     <Card className="mb-4 w-full">
       <CardHeader>
@@ -113,11 +104,6 @@ const WorkoutCard: React.FC<WorkoutProps> = ({ data, date }) => {
           <div>
             <CardTitle className="underline">{date}</CardTitle>
             <CardDescription className="pt-1">{data?.title}</CardDescription>
-            {/* <CardDescription>
-              {data.date
-                ? formatUTCDate(data.date.toUTCString())
-                : "No date available"}
-            </CardDescription> */}
           </div>
         </div>
       </CardHeader>
