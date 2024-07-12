@@ -146,21 +146,3 @@ export function Wod({ data, isComplete }: WorkoutProps) {
     </>
   );
 }
-
-// <p>
-//   Daily functional workouts written by our resident CrossFit coach
-//   and endurance athlete, Lee. The focus is on building a functional
-//   base around the core compound lifts, steady state endurance, and
-//   nasty heart pounders.
-// </p>
-// <p>The general structure will look like:</p>
-
-//   <ul>
-//     <li>- Monday: Strength</li>
-//     <li>- Tuesday: HI Intervals</li>
-//     <li>- Wednesday: METCON</li>
-//     <li>- Thursday: Steady State Cardio</li>
-//     <li>- Friday: Strength</li>
-//     <li>- Saturday: METCON</li>
-//     <li>- Sunday: Rest</li>
-//   </ul>

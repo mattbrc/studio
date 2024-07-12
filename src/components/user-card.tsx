@@ -47,7 +47,7 @@ export function UserCard({ ...props }: UserCardProps) {
               )}
               {props.title && (
                 <Badge variant="secondary">
-                  <span>{props.title}</span>
+                  <Link href="/home/programs">{props.title}</Link>
                 </Badge>
               )}
             </div>
