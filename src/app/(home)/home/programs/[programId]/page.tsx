@@ -21,6 +21,19 @@ export default async function Page() {
   // const programs = await api.wod.getAllPrograms.query();
   const workouts = await api.wod.getUserWorkouts.query();
 
+  const today = new Date();
+
+  // Function to format the date
+  function formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("en-US", options);
+  }
+
   if (!workouts) {
     return (
       <div className="container flex flex-col items-center justify-center px-4 py-6">
@@ -46,9 +59,23 @@ export default async function Page() {
           </h1>
           <p className="text-gray-400">Next 7 days at a glance</p>
         </header>
-        {workouts.workouts.slice(0, 7).map((workout, index) => (
+        {/* {workouts.workouts.slice(0, 7).map((workout, index) => (
+          
           <WorkoutCard key={index} data={workout} />
-        ))}
+        ))} */}
+        {workouts.workouts.slice(0, 7).map((workout, index) => {
+          // Calculate the date for each workout
+          const workoutDate = new Date(today);
+          workoutDate.setDate(today.getDate() + index);
+
+          return (
+            <WorkoutCard
+              key={index}
+              data={workout}
+              date={formatDate(workoutDate)}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -67,9 +94,10 @@ interface Workout {
 
 interface WorkoutProps {
   data: Workout;
+  date: string;
 }
 
-const WorkoutCard: React.FC<WorkoutProps> = ({ data }) => {
+const WorkoutCard: React.FC<WorkoutProps> = ({ data, date }) => {
   const str: WodData = data.strength as WodData;
   const cond: WodData = data.conditioning as WodData;
 
@@ -79,11 +107,12 @@ const WorkoutCard: React.FC<WorkoutProps> = ({ data }) => {
   }
 
   return (
-    <Card className="mb-4 w-full md:w-1/2">
+    <Card className="mb-4 w-full">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="underline">{data.title}</CardTitle>
+            <CardTitle className="underline">{date}</CardTitle>
+            <CardDescription className="pt-1">{data?.title}</CardDescription>
             {/* <CardDescription>
               {data.date
                 ? formatUTCDate(data.date.toUTCString())
