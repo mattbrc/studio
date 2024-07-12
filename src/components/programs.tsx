@@ -40,6 +40,7 @@ interface Program {
 interface TrainingProps {
   data?: Program[];
   activeProgram: string | undefined;
+  uniqueProgramId: string | null | undefined;
 }
 
 interface TrainingCardProps {
@@ -51,7 +52,11 @@ interface SubmitProgramProps {
   name: string;
 }
 
-export function Programs({ data, activeProgram }: TrainingProps) {
+export function Programs({
+  data,
+  activeProgram,
+  uniqueProgramId,
+}: TrainingProps) {
   return (
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
@@ -61,10 +66,16 @@ export function Programs({ data, activeProgram }: TrainingProps) {
       <div className="pt-4">
         {activeProgram && (
           <div className="pb-4">
-            <p>Current Program:</p>
-            <Link href="/home">
-              <Badge variant="acid">{activeProgram}</Badge>
-            </Link>
+            <div className="flex items-center gap-2 pb-2">
+              <p>Current Program:</p>
+              <Badge variant="secondary">{activeProgram}</Badge>
+            </div>
+            <Button variant="acid" size="sm" asChild>
+              <Link href={`/home/programs/${uniqueProgramId}`}>
+                Program Overview
+              </Link>
+            </Button>
+
             <div className="pt-4">
               <Separator />
             </div>

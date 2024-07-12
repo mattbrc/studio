@@ -21,6 +21,7 @@ export default async function Page() {
         <Programs
           data={programs}
           activeProgram={userProgramDetails?.program?.title}
+          uniqueProgramId={userProgramDetails?.uniqueProgramId}
         />
       ) : (
         <div className="w-full md:w-1/2">

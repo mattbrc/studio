@@ -8,7 +8,7 @@ import { subscriptions } from "~/server/db/schema";
 // Stripe webhook handler
 // cases:
 // - new subscription (handles new users and changes to subscription)
-// - payment succeeded (update subscription w/ new period end and price ID)
+// - payment succeeded (update subscription from monthly sub payament w/ new period end and price ID)
 // - canceled subscription: no action needed, period end is already set
 
 export async function POST(req: Request) {
