@@ -5,6 +5,8 @@ import { api } from "~/trpc/react";
 
 // import { data } from "~/lib/data/int";
 
+// import { data } from "~/lib/data/aero";
+
 // use for daily wod insertions
 // import { data } from "~/lib/data/studio_wod";
 import toast from "react-hot-toast";

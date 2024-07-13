@@ -30,7 +30,11 @@ export const wodRouter = createTRPCRouter({
 
   getAllPrograms: publicProcedure.query(async ({ ctx }) => {
     const programs = await ctx.db.query.programs.findMany({
-      orderBy: (programs, { asc }) => [asc(programs.createdAt)]
+      // orderBy: (programs, { asc }) => [asc(programs.createdAt)]
+      orderBy: (programs, { desc, asc }) => [
+        desc(programs.active),
+        asc(programs.createdAt)
+      ]
     });
     return programs;
   }),
