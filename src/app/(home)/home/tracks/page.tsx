@@ -20,11 +20,14 @@ export const metadata = {
 export default async function Page() {
   const sub = await api.stripe.getSubscription.query();
   const tracks = await api.wod.getAllTracks.query();
+  const trackWorkouts = await api.wod.getLatestTrackWorkouts.query();
+
+  console.log("track workouts: ", trackWorkouts);
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
       {sub ? (
-        <Tracks />
+        <Tracks workouts={trackWorkouts} />
       ) : (
         <div className="w-full md:w-1/2">
           <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
@@ -84,7 +87,7 @@ const TrackCard = ({ track }: TrainingCardProps) => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>No programs available</CardTitle>
+              <CardTitle>Error. Currently unavailable</CardTitle>
             </div>
           </div>
         </CardHeader>

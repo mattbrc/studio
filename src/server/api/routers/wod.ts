@@ -1,13 +1,13 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, userPrograms, workoutsLog } from "~/server/db/schema";
+import { levels, userPrograms, workoutsLog, tracks, trackWorkouts } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, and, inArray, asc } from "drizzle-orm";
 import { createId } from '@paralleldrive/cuid2';
 
-// Create a new ratelimiter, that allows 3 requests per 1 minute
+// Create a new ratelimiter, that allows 5 requests per 1 minute
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(5, "1 m"),
@@ -24,6 +24,21 @@ export const wodRouter = createTRPCRouter({
       where: (wods, { eq }) => eq(wods.date, today),
       orderBy: (wods, { desc }) => [desc(wods.date)],
     });
+
+    return result;
+  }),
+
+  getLatestTrackWorkouts: publicProcedure.query(async ({ ctx }) => {
+    const today = new Date();
+    today.setHours(today.getHours() - 5); // convert to EST
+    today.setUTCHours(0, 0, 0, 0); // set date to 0000 UTC time
+
+    const result = await ctx.db.select().from(trackWorkouts)
+      .where(and(
+        eq(trackWorkouts.date, today),
+        inArray(trackWorkouts.trackId, [1, 2, 3])
+      ))
+      .orderBy(asc(trackWorkouts.trackId));
 
     return result;
   }),
