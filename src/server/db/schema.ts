@@ -103,6 +103,33 @@ export const programs = mysqlTable(
   })
 )
 
+export const tracks = mysqlTable(
+  "tracks",
+  {
+    trackId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+    title: text("title").notNull(),
+    description: text("desc").notNull(),
+    active: boolean("active").default(false).notNull(),
+  },
+)
+
+export const trackWorkouts = mysqlTable(
+  "trackWorkouts",
+  {
+    workoutId: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    trackId: bigint("trackId", { mode: "number" }).notNull(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+    date: timestamp("date").notNull(),
+    title: text("title"),
+    strength: json("strength"),
+    conditioning: json("conditioning"),
+  },
+  (tracksTable) => ({
+    trackIndex: index("wod_idx").on(tracksTable.workoutId),
+  })
+);
+
 export const userPrograms = mysqlTable(
   "userPrograms",
   {

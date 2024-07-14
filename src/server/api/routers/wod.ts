@@ -39,6 +39,17 @@ export const wodRouter = createTRPCRouter({
     return programs;
   }),
 
+  getAllTracks: publicProcedure.query(async ({ ctx }) => {
+    const tracks = await ctx.db.query.tracks.findMany({
+      // orderBy: (programs, { asc }) => [asc(programs.createdAt)]
+      orderBy: (tracks, { desc, asc }) => [
+        desc(tracks.active),
+        asc(tracks.createdAt)
+      ]
+    });
+    return tracks;
+  }),
+
   getRecap: publicProcedure.query(async({ ctx }) => {
     const today = new Date(); // get today's date in UTC
     today.setHours(today.getHours() + 19); // convert to EST

@@ -28,6 +28,9 @@ export function MenuDropdown() {
             <Link href="/home">Home</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
+            <Link href="/home/tracks">Tracks</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href="/home/programs">Programs</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
