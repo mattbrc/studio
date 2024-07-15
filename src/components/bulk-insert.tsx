@@ -5,7 +5,7 @@ import { api } from "~/trpc/react";
 
 // import { data } from "~/lib/data/int";
 
-// import { data } from "~/lib/data/aero";
+// import { data } from "~/lib/data/ranger";
 
 // use for daily wod insertions
 // import { data } from "~/lib/data/studio_wod";
