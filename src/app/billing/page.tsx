@@ -66,7 +66,13 @@ const BillingDetails = async () => {
             <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />
-                Access to all programs
+                Access to all Daily Training Tracks
+              </div>
+            </li>
+            <li>
+              <div className="flex flex-row items-center gap-2">
+                <Icons.check />
+                Access to all AG programs
               </div>
             </li>
             <li>
@@ -113,6 +119,12 @@ const BillingDetails = async () => {
         </CardHeader>
         <CardContent>
           <ul>
+            <li>
+              <div className="flex flex-row items-center gap-2">
+                <Icons.check />
+                Access to all AG programs
+              </div>
+            </li>
             <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />

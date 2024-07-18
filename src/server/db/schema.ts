@@ -124,6 +124,8 @@ export const trackWorkouts = mysqlTable(
     title: text("title"),
     strength: json("strength"),
     conditioning: json("conditioning"),
+    week: int("week").notNull().default(0),
+    block: int("block").notNull().default(0),
   },
   (tracksTable) => ({
     trackIndex: index("wod_idx").on(tracksTable.workoutId),

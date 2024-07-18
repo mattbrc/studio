@@ -7,6 +7,8 @@ import { api } from "~/trpc/react";
 
 // import { data } from "~/lib/data/ranger";
 
+// import { data } from "~/lib/data/track_workouts";
+
 // use for daily wod insertions
 // import { data } from "~/lib/data/studio_wod";
 import toast from "react-hot-toast";
@@ -17,6 +19,9 @@ export function BulkInsert() {
 
   // insert into programWorkouts table
   // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
+
+  // insert into tracks table
+  // const mutation = api.bulk.bulkInsertTracks.useMutation();
 
   // const handleInsert = () => {
   //   mutation.mutate(data, {

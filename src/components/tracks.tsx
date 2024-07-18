@@ -1,11 +1,5 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/TmHcWXPaXpy
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 "use client";
 
-// import * as React, { useState } from "react"
 import { useState } from "react";
 
 import {
@@ -15,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -41,6 +34,7 @@ interface TracksProps {
 
 export default function Tracks({ workouts }: TracksProps) {
   const [selectedWorkoutType, setSelectedWorkoutType] = useState("Hybrid");
+
   const handleWorkoutTypeChange = (value: string) => {
     setSelectedWorkoutType(value);
   };
