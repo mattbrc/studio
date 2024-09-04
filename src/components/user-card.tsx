@@ -50,6 +50,7 @@ export function UserCard({ ...props }: UserCardProps) {
                   <Link href="/home/programs">{props.title}</Link>
                 </Badge>
               )}
+              {/* <Link href={`/user/${props.id}`}>details</Link> */}
             </div>
           </div>
         </div>

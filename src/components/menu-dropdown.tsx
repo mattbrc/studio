@@ -27,11 +27,14 @@ export function MenuDropdown() {
           <DropdownMenuItem asChild>
             <Link href="/home">Home</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
+          {/* <DropdownMenuItem asChild>
             <Link href="/home/tracks">Tracks</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem asChild>
             <Link href="/home/programs">Programs</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="">The Path (coming soon)</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/home/wod">Daily Workouts</Link>

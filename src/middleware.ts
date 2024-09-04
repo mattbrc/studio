@@ -4,8 +4,8 @@ import {
 } from '@clerk/nextjs/server';
 
 const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  // '/dashboard(.*)', '/home(.*)', '/home/wod(.*)', '/home/programs(.*)'
+  '/home/dashboard(.*)',
+  '/user/:userId(.*)'  // This pattern will match /user/user_id1234 and similar routes
 ]);
 
 // const isPublicRoute = createRouteMatcher(["/","/api/webhooks"]);

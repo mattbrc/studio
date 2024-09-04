@@ -38,13 +38,13 @@ const BillingDetails = async () => {
         </Alert>
       )}
       {/* Annual Card */}
-      <Alert className="w-full">
+      {/* <Alert className="w-full">
         <Icons.alert />
         <AlertTitle className="font-bold text-emerald-400">
           Subscriptions are now available.
         </AlertTitle>
         <AlertDescription>Let&apos;s train.</AlertDescription>
-      </Alert>
+      </Alert> */}
       <Card className="border border-emerald-500">
         <CardHeader>
           <div>
@@ -66,7 +66,7 @@ const BillingDetails = async () => {
             <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />
-                Access to all Daily Training Tracks
+                Access to The Path (coming soon)
               </div>
             </li>
             <li>
@@ -122,7 +122,7 @@ const BillingDetails = async () => {
             <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />
-                Access to all AG programs
+                Access to the Path (coming soon)
               </div>
             </li>
             <li>

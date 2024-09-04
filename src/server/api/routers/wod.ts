@@ -43,6 +43,21 @@ export const wodRouter = createTRPCRouter({
     return result;
   }),
 
+  getLatestTrackWeek: publicProcedure.query(async ({ ctx }) => {
+    const today = new Date();
+    today.setHours(today.getHours() - 5); // convert to EST
+    today.setUTCHours(0, 0, 0, 0); // set date to 0000 UTC time
+
+    const result = await ctx.db.select().from(trackWorkouts)
+      .where(and(
+        eq(trackWorkouts.date, today),
+        inArray(trackWorkouts.trackId, [1, 2, 3])
+      ))
+      .orderBy(asc(trackWorkouts.trackId));
+
+    return result;
+  }),
+
   getAllPrograms: publicProcedure.query(async ({ ctx }) => {
     const programs = await ctx.db.query.programs.findMany({
       // orderBy: (programs, { asc }) => [asc(programs.createdAt)]

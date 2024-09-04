@@ -16,7 +16,7 @@ export const stripeRouter = createTRPCRouter({
     const result = await ctx.db.query.subscriptions.findFirst({
       where: (subscriptions, { eq }) => eq(subscriptions.userId, userId),
     });
-
+    
     // no subscription found
     if (!result) {
       return null
