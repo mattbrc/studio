@@ -26,6 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { usePostHog } from "posthog-js/react";
 
 interface Workout {
   createdAt: Date;
@@ -50,6 +51,7 @@ function formatUTCDate(dateString: string): string {
 }
 
 export default function ProgramCard({ workout }: ProgramCardProps) {
+  const posthog = usePostHog();
   const str: WodData = workout?.strength as WodData;
   const cond: WodData = workout?.conditioning as WodData;
 
@@ -76,6 +78,7 @@ export default function ProgramCard({ workout }: ProgramCardProps) {
 
   const handleUpdate = () => {
     setIsSubmitLoading(true);
+    posthog.capture("complete_program_workout");
     mutation.mutate({
       workoutId: workout?.workoutId,
       programId: workout?.programId,

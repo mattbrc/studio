@@ -28,7 +28,8 @@ function PostHogAuthWrapper({ children }: { children: React.ReactNode }) {
     if (userInfo.user) {
       posthog.identify(userInfo.user.id, {
         email: userInfo.user.emailAddresses[0]?.emailAddress,
-        name: userInfo.user.fullName,
+        // email: userInfo.user.primaryEmailAddress,
+        username: userInfo.user.username,
       });
     } else if (!auth.isSignedIn) {
       posthog.reset();

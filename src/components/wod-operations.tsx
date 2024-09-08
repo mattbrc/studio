@@ -18,6 +18,7 @@ import {
 import { Icons } from "@/components/icons";
 import toast from "react-hot-toast";
 import { api } from "~/trpc/react";
+import { usePostHog } from "posthog-js/react";
 
 interface WodOperationsProps {
   workoutId: number;
@@ -26,6 +27,7 @@ interface WodOperationsProps {
 
 // submit a workout row to log table in DB for daily workouts (/home/wod)
 export function WodOperations({ workoutId, isComplete }: WodOperationsProps) {
+  const posthog = usePostHog();
   const router = useRouter();
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
 
@@ -48,6 +50,7 @@ export function WodOperations({ workoutId, isComplete }: WodOperationsProps) {
 
   const handleSubmit = () => {
     setIsSubmitLoading(true);
+    posthog.capture("submit_wod");
     mutation.mutate({ workoutId });
   };
 
