@@ -117,7 +117,7 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
             {action === "create" ? "Create Profile" : "Edit Profile"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
@@ -134,7 +134,12 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
                     <FormLabel>Instagram Handle</FormLabel>
                     <FormDescription>Don&apos;t add @ symbol</FormDescription>
                     <FormControl>
-                      <Input placeholder="brucewayne" {...field} />
+                      <Input
+                        placeholder="brucewayne"
+                        {...field}
+                        className="touch-manipulation"
+                        inputMode="text"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -151,7 +156,12 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
                       matter.
                     </FormDescription>
                     <FormControl>
-                      <Input placeholder="Fayetteville" {...field} />
+                      <Input
+                        placeholder="Fayetteville"
+                        {...field}
+                        className="touch-manipulation"
+                        inputMode="text"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
