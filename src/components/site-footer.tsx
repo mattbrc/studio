@@ -21,7 +21,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             <p className="text-center text-sm leading-loose md:text-left">
               2024 ACID GAMBIT
             </p>
-            <Link className="underline" href="/home/contact">
+            <Link className="underline" href="https://instagram.com/acidgambit">
               Contact
             </Link>
           </div>

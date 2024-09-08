@@ -1,14 +1,16 @@
 import Link from "next/link";
 import { ProfileForm } from "~/components/profile-form";
-import { Button } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { api } from "~/trpc/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const metadata = {
   title: "Meet",
 };
 
 export default async function Page() {
+  const user = await currentUser();
   const data = await api.profile.getUserProfile.query();
 
   return (
@@ -28,7 +30,7 @@ export default async function Page() {
                   <CardTitle>Your Profile</CardTitle>
                   {/* <Button>Edit Profile</Button> */}
                   {/* <ProfileForm action="edit" profile={data} /> */}
-                  <ProfileForm
+                  {/* <ProfileForm
                     action="edit"
                     profile={{
                       instagram: data.instagram ?? "",
@@ -37,7 +39,13 @@ export default async function Page() {
                       goal: data.goal ?? "",
                       isPublic: data.isPublic,
                     }}
-                  />
+                  /> */}
+                  <Link
+                    href={`/home/user/${user?.id}`}
+                    className={buttonVariants({ variant: "outline" })}
+                  >
+                    Edit Profile
+                  </Link>
                 </div>
               </CardHeader>
               <CardContent>
@@ -55,8 +63,12 @@ export default async function Page() {
               <CardHeader>
                 <div className="flex flex-row items-center justify-between">
                   <CardTitle>Your Profile</CardTitle>
-                  {/* <Button>Create Profile</Button> */}
-                  <ProfileForm action="create" />
+                  <Link
+                    href={`/home/user/${user?.id}`}
+                    className={buttonVariants({ variant: "outline" })}
+                  >
+                    Create Profile
+                  </Link>
                 </div>
               </CardHeader>
               <CardContent>You haven&apos;t set your profile yet.</CardContent>
