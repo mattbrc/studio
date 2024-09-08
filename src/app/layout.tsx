@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import { cn } from "~/lib/utils";
 import { siteConfig } from "~/config/site";
+import { CSPostHogProvider } from "~/app/_analytics/provider";
 
 export const metadata: Metadata = {
   title: {
@@ -50,23 +51,25 @@ export default function RootLayout({
           baseTheme: dark,
         }}
       >
-        <body className={cn("min-h-screen antialiased")}>
-          <TRPCReactProvider headers={headers()}>
-            <Toaster
-              position="bottom-center"
-              reverseOrder={false}
-              toastOptions={{
-                className: "",
-                style: {
-                  background: "#27272A",
-                  color: "#fff",
-                },
-              }}
-            />
-            {children}
-            <Analytics />
-          </TRPCReactProvider>
-        </body>
+        <CSPostHogProvider>
+          <body className={cn("min-h-screen antialiased")}>
+            <TRPCReactProvider headers={headers()}>
+              <Toaster
+                position="bottom-center"
+                reverseOrder={false}
+                toastOptions={{
+                  className: "",
+                  style: {
+                    background: "#27272A",
+                    color: "#fff",
+                  },
+                }}
+              />
+              {children}
+              <Analytics />
+            </TRPCReactProvider>
+          </body>
+        </CSPostHogProvider>
       </ClerkProvider>
     </html>
   );
