@@ -6,7 +6,7 @@
 - [ ] expand posthog captures
 - [ ] add sentry error handling + logging
 - [ ] "The Path" ai structured outputs (vercel ai sdk / gpt-4o)
-- - [ ] example - allow user to ask for 2 strength per week, 2 wods, 3 runs, etc etc.
+  - [ ] example - allow user to ask for 2 strength per week, 2 wods, 3 runs, etc etc.
 - [ ] clean up add profile page
 - [ ] add "add bio" to profile page
 - [ ] allow filtering by location on meet page
