@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, userPrograms, workoutsLog, tracks, trackWorkouts } from "~/server/db/schema";
+import { levels, userPrograms, workoutsLog, trackWorkouts } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 

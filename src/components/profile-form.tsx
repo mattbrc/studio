@@ -62,7 +62,6 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
   const router = useRouter();
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -79,7 +78,7 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
     onSuccess: () => {
       toast.success("Profile updated successfully!");
       setOpen(false);
-      form.reset();
+      // form.reset();
       router.refresh();
       setIsSubmitLoading(false);
     },
@@ -117,7 +116,7 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
             {action === "create" ? "Create Profile" : "Edit Profile"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
@@ -134,12 +133,7 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
                     <FormLabel>Instagram Handle</FormLabel>
                     <FormDescription>Don&apos;t add @ symbol</FormDescription>
                     <FormControl>
-                      <Input
-                        placeholder="brucewayne"
-                        {...field}
-                        className="touch-manipulation"
-                        inputMode="text"
-                      />
+                      <Input placeholder="brucewayne" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -156,12 +150,7 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
                       matter.
                     </FormDescription>
                     <FormControl>
-                      <Input
-                        placeholder="Fayetteville"
-                        {...field}
-                        className="touch-manipulation"
-                        inputMode="text"
-                      />
+                      <Input placeholder="Fayetteville" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
