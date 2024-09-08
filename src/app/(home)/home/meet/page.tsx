@@ -4,6 +4,9 @@ import { Button, buttonVariants } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { api } from "~/trpc/server";
 import { currentUser } from "@clerk/nextjs/server";
+import { LuInstagram } from "react-icons/lu";
+import { Badge } from "~/components/ui/badge";
+import { AthleteList } from "~/components/athlete-list";
 
 export const metadata = {
   title: "Meet",
@@ -15,7 +18,7 @@ export default async function Page() {
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
-      <div className="h-[38rem] w-full md:w-1/2">
+      <div className="w-full md:w-1/2">
         <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
           <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Meet</h1>
           <p className="text-gray-400">
@@ -38,11 +41,20 @@ export default async function Page() {
               </CardHeader>
               <CardContent>
                 <div>
-                  <p>IG: @{data.instagram}</p>
+                  <div className="flex flex-row items-center gap-1">
+                    <LuInstagram className="h-4 w-4" />
+                    <Link
+                      href={`https://www.instagram.com/${data.instagram}`}
+                      className="flex flex-row items-center gap-1 underline"
+                    >
+                      @{data.instagram}
+                    </Link>
+                  </div>
                   <p>
                     Location: {data.city}, {data.state}
                   </p>
                   <p>Public: {data.isPublic ? "Yes" : "No"}</p>
+                  <Badge variant="acid">{data.goal}</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -63,6 +75,7 @@ export default async function Page() {
             </Card>
           )}
         </div>
+        {/* <AthleteList /> */}
       </div>
     </div>
   );

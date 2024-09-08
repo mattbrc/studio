@@ -160,7 +160,7 @@ export function ProfileForm({ action, profile }: ProfileFormProps) {
               name="goal"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>State</FormLabel>
+                  <FormLabel>Goal</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
