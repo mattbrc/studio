@@ -1,6 +1,16 @@
 # AG Studio
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## TODO
+
+- [x] add posthog analytics
+- [ ] expand posthog captures
+- [ ] add sentry error handling + logging
+- [ ] "The Path" ai structured outputs (vercel ai sdk / gpt-4o)
+- [ ] clean up add profile page
+- [ ] add "add bio" to profile page
+- [ ] allow filtering by location on meet page
+- [ ] remove unused variables
+- [ ] clean up api calls
 
 ## Stack
 
