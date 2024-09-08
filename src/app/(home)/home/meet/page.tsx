@@ -28,18 +28,6 @@ export default async function Page() {
               <CardHeader>
                 <div className="flex flex-row justify-between">
                   <CardTitle>Your Profile</CardTitle>
-                  {/* <Button>Edit Profile</Button> */}
-                  {/* <ProfileForm action="edit" profile={data} /> */}
-                  {/* <ProfileForm
-                    action="edit"
-                    profile={{
-                      instagram: data.instagram ?? "",
-                      city: data.city ?? "",
-                      state: data.state ?? "",
-                      goal: data.goal ?? "",
-                      isPublic: data.isPublic,
-                    }}
-                  /> */}
                   <Link
                     href={`/home/user/${user?.id}`}
                     className={buttonVariants({ variant: "outline" })}

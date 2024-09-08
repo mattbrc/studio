@@ -1,15 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { Progress } from "@/components/ui/progress";
-import { api } from "~/trpc/server";
+import { Card, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import Link from "next/link";
+import { UserPen } from "lucide-react";
 
 interface Subscription {
   userId: string;
@@ -36,9 +28,14 @@ export function UserCard({ ...props }: UserCardProps) {
   return (
     <Card {...props} className="w-full md:w-1/2">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between">
           <div>
-            <CardTitle className="pb-1">{props.username}</CardTitle>
+            <div className="flex flex-row items-start gap-2 pb-2">
+              <CardTitle className="pb-1">{props.username}</CardTitle>
+              <Link href={`/home/user/${props.id}`}>
+                <UserPen className="h-4 w-4" />
+              </Link>
+            </div>
             <div className="flex flex-row gap-2 pt-1">
               {sub ? (
                 <Badge variant="acid">Studio Pro</Badge>
@@ -50,7 +47,6 @@ export function UserCard({ ...props }: UserCardProps) {
                   <Link href="/home/programs">{props.title}</Link>
                 </Badge>
               )}
-              {/* <Link href={`/user/${props.id}`}>details</Link> */}
             </div>
           </div>
         </div>
