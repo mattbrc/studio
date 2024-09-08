@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
-import { UserPen } from "lucide-react";
+import { FaUserEdit } from "react-icons/fa";
 
 interface Subscription {
   userId: string;
@@ -33,7 +33,7 @@ export function UserCard({ ...props }: UserCardProps) {
             <div className="flex flex-row items-start gap-2 pb-2">
               <CardTitle className="pb-1">{props.username}</CardTitle>
               <Link href={`/home/user/${props.id}`}>
-                <UserPen className="h-4 w-4" />
+                <FaUserEdit className="h-4 w-4" />
               </Link>
             </div>
             <div className="flex flex-row gap-2 pt-1">
