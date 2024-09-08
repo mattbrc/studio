@@ -17,10 +17,13 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               <Icons.instagram size={20} />
             </Link>
           </div>
-          <div>
+          <div className="flex flex-col items-center pb-2 text-sm leading-loose">
             <p className="text-center text-sm leading-loose md:text-left">
               2024 ACID GAMBIT
             </p>
+            <Link className="underline" href="/home/contact">
+              Contact
+            </Link>
           </div>
         </div>
       </div>

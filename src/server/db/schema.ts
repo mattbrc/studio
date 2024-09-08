@@ -183,6 +183,17 @@ export const customers = mysqlTable("customers", {
   stripeCustomerId: text("stripeCustomerId").notNull(),
 });
 
+export const userProfiles = mysqlTable("userProfiles", {
+  userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+  instagram: text("instagram"),
+  city: text("city"),
+  state: text("state"),
+  goal: text("goal"),
+  isPublic: boolean("isPublic").notNull().default(false),
+});
+
 // define the many relationship between userProgram ID and workouts for that program ID
 // define one relationship between userProgram ID and associated program info
 export const userProgramRelations = relations(userPrograms, ({ one, many }) => ({

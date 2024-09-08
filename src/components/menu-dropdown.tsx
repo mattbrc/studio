@@ -49,7 +49,7 @@ export function MenuDropdown() {
             <Link href="/billing">Billing + Plans</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/home/contact">Contact</Link>
+            <Link href="/home/meet">Meet</Link>
           </DropdownMenuItem>
           {/* <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Pricing</Link>

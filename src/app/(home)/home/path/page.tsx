@@ -33,7 +33,6 @@ export default function Page() {
           <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">
             The Path
           </h1>
-          {/* <p className="pl-2 text-gray-400">Time to work</p> */}
         </header>
         <PathTerminal />
       </div>
