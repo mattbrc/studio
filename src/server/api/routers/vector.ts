@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { posts } from "~/server/db/schema";
 
-export const postRouter = createTRPCRouter({
+export const vectorRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -12,6 +12,7 @@ export const postRouter = createTRPCRouter({
       };
     }),
 
+    
   create: publicProcedure
     .input(z.object({ name: z.string().min(1) }))
     .input(z.object({ content: z.string().min(1) }))
@@ -25,11 +26,13 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.query.posts
-    // return ctx.db.query.posts.findFirst({
-    //   orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-    // });
+  getLatest: publicProcedure.query(async ({ ctx }) => {
+    const vectorResult = await ctx.vdb.query.resources.findFirst({
+      orderBy: (resources, { desc }) => [desc(resources.createdAt)],
+    })
+
+    console.log(vectorResult);
+    return vectorResult;
   }),
 
   getAll: publicProcedure.query(({ ctx }) => {

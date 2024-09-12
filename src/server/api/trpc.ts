@@ -13,6 +13,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
+import { vdb } from "~/server/vdb";
 
 /**
  * 1. CONTEXT
@@ -38,6 +39,7 @@ export const createTRPCContext = (opts: { req: NextRequest }) => {
   return {
     headers: opts.req.headers,
     db,
+    vdb,
     userId,
   };
 };

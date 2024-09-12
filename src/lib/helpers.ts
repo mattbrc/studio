@@ -1,3 +1,5 @@
+import { customAlphabet } from "nanoid";
+
 export function formatCityInput(cityName: string) {
   // Remove leading and trailing whitespace
   cityName = cityName.trim();
@@ -16,3 +18,5 @@ export function formatCityInput(cityName: string) {
   // Join the words back together
   return words.join(' ');
 }
+
+export const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789");
