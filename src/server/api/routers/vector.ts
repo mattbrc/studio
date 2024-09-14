@@ -27,8 +27,8 @@ export const vectorRouter = createTRPCRouter({
     }),
 
   getLatest: publicProcedure.query(async ({ ctx }) => {
-    const vectorResult = await ctx.vdb.query.resources.findFirst({
-      orderBy: (resources, { desc }) => [desc(resources.createdAt)],
+    const vectorResult = await ctx.vdb.query.workouts.findFirst({
+      orderBy: (workouts, { desc }) => [desc(workouts.createdAt)],
     })
 
     console.log(vectorResult);

@@ -16,7 +16,6 @@ export default async function Page() {
   const user = await currentUser();
   const userWorkoutDetails = await api.wod.getUserSingleWorkout.query();
   const sub = await api.stripe.getSubscription.query();
-  // const vector = await api.vector.getLatest.query();
 
   return (
     <div className="container flex flex-col items-center justify-center gap-6 px-4 py-6">
@@ -45,7 +44,6 @@ export default async function Page() {
       />
       <ProgramCard workout={userWorkoutDetails?.workouts[0]} />
       <ResourcesCard />
-      {/* <p>{JSON.stringify(vector)}</p> */}
     </div>
   );
 }

@@ -1,47 +1,48 @@
-import { index, text, varchar, pgTable, vector, timestamp } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
-import { createSelectSchema } from "drizzle-zod";
-import type { z } from "zod";
+import { index, text, varchar, vector, integer, jsonb, pgTableCreator, timestamp } from "drizzle-orm/pg-core";
 
 import { nanoid } from "@/lib/helpers";
+import { sql } from "drizzle-orm";
 
-export const resources = pgTable("resources", {
-  id: varchar("id", { length: 191 })
-    .primaryKey()
-    .$defaultFn(() => nanoid()),
-  content: text("content").notNull(),
+export const createTable = pgTableCreator((name) => `vector_${name}`);
 
-  createdAt: timestamp("created_at")
-    .notNull()
-    .default(sql`now()`),
-  updatedAt: timestamp("updated_at")
-    .notNull()
-    .default(sql`now()`),
-});
+// export const embeddings = createTable("embeddings",
+//   {
+//     id: varchar("id", { length: 191 })
+//       .primaryKey()
+//       .$defaultFn(() => nanoid()),
+//     workoutId: varchar("workout_id", { length: 191 }).references(
+//       () => workouts.id,
+//       { onDelete: "cascade" }
+//     ),
+//     content: text("content").notNull(),
+//     embedding: vector("embedding", { dimensions: 1536 }).notNull(),
+//   },
+//   (table) => ({
+//     embeddingIndex: index("embeddingIndex").using(
+//       "hnsw",
+//       table.embedding.op("vector_cosine_ops")
+//     ),
+//   })
+// );
 
-// Schema for resources - used to validate API requests
-export const insertResourceSchema = createSelectSchema(resources)
-  .extend({})
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
-
-// Type for resources - used to type API request params and within Components
-export type NewResourceParams = z.infer<typeof insertResourceSchema>;
-
-export const embeddings = pgTable("embeddings",
+export const workouts = createTable(
+  'workouts', 
   {
     id: varchar("id", { length: 191 })
       .primaryKey()
       .$defaultFn(() => nanoid()),
-    resourceId: varchar("resource_id", { length: 191 }).references(
-      () => resources.id,
-      { onDelete: "cascade" }
-    ),
-    content: text("content").notNull(),
-    embedding: vector("embedding", { dimensions: 1536 }).notNull(),
+    orderId: integer('order_id'),
+    title: text('title'),
+    strength: jsonb('strength'),
+    conditioning: jsonb('conditioning'),
+    programId: integer('program_id'),
+    createdAt: timestamp("created_at")
+    .notNull()
+    .default(sql`now()`),
+    updatedAt: timestamp("updated_at")
+      .notNull()
+      .default(sql`now()`),
+    embedding: vector('embedding', { dimensions: 1536 }),
   },
   (table) => ({
     embeddingIndex: index("embeddingIndex").using(
@@ -50,3 +51,5 @@ export const embeddings = pgTable("embeddings",
     ),
   })
 );
+
+export type SelectWorkout = typeof workouts.$inferSelect;
