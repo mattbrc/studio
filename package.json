@@ -6,8 +6,6 @@
     "build": "next build",
     "db:push": "dotenv drizzle-kit push:mysql",
     "db:studio": "dotenv drizzle-kit studio",
-    "db:push:vdb": "drizzle-kit push:pg",
-    "db:studio:vdb": "dotenv drizzle-kit studio",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/webhooks/stripe",
     "dev": "next dev --turbo",
     "lint": "next lint",
@@ -49,7 +47,6 @@
     "drizzle-zod": "^0.5.1",
     "embla-carousel-react": "^8.0.0-rc19",
     "geist": "^1.0.0",
-    "nanoid": "^5.0.7",
     "next": "^14.0.4",
     "openai": "^4.61.0",
     "pg": "^8.12.0",
@@ -64,6 +61,7 @@
     "superjson": "^1.13.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node": "^10.9.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {

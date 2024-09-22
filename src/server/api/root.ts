@@ -4,7 +4,7 @@ import { wodRouter } from "./routers/wod";
 import { bulkRouter } from "./routers/bulk";
 import { stripeRouter } from "./routers/stripe";
 import { profileRouter } from "./routers/profile";
-import { vectorRouter } from "./routers/vector";
+import { aiRouter } from "./routers/ai";
 
 /**
  * This is the primary router for your server.
@@ -17,7 +17,7 @@ export const appRouter = createTRPCRouter({
   bulk: bulkRouter,
   stripe: stripeRouter,
   profile: profileRouter,
-  vector: vectorRouter,
+  ai: aiRouter,
 });
 
 // export type definition of API

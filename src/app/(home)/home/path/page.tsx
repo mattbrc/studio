@@ -1,30 +1,17 @@
 import PathTerminal from "@/components/path-terminal";
 import { clerkClient } from "@clerk/nextjs/server";
+import { generateWorkouts } from "@/lib/ai/generate";
 
 export const metadata = {
   title: "The Path",
 };
 
-export default function Page() {
-  async function getUserEmails() {
-    try {
-      // Assuming getUserList() is a function that returns the array of user objects
-      const { data } = await clerkClient.users.getUserList();
+export default async function Page() {
+  // Call generateWorkouts with a goal
+  const workouts = await generateWorkouts("hybrid");
 
-      const emails = data.flatMap((user) =>
-        user.emailAddresses.map((emailObj) => emailObj.emailAddress),
-      );
-
-      return emails;
-    } catch (error) {
-      console.error("Error fetching user emails:", error);
-      return [];
-    }
-  }
-
-  void getUserEmails().then((emails) => {
-    console.log("User emails:", emails);
-  });
+  // Log the generated workouts
+  console.log("Generated workouts:", JSON.stringify(workouts, null, 2));
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
@@ -34,7 +21,10 @@ export default function Page() {
             The Path
           </h1>
         </header>
-        <PathTerminal />
+        {/* <PathTerminal /> */}
+        <pre className="whitespace-pre-wrap">
+          {JSON.stringify(workouts, null, 2)}
+        </pre>
       </div>
     </div>
   );
