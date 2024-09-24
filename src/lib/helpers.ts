@@ -18,5 +18,3 @@ export function formatCityInput(cityName: string) {
   // Join the words back together
   return words.join(' ');
 }
-
-export const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789");
