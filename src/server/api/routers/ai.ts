@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { generateWorkouts } from "~/lib/ai/generate";
+// import { generateWorkouts } from "~/lib/ai/generate";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { posts } from "~/server/db/schema";
@@ -22,16 +22,16 @@ export const aiRouter = createTRPCRouter({
   //     };
   //   }),
 
-  generateWorkout: publicProcedure.query(async () => {
-    try {
-      // Call the generateWorkouts function
-      const workouts = await generateWorkouts();
+  // generateWorkout: publicProcedure.query(async () => {
+  //   try {
+  //     // Call the generateWorkouts function
+  //     const workouts = await generateWorkouts();
 
-      return workouts;
-    } catch (error) {
-      throw new Error('Failed to generate workout program');
-    }
-  }),
+  //     return workouts;
+  //   } catch (error) {
+  //     throw new Error('Failed to generate workout program');
+  //   }
+  // }),
 
   // create: publicProcedure
   //   .input(z.object({ name: z.string().min(1) }))
