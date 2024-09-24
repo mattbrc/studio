@@ -1,5 +1,3 @@
-import { customAlphabet } from "nanoid";
-
 export function formatCityInput(cityName: string) {
   // Remove leading and trailing whitespace
   cityName = cityName.trim();
