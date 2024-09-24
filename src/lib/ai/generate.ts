@@ -10,7 +10,10 @@ const workoutSchema = z.object({
   conditioning: z.record(z.string()),
 });
 
-// const programSchema = z.array(workoutSchema);
+// Create a new schema for the entire program
+const programSchema = z.object({
+  workouts: z.array(workoutSchema).length(7)
+});
 
 const systemPrompt = `
   You are a high-level strength and conditioning coach specializing in military special operations functional fitness. You excel at creating hybrid programs that combine strength, conditioning, and endurance training for elite athletes.
@@ -31,43 +34,132 @@ conditioning, and endurance across the days. Make sure to include a variety of s
 and at least one "rest" day with optional light activities. On days with no conditioning, return an object with "a": "None". The same applies for strength.
   `;
   const objectPrompt = `
-Generate a workout program with both strength and conditioning exercises. 
+Generate a workout program with both strength and conditioning exercises for each day. 
 The strength and conditioning should be objects where each key is a letter (e.g., "a", "b", "c") 
 and the value is a string describing the exercise.
-
 Ensure the output matches the following JSON schema:
 {
-  "orderId": (integer),
-  "title": (string),
-  "strength": {
-    "a": (string),
-    "b": (string),
-    // ... more keys as needed
-  },
-  "conditioning": {
-    "a": (string),
-    "b": (string),
-    // ... more keys as needed
-  }
+  "workouts": [
+    {
+      "orderId": (integer),
+      "title": (string),
+      "strength": {
+        "a": (string),
+        "b": (string),
+        // ... more keys as needed
+      },
+      "conditioning": {
+        "a": (string),
+        "b": (string),
+        // ... more keys as needed
+      }
+    },
+    // ... 6 more objects for a total of 7 days
+  ]
 }
-You will build a workout program that is 7 days long. 
-`
+  I want you to design it based on the following goal and example workouts. Use my style of programming to design the workouts:
+`;
 
 const sampleWorkouts = {
   hybrid: `
-Day 1: 
-Strength: 
-a. Back Squat 5x5
-b. Bench Press 4x8
-Conditioning: 
-a. 5 rounds of 400m run, 15 burpees
-
-Day 2:
-Strength:
-a. Deadlift 3x5
-b. Pull-ups 4x8
-Conditioning:
-a. 30 min Zone 2 run
+{
+    "orderId": 70,
+    "title": "Monday: Push 1",
+    "strength": {
+      "a": "Bodyweight Dips: 2x8-15 (light weight, warm-up, not to failure)",
+      "b": "Chest Press: 1x6-9, 1x12-15",
+      "c": "Standing BB Shoulder Press: 1x6-9, 1x12-15",
+      "d": "Cable Tri Pushdown + Lateral Raises: 1x12-15, 1x15-20",
+      "e": "DB Tri Kickbacks + Front Delt Raises: 2x15-20",
+      "f": "Tricep Cluster: 4x6 Cable Tricep Extensions (straight bar) (go heavy, rest 30 sec between sets)"
+    },
+    "conditioning": {
+      "a": "45-60 min Z2 effort: run/bike/hike/row/swim"
+    },
+  },
+  {
+    "orderId": 71,
+    "title": "Tuesday: Pull 1",
+    "strength": {
+      "a": "Bodyweight Chin-Ups: 2x8-15 (warm-up, not to failure)",
+      "b": "Cable Lat Pulldown: 1x6-9, 1x12-15",
+      "c": "BB/DB Shrugs: 1x8-12",
+      "d": "Underhand Seated Cable Row: 1x12-15, 1x15-20",
+      "e": "Hammer Curls: 1x12-15, 1x15-20",
+      "f": "Cable Curl Cluster: 4x6, rest 30 sec between sets, go heavy",
+      "g": "Decline Weighted Sit-Ups: 3x to failure (15-20+)"
+    },
+    "conditioning": {
+      "a": "60-90 min Z2 effort: run/bike/hike/row/swim"
+    },
+  },
+  {
+    "orderId": 72,
+    "title": "Wednesday: Rest",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Do nothing, optionally sauna, do some mobility, and still get in 10k+ steps today!"
+    },
+  },
+  {
+    "orderId": 73,
+    "title": "Thursday: Legs 1",
+    "strength": {
+      "a": "Leg Extension: 2x15-20 (warm-up, not to failure)",
+      "b": "Hack Squat/Back Squat: 1x6-9, 1x12-15",
+      "c": "Bulgarian Split Squats: 2x12-15",
+      "d": "Hip Thrusts: 2x12-15",
+      "e": "Calf Raises: 2x12-15",
+      "f": "Decline Weighted Sit-ups: 3x15-20+ (failure) + Weighted Russian twists to failure"
+    },
+    "conditioning": {
+      "a": "45-60 min steady state run/bike/swim/row/hike/ruck"
+    },
+  },
+  {
+    "orderId": 74,
+    "title": "Friday: Push 2",
+    "strength": {
+      "a": "Pec Dec: 2x12-15 (light weight, warm-up, not to failure)",
+      "b": "Machine Shoulder Press: 1x6-9, 1x12-15",
+      "c": "Machine/DB Incline Bench Press: 1x6-9, 1x12-15",
+      "d": "Weighted/BW Dips: 1x6-9, 1x12-15",
+      "e": "Cable Tri Pushdown + Lateral Raises: 1x12-15, 1x15-20",
+      "f": "DB Tri Kickbacks + Front Delt Raises: 2x15-20"
+    },
+    "conditioning": {
+      "a": "Optional 30 min easy jog/spin"
+    },
+  },
+  {
+    "orderId": 75,
+    "title": "Saturday: Hybrid Suckfest",
+    "strength": {
+      "a": "21-15-9: cal row + burpees + bf sit-ups",
+      "b": "60 min run",
+      "c": "21-15-9: cal row + burpees + bf sit-ups"
+    },
+    "conditioning": {
+      "a": "Steady State: 1.5-2.5 hours Z2 effort. Bike, jog, hike. GET OUTSIDE"
+    },
+  },
+  {
+    "orderId": 76,
+    "title": "Sunday: Pull 2",
+    "strength": {
+      "a": "Bodyweight Chin-Ups: 2x8-15 (warm-up, not to failure)",
+      "b": "BB Straight Leg Deadlift: 1x6-9",
+      "c": "Chest Supported Row: 1x12-15, 1x15-20",
+      "d": "Single Arm Cable Lat Pulldown: 1x12-15, 1x15-20",
+      "e": "Superset: Rear Delt Raises + Cable Curls: 1x12-15, 1x15-20",
+      "f": "Superset: Preacher Curls + Standing Reverse Grip curls: 2x12-20"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+  },
   `,
   strength: `
 Day 1:
@@ -113,19 +205,17 @@ Goal: ${goal}
 
 Example workouts for reference:
 ${exampleWorkouts}
-
-Generate a 7-day workout program that aligns with the given goal and takes inspiration from the example workouts provided.
   `.trim();
 
   try {
-    const { object: workouts } = await generateObject({
+    const { object: program } = await generateObject({
       model: openai('gpt-4o-mini'),
-      schema: workoutSchema,
+      schema: programSchema,
       system: systemPrompt,
       prompt: updatedObjectPrompt,
     });
 
-    return workouts;
+    return program.workouts;
   } catch (error) {
     console.error('Error generating workouts:', error);
     throw new Error('Failed to generate workouts');
