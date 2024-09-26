@@ -38,9 +38,9 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Height is required" })
     .refine(
-      (val) => !isNaN(Number(val)) && Number(val) > 0 && Number(val) < 300,
+      (val) => !isNaN(Number(val)) && Number(val) > 0 && Number(val) < 120,
       {
-        message: "Height must be a number between 1 and 300 cm",
+        message: "Height must be a number between 1 and 120 inches",
       },
     ),
   weight: z

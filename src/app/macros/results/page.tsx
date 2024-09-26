@@ -286,7 +286,10 @@ export default function Page() {
           your weight. If you are hitting your goal (lose weight, maintain, gain
           weight), change nothing. But if you are not hitting your goal, adapt
           your TDEE by 250-500 calories at a time (add/subtrack based on goal)
-          and measure for another 1-2 weeks. Repeat as necessary.
+          and measure for another 1-2 weeks. Repeat as necessary. Additionally,
+          you are welcome to adapt the macro breakdown to your needs. This
+          calculation uses 1.1g/pound of BW, 32% fat, and roughly 40% carbs,
+          however it will vary based on your input.
         </p>
         <p>
           <span className="font-bold">Basal Metabolic Rate (BMR)</span> is the
