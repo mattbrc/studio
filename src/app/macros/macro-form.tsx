@@ -115,6 +115,7 @@ const MacroCalculator = () => {
         tdee: results.tdee.toString(),
       }).toString()}`,
     );
+    router.refresh();
 
     // Here you can add logic to display the results to the user
     // For example, you could set some state variables to show the results
@@ -158,6 +159,7 @@ const MacroCalculator = () => {
                   <FormLabel>Age (yrs)</FormLabel>
                   <FormControl>
                     <Input
+                      className="text-base"
                       type="string"
                       placeholder="30"
                       {...field}
@@ -176,6 +178,7 @@ const MacroCalculator = () => {
                   <FormLabel>Height (in)</FormLabel>
                   <FormControl>
                     <Input
+                      className="text-base"
                       type="string"
                       placeholder="74"
                       {...field}
@@ -194,6 +197,7 @@ const MacroCalculator = () => {
                   <FormLabel>Weight (lbs)</FormLabel>
                   <FormControl>
                     <Input
+                      className="text-base"
                       type="string"
                       placeholder="195"
                       {...field}
