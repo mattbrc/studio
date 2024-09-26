@@ -5,13 +5,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { IoMdAlert } from "react-icons/io";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -299,7 +292,7 @@ export default function Page() {
           total daily energy expenditure in individuals with a sedentary
           occupation.{" "}
           <Link
-            className="text-muted-foreground underline"
+            className="text-emerald-400 underline"
             href="https://www.sciencedirect.com/topics/medicine-and-dentistry/basal-metabolic-rate#:~:text=Basal%20metabolic%20rate%20is%20the,individuals%20with%20a%20sedentary%20occupation."
           >
             Source
@@ -320,7 +313,7 @@ export default function Page() {
           activity thermogenesis (NEAT, like walking up stairs), and exercise
           activity thermogenesis (EAT, like lifting weights or running).{" "}
           <Link
-            className="text-muted-foreground underline"
+            className="text-emerald-400 underline"
             href="https://www.k-state.edu/paccats/Contents/PA/PDF/Physical%20Activity%20and%20Controlling%20Weight.pdf"
           >
             Source
@@ -337,6 +330,22 @@ export default function Page() {
           <li>Heavy Exercise (6-7x/week): 1.725</li>
           <li>Athlete (2x/day): 1.9</li>
         </ul>
+      </div>
+      <Separator />
+      <p className="text-center font-bold">Made it this far?</p>
+      <p>
+        You should probably start working out. Get off your couch. Or leave work
+        - the call can wait. Tell your wife there&apos;s weights to move. Miles
+        to run. Places to be (getting bigger, faster, stronger).
+      </p>
+      <p>Whatever you do...</p>
+
+      <p>Don&apos;t be a loser ↓</p>
+
+      <div className="flex justify-center">
+        <Button asChild variant="acid">
+          <Link href="https://app.acidgambit.com">Start Training</Link>
+        </Button>
       </div>
     </div>
   );

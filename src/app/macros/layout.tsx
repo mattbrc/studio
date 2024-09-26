@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MacroCalculator from "~/app/macros/macro-form";
+import { SiteFooter } from "~/components/site-footer";
 import { Button } from "~/components/ui/button";
 
 interface MacrosLayoutProps {
@@ -18,6 +19,7 @@ export default function MacrosLayout({ children }: MacrosLayoutProps) {
         </Button>
       </header>
       <main className="container mx-auto py-8 md:w-3/4">{children}</main>
+      <SiteFooter />
     </div>
   );
 }
