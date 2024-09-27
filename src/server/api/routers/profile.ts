@@ -50,60 +50,60 @@ export const profileRouter = createTRPCRouter({
       }
     }),
 
-  updateUserProfile: privateProcedure
-    .input(z.object({
-      gender: z.string(),
-      weight: z.number(),
-      height: z.number(),
-      age: z.number(),
-      activityFactor: z.number(),
-      bmr: z.number(),
-      tdee: z.number(),
-    }))
-    .mutation(async ({ ctx, input }) => {
-      const existingProfile = await ctx.db.query.userProfiles.findFirst({
-        where: (profile, { eq }) => eq(profile.userId, ctx.userId),
-      });
+  // updateUserProfile: privateProcedure
+  //   .input(z.object({
+  //     gender: z.string(),
+  //     weight: z.number(),
+  //     height: z.number(),
+  //     age: z.number(),
+  //     activityFactor: z.number(),
+  //     bmr: z.number(),
+  //     tdee: z.number(),
+  //   }))
+  //   .mutation(async ({ ctx, input }) => {
+  //     const existingProfile = await ctx.db.query.userProfiles.findFirst({
+  //       where: (profile, { eq }) => eq(profile.userId, ctx.userId),
+  //     });
 
-      if (!existingProfile) {
-        // Create a new profile if one doesn't exist
-        return ctx.db.insert(userProfiles)
-          .values({
-            userId: ctx.userId,
-            gender: input.gender,
-            weight: input.weight,
-            height: input.height,
-            age: input.age,
-            activityFactor: input.activityFactor,
-            bmr: input.bmr,
-            tdee: input.tdee,
-            isPublic: false, // Set a default value for isPublic
-          });
-      }
+  //     if (!existingProfile) {
+  //       // Create a new profile if one doesn't exist
+  //       return ctx.db.insert(userProfiles)
+  //         .values({
+  //           userId: ctx.userId,
+  //           gender: input.gender,
+  //           weight: input.weight,
+  //           height: input.height,
+  //           age: input.age,
+  //           activityFactor: input.activityFactor,
+  //           bmr: input.bmr,
+  //           tdee: input.tdee,
+  //           isPublic: false, // Set a default value for isPublic
+  //         });
+  //     }
 
-      // Update existing profile
-      return ctx.db.update(userProfiles)
-        .set({
-          gender: input.gender,
-          weight: input.weight,
-          height: input.height,
-          age: input.age,
-          activityFactor: input.activityFactor,
-          bmr: input.bmr,
-          tdee: input.tdee,
-        })
-        .where(eq(userProfiles.userId, ctx.userId));
-    }),
+  //     // Update existing profile
+  //     return ctx.db.update(userProfiles)
+  //       .set({
+  //         gender: input.gender,
+  //         weight: input.weight,
+  //         height: input.height,
+  //         age: input.age,
+  //         activityFactor: input.activityFactor,
+  //         bmr: input.bmr,
+  //         tdee: input.tdee,
+  //       })
+  //       .where(eq(userProfiles.userId, ctx.userId));
+  //   }),
 
-  getUserMacros: privateProcedure.query(async ({ ctx }) => {
-    const id = ctx.userId;
-    if (!id) {
-      return
-    }
-    return ctx.db.query.userProfiles.findFirst({
-      where: (userProfiles, { eq }) => eq(userProfiles.userId, id),
-    });
-  }),
+  // getUserMacros: privateProcedure.query(async ({ ctx }) => {
+  //   const id = ctx.userId;
+  //   if (!id) {
+  //     return
+  //   }
+  //   return ctx.db.query.userProfiles.findFirst({
+  //     where: (userProfiles, { eq }) => eq(userProfiles.userId, id),
+  //   });
+  // }),
 
   getUserProfile: publicProcedure.query(({ ctx }) => {
     const id = ctx.userId;
@@ -112,7 +112,11 @@ export const profileRouter = createTRPCRouter({
     }
     return ctx.db.query.userProfiles.findFirst({
       where: (userProfiles, { eq }) => eq(userProfiles.userId, id),
-      orderBy: (userProfiles, { desc }) => [desc(userProfiles.createdAt)],
+      with: {
+        user: true,
+        
+
+      },
     });
   }),
 
