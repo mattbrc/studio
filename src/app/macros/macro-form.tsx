@@ -106,8 +106,12 @@ const MacroCalculator = () => {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    // calculate macros
     const results = calculateMacros(values);
 
+    // if user, save to db
+
+    // redirect to results
     router.push(
       `/macros/results?${new URLSearchParams({
         ...values,
@@ -115,11 +119,6 @@ const MacroCalculator = () => {
         tdee: results.tdee.toString(),
       }).toString()}`,
     );
-    router.refresh();
-
-    // Here you can add logic to display the results to the user
-    // For example, you could set some state variables to show the results
-    // or navigate to a results page
   }
 
   return (
@@ -269,7 +268,7 @@ const MacroCalculator = () => {
               )}
             /> */}
           </div>
-          <div className="mt-8 flex justify-center">
+          <div className="flex justify-center pt-8">
             <Button type="submit" className="w-full md:w-auto">
               Calculate Macros
             </Button>
