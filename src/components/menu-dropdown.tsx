@@ -49,6 +49,9 @@ export function MenuDropdown() {
             <Link href="/billing">Billing + Plans</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
+            <Link href="/macros">Macros</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href="/home/meet">Meet</Link>
           </DropdownMenuItem>
           {/* <DropdownMenuItem className="text-zinc-500" asChild>

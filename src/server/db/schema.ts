@@ -12,6 +12,7 @@ import {
   json,
   text,
   boolean,
+  decimal,
 } from "drizzle-orm/mysql-core";
 import { createId } from '@paralleldrive/cuid2';
 import { relations } from 'drizzle-orm';
@@ -192,7 +193,16 @@ export const userProfiles = mysqlTable("userProfiles", {
   state: text("state"),
   goal: text("goal"),
   isPublic: boolean("isPublic").notNull().default(false),
+  // gender: text("gender"),
+  // weight: int("weight"),
+  // height: int("height"),
+  // age: int("age"),
+  // activityFactor: decimal("activityFactor", { precision: 4, scale: 3 }),
+  // bmr: int("bmr"),
+  // tdee: int("tdee"),
 });
+
+//in my getUserMacros procedure, can you update it to return only these values from the table: gender, weight, height, age, activityFactor, bmr, tdee?
 
 // define the many relationship between userProgram ID and workouts for that program ID
 // define one relationship between userProgram ID and associated program info
