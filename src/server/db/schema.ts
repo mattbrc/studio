@@ -193,14 +193,16 @@ export const userProfiles = mysqlTable("userProfiles", {
   state: text("state"),
   goal: text("goal"),
   isPublic: boolean("isPublic").notNull().default(false),
-  // gender: text("gender"),
-  // weight: int("weight"),
-  // height: int("height"),
-  // age: int("age"),
-  // activityFactor: decimal("activityFactor", { precision: 4, scale: 3 }),
-  // bmr: int("bmr"),
-  // tdee: int("tdee"),
-});
+  gender: varchar("gender", { length: 10 }),
+  weight: varchar("weight", { length: 10 }),
+  height: varchar("height", { length: 10 }),
+  age: varchar("age", { length: 5 }),
+  activityFactor: varchar("activityFactor", { length: 10 }),
+  bmr: int("bmr"),
+  tdee: int("tdee"),
+}, (table) => ({
+  userIndex: index("user_idx").on(table.userId),
+}));
 
 //in my getUserMacros procedure, can you update it to return only these values from the table: gender, weight, height, age, activityFactor, bmr, tdee?
 

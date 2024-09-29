@@ -4,9 +4,28 @@ import { Button } from "~/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Icons } from "~/components/icons";
 import { auth } from "@clerk/nextjs/server";
+import { api } from "~/trpc/server";
 
-export default function Page() {
+export default async function Page() {
   const { userId } = auth();
+  const userMacros = await api.profile.getUserMacros.query();
+
+  const defaultValues = userMacros
+    ? {
+        gender: userMacros.gender as "Male" | "Female" | undefined,
+        age: userMacros.age ?? undefined,
+        height: userMacros.height ?? undefined,
+        weight: userMacros.weight ?? undefined,
+        activityFactor:
+          (userMacros.activityFactor as
+            | "1.2"
+            | "1.375"
+            | "1.55"
+            | "1.725"
+            | "1.9"
+            | undefined) ?? undefined,
+      }
+    : undefined;
 
   return (
     <>
@@ -32,7 +51,7 @@ export default function Page() {
             </div>
           </Alert>
         )}
-        <MacroCalculator />
+        <MacroCalculator defaultValues={defaultValues} />
       </div>
     </>
   );

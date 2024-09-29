@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "db:push": "dotenv drizzle-kit push:mysql",
+    "db:push": "dotenv drizzle-kit push",
     "db:studio": "dotenv drizzle-kit studio",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/webhooks/stripe",
     "dev": "next dev --turbo",

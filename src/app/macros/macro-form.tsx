@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { api } from "~/trpc/react"; // Import the trpc client
+import { useUser } from "@clerk/nextjs"; // Import useUser hook from Clerk
 
 const formSchema = z.object({
   gender: z.enum(["Male", "Female"]),
@@ -67,17 +68,29 @@ const formSchema = z.object({
   //   ),
 });
 
-const MacroCalculator = () => {
+interface MacroCalculatorProps {
+  defaultValues?: {
+    gender?: "Male" | "Female" | null;
+    age?: string | null;
+    height?: string | null;
+    weight?: string | null;
+    activityFactor?: "1.2" | "1.375" | "1.55" | "1.725" | "1.9" | null;
+  };
+}
+
+const MacroCalculator: React.FC<MacroCalculatorProps> = ({ defaultValues }) => {
   const router = useRouter();
+  const { user } = useUser(); // Get the current user
+  const updateUserProfile = api.profile.updateUserProfile.useMutation(); // Get the updateUserProfile mutation
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      gender: "Male",
-      age: "",
-      height: "",
-      weight: "",
-      activityFactor: "1.2",
-      // bodyFatPercentage: "",
+      gender: defaultValues?.gender ?? "Male",
+      age: defaultValues?.age ?? "",
+      height: defaultValues?.height ?? "",
+      weight: defaultValues?.weight ?? "",
+      activityFactor: defaultValues?.activityFactor ?? "1.2",
     },
   });
 
@@ -105,11 +118,27 @@ const MacroCalculator = () => {
     };
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // calculate macros
     const results = calculateMacros(values);
 
-    // if user, save to db
+    // if user exists, update the profile
+    if (user) {
+      try {
+        await updateUserProfile.mutateAsync({
+          gender: values.gender,
+          weight: values.weight,
+          height: values.height,
+          age: values.age,
+          activityFactor: values.activityFactor,
+          bmr: results.bmr,
+          tdee: results.tdee,
+        });
+        console.log("User profile updated successfully");
+      } catch (error) {
+        console.error("Error updating user profile:", error);
+      }
+    }
 
     // redirect to results
     router.push(
