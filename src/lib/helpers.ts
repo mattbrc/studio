@@ -30,14 +30,6 @@ export function calculateMacros(tdee: number, weight: number, goal: 'Maintenance
   const proteinPercent = proteinCals / adjustedTDEE;
   const carbsGrams = ((1 - (proteinPercent + fatPercent)) * adjustedTDEE) / 4;
 
-  console.log("--------------------------------------")
-  console.log("Calculated macros:", {
-    calories: Math.round(adjustedTDEE),
-    protein: Math.round(proteinGrams),
-    carbs: Math.round(carbsGrams),
-    fat: Math.round(fatGrams),
-  });
-
   return {
     calories: Math.round(adjustedTDEE),
     protein: Math.round(proteinGrams),

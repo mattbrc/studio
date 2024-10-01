@@ -21,8 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { api } from "~/trpc/react"; // Import the trpc client
-import { useUser } from "@clerk/nextjs"; // Import useUser hook from Clerk
+import { api } from "~/trpc/react";
+import { useUser } from "@clerk/nextjs";
 
 const formSchema = z.object({
   gender: z.enum(["Male", "Female"]),
