@@ -16,6 +16,7 @@ import { Icons } from "~/components/icons";
 import { toast } from "react-hot-toast";
 import { api } from "~/trpc/react";
 import Link from "next/link";
+import { calculateMacros } from "~/lib/macroCalculations";
 
 const mealSchema = z.object({
   name: z.string(),
@@ -40,13 +41,18 @@ type MealPlan = z.infer<typeof mealPlanSchema>;
 export function MealPlanForm({
   count,
   subscription,
+  tdee,
+  weight,
 }: {
   count: number;
   subscription: boolean;
+  tdee: number | null;
+  weight: number | null;
 }) {
   const [loading, setLoading] = useState(false);
   const [mealPlan, setMealPlan] = useState<MealPlan | null>(null);
   const [numberOfMeals, setNumberOfMeals] = useState<string>("4");
+  const [customTDEE, setCustomTDEE] = useState<number | null>(tdee);
   const [goal, setGoal] = useState<string>("Maintenance");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
@@ -78,7 +84,8 @@ export function MealPlanForm({
           "You have reached the maximum number of meal plans for this month.",
         );
       } else {
-        toast.error(error.message);
+        // toast.error(error.message);
+        toast.error("Failed to generate meal plan. Please try again shortly.");
       }
     },
   });
@@ -86,11 +93,21 @@ export function MealPlanForm({
   async function onSubmit() {
     setLoading(true);
     try {
+      if (!tdee || !weight) {
+        throw new Error("TDEE or weight is missing");
+      }
+
+      const macros = calculateMacros(
+        tdee,
+        weight,
+        goal as "Maintenance" | "Cutting" | "Bulking",
+      );
+
       await generateMealPlanMutation.mutateAsync({
-        tdee: 3328,
-        protein: 215,
-        carbs: 351,
-        fat: 118,
+        tdee: macros.calories,
+        protein: macros.protein,
+        carbs: macros.carbs,
+        fat: macros.fat,
         meals: parseInt(numberOfMeals, 10),
         instructions: additionalInstructions,
       });
@@ -102,13 +119,82 @@ export function MealPlanForm({
   }
 
   const exportToPDF = () => {
-    // ... (keep the existing exportToPDF function)
+    if (!mealPlanRef.current || !mealPlan) return;
+
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    let yOffset = margin;
+
+    const addNewPageIfNeeded = (height: number) => {
+      if (yOffset + height > pageHeight - margin) {
+        doc.addPage();
+        yOffset = margin;
+        return true;
+      }
+      return false;
+    };
+
+    const writeText = (text: string, fontSize: number, isBold: boolean) => {
+      doc.setFontSize(fontSize);
+      if (isBold) doc.setFont("bold");
+      else doc.setFont("normal");
+
+      const lines = doc.splitTextToSize(
+        text,
+        pageWidth - 2 * margin,
+      ) as string[];
+      lines.forEach((line) => {
+        addNewPageIfNeeded(7);
+        doc.text(line, margin, yOffset);
+        yOffset += 4;
+      });
+      yOffset += 3; // Add some space after each text block
+    };
+
+    // Add logo to top right corner of first page
+    doc.addImage("/circle_ag_logo.png", "PNG", pageWidth - 60, 10, 50, 50);
+
+    // Title
+    writeText("Acid Gambit Meal Plan", 16, true);
+
+    mealPlan.meals.forEach((meal, index) => {
+      addNewPageIfNeeded(20);
+      writeText(`Meal ${index + 1}: ${meal.name}`, 14, true);
+      writeText(`Calories: ${meal.calories}`, 12, false);
+      writeText(`Protein: ${meal.protein}g`, 12, false);
+      writeText(`Carbs: ${meal.carbs}g`, 12, false);
+      writeText(`Fat: ${meal.fat}g`, 12, false);
+
+      writeText("Ingredients:", 12, true);
+      meal.ingredients.forEach((ingredient) => {
+        writeText(`• ${ingredient}`, 10, false);
+      });
+
+      writeText("Instructions:", 12, true);
+      meal.instructions.forEach((instruction, i) => {
+        writeText(`${i + 1}. ${instruction}`, 10, false);
+      });
+
+      yOffset += 10; // Add extra space between meals
+    });
+
+    // Daily Totals
+    addNewPageIfNeeded(40);
+    writeText("Daily Totals:", 14, true);
+    writeText(`Total Calories: ${mealPlan.totalCalories}`, 12, false);
+    writeText(`Total Protein: ${mealPlan.totalProtein}g`, 12, false);
+    writeText(`Total Carbs: ${mealPlan.totalCarbs}g`, 12, false);
+    writeText(`Total Fat: ${mealPlan.totalFat}g`, 12, false);
+
+    doc.save("meal-plan.pdf");
   };
 
   return (
     <>
       <div className="mb-4 flex flex-col gap-2">
-        {count && (
+        {count !== undefined && (
           <div className="flex flex-row items-center gap-2 pb-2">
             <Icons.alert className="text-emerald-400" />
             <p className="text-sm text-muted-foreground">
@@ -136,7 +222,7 @@ export function MealPlanForm({
             </Select>
           </div>
           <div className="flex flex-row items-center gap-2 py-2">
-            <label htmlFor="meals">Goal</label>
+            <label htmlFor="goal">Goal</label>
             <Select onValueChange={setGoal} defaultValue={goal}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Maintenance" />

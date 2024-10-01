@@ -114,6 +114,22 @@ export const profileRouter = createTRPCRouter({
     });
   }),
 
+  getUserTDEE: publicProcedure.query(async ({ ctx }) => {
+    const user = ctx.userId;
+    if (!user) {
+      return null; // Return null if no user is found
+    }
+
+    const success = await ctx.db.query.userProfiles.findFirst({
+      where: eq(userProfiles.userId, user),
+      columns: {
+        tdee: true,
+      },
+    });
+
+    return success?.tdee ?? null; // Return null if profile or tdee is not found
+  }),
+
   getUserProfile: publicProcedure.query(({ ctx }) => {
     const id = ctx.userId;
     if (!id) {

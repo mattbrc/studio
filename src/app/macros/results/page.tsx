@@ -8,42 +8,22 @@ import Link from "next/link";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@clerk/nextjs";
+import { calculateMacros } from "~/lib/macroCalculations";
 
 export default function Page() {
   const { user } = useUser();
   const searchParams = useSearchParams();
   const age = searchParams.get("age");
-  const weight = searchParams.get("weight");
+  const weight = Number(searchParams.get("weight"));
   const height = searchParams.get("height");
   const gender = searchParams.get("gender");
   const activityFactor = searchParams.get("activityFactor");
   const bmr = searchParams.get("bmr");
-  const tdee = searchParams.get("tdee");
+  const tdee = Number(searchParams.get("tdee"));
 
-  const maintenanceCals = Number(tdee);
-  const cuttingCals = maintenanceCals - 500;
-  const bulkingCals = maintenanceCals + 500;
-  const fatPercent = 0.32;
-
-  const proteinGrams = Number(weight) * 1.1;
-  const maintFatGrams = (fatPercent * maintenanceCals) / 9;
-
-  const proteinCals = proteinGrams * 4;
-
-  const maintProteinPercent = proteinCals / maintenanceCals;
-  const cuttingProteinPercent = proteinCals / cuttingCals;
-  const bulkingProteinPercent = proteinCals / bulkingCals;
-
-  const maintCarbsGrams =
-    ((1 - (maintProteinPercent + fatPercent)) * maintenanceCals) / 4;
-
-  const cuttingCarbsGrams =
-    ((1 - (cuttingProteinPercent + fatPercent)) * cuttingCals) / 4;
-  const cuttingFatGrams = (fatPercent * cuttingCals) / 9;
-
-  const bulkingCarbsGrams =
-    ((1 - (bulkingProteinPercent + fatPercent)) * bulkingCals) / 4;
-  const bulkingFatGrams = (fatPercent * bulkingCals) / 9;
+  const maintenanceMacros = calculateMacros(tdee, weight, "Maintenance");
+  const cuttingMacros = calculateMacros(tdee, weight, "Cutting");
+  const bulkingMacros = calculateMacros(tdee, weight, "Bulking");
 
   const requiredParams = [
     { name: "Age", value: age },
@@ -160,26 +140,25 @@ export default function Page() {
             <Separator />
             <div className="flex flex-row justify-between px-2">
               <div>
-                <p className="text-xl font-bold">{Math.round(proteinGrams)}g</p>
+                <p className="text-xl font-bold">
+                  {maintenanceMacros.protein}g
+                </p>
                 <p className="text-sm">
-                  Protein ({Math.round(maintProteinPercent * 100)}%)
+                  Protein (
+                  {Math.round(((maintenanceMacros.protein * 4) / tdee) * 100)}%)
                 </p>
               </div>
               <div>
-                <p className="text-xl font-bold">
-                  {Math.round(maintCarbsGrams)}g
-                </p>
+                <p className="text-xl font-bold">{maintenanceMacros.carbs}g</p>
                 <p className="text-sm">
                   Carbs (
-                  {Math.round(((maintCarbsGrams * 4) / maintenanceCals) * 100)}
+                  {Math.round(((maintenanceMacros.carbs * 4) / tdee) * 100)}
                   %)
                 </p>
               </div>
               <div>
-                <p className="text-xl font-bold">
-                  {Math.round(maintFatGrams)}g
-                </p>
-                <p className="text-sm">Fat ({fatPercent * 100}%)</p>
+                <p className="text-xl font-bold">{maintenanceMacros.fat}g</p>
+                <p className="text-sm">Fat ({0.32 * 100}%)</p>
               </div>
             </div>
           </div>
@@ -199,26 +178,26 @@ export default function Page() {
             <Separator />
             <div className="flex flex-row justify-between px-2">
               <div>
-                <p className="text-xl font-bold">{Math.round(proteinGrams)}g</p>
+                <p className="text-xl font-bold">{cuttingMacros.protein}g</p>
                 <p className="text-sm">
-                  Protein ({Math.round(cuttingProteinPercent * 100)}%)
-                </p>
-              </div>
-              <div>
-                <p className="text-xl font-bold">
-                  {Math.round(cuttingCarbsGrams)}g
-                </p>
-                <p className="text-sm">
-                  Carbs (
-                  {Math.round(((cuttingCarbsGrams * 4) / cuttingCals) * 100)}
+                  Protein (
+                  {Math.round(
+                    ((cuttingMacros.protein * 4) / (tdee - 500)) * 100,
+                  )}
                   %)
                 </p>
               </div>
               <div>
-                <p className="text-xl font-bold">
-                  {Math.round(cuttingFatGrams)}g
+                <p className="text-xl font-bold">{cuttingMacros.carbs}g</p>
+                <p className="text-sm">
+                  Carbs (
+                  {Math.round(((cuttingMacros.carbs * 4) / (tdee - 500)) * 100)}
+                  %)
                 </p>
-                <p className="text-sm">Fat ({fatPercent * 100}%)</p>
+              </div>
+              <div>
+                <p className="text-xl font-bold">{cuttingMacros.fat}g</p>
+                <p className="text-sm">Fat ({0.32 * 100}%)</p>
               </div>
             </div>
           </div>
@@ -238,26 +217,26 @@ export default function Page() {
             <Separator />
             <div className="flex flex-row justify-between px-2">
               <div>
-                <p className="text-xl font-bold">{Math.round(proteinGrams)}g</p>
+                <p className="text-xl font-bold">{bulkingMacros.protein}g</p>
                 <p className="text-sm">
-                  Protein ({Math.round(bulkingProteinPercent * 100)}%)
-                </p>
-              </div>
-              <div>
-                <p className="text-xl font-bold">
-                  {Math.round(bulkingCarbsGrams)}g
-                </p>
-                <p className="text-sm">
-                  Carbs (
-                  {Math.round(((bulkingCarbsGrams * 4) / bulkingCals) * 100)}
+                  Protein (
+                  {Math.round(
+                    ((bulkingMacros.protein * 4) / (tdee + 500)) * 100,
+                  )}
                   %)
                 </p>
               </div>
               <div>
-                <p className="text-xl font-bold">
-                  {Math.round(bulkingFatGrams)}g
+                <p className="text-xl font-bold">{bulkingMacros.carbs}g</p>
+                <p className="text-sm">
+                  Carbs (
+                  {Math.round(((bulkingMacros.carbs * 4) / (tdee + 500)) * 100)}
+                  %)
                 </p>
-                <p className="text-sm">Fat ({fatPercent * 100}%)</p>
+              </div>
+              <div>
+                <p className="text-xl font-bold">{bulkingMacros.fat}g</p>
+                <p className="text-sm">Fat ({0.32 * 100}%)</p>
               </div>
             </div>
           </div>
