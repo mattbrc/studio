@@ -78,7 +78,7 @@ export function MealPlanForm({
           "You have reached the maximum number of meal plans for this month.",
         );
       } else {
-        toast.error("Failed to generate meal plan. Please try again shortly.");
+        toast.error(error.message);
       }
     },
   });
