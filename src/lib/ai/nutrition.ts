@@ -36,6 +36,7 @@ For each meal, provide:
 3. Macronutrient breakdown (protein, carbs, fat in grams)
 4. A list of ingredients
 Ensure that the sum of all meals meets the user's TDEE and macronutrient requirements as closely as possible. Be creative with meal ideas but keep them realistic and easy to prepare.
+NO MATTER WHAT MAKE SURE THE MACROS FOR PROTEIN, FAT, AND CARBS ARE AS CLOSE AS POSSIBLE TO THE USERS TDEE AND MACROS DESIRED!
 `;
 
 const objectPrompt = `
