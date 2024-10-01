@@ -108,6 +108,9 @@ export function MealPlanForm({
         goal as "Maintenance" | "Cutting" | "Bulking",
       );
 
+      console.log("weight used: ", weight);
+      console.log("Calculated macros:", macros); // Add this line
+
       await generateMealPlanMutation.mutateAsync({
         tdee: macros.calories,
         protein: macros.protein,

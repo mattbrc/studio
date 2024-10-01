@@ -48,6 +48,7 @@ Generate a one-day meal plan based on the following parameters:
 - Number of meals: {MEALS}
 The meal plan should be balanced and varied. Each meal should contribute to the overall macronutrient and calorie goals. Please provide detailed information for each meal as per the specified schema.
 Additionally, if the user has additional instructions, ALWAYS prioritize those instructions and add them in to the meal plan as necessary.
+Regardless of the additional instructions, ALWAYS make sure the macros for the day are as close as possible to the users TDEE and macronutrient goals. FOCUS ON THE PROTEIN. IT SHOULD MATCH.
 `;
 
 // Occasionally add in meals like salmon and rice with vegatables, greek yogurt with berries and nuts, and grilled chicken breast with a side of sweet potatoes and vegetables, protein packed breakfast bowls (oats, whey protein, berries, and peanut butter or almond butter).

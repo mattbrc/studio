@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@clerk/nextjs";
-import { calculateMacros } from "~/lib/macroCalculations";
+import { calculateMacros } from "~/lib/helpers";
 
 export default function Page() {
   const { user } = useUser();

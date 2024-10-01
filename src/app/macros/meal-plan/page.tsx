@@ -9,12 +9,13 @@ export default async function MealPlanPage() {
     await api.ai.getMealPlanGenerationsCount.query();
   const sub = await api.stripe.getSubscription.query();
   const tdee = await api.profile.getUserTDEE.query();
+  const profile = await api.profile.getUserMacros.query();
   let subscription = false;
   if (sub) {
     subscription = true;
   }
 
-  const weight = 70; // Assuming a default weight for demonstration
+  const weight = profile?.weight ? Number(profile.weight) : null;
 
   return (
     <MealPlanForm
