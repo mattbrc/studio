@@ -2,6 +2,8 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
 import { userProfiles } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { mealPlanGenerations } from "~/server/db/schema";
+import { desc } from "drizzle-orm";
 
 export const profileRouter = createTRPCRouter({
   hello: publicProcedure
@@ -148,6 +150,18 @@ export const profileRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.posts.findMany({
       orderBy: (posts, { desc }) => [desc(posts.createdAt)],
+      limit: 5,
+    });
+  }),
+
+  getLatestMealPlans: publicProcedure.query(async ({ ctx }) => {
+    const user = ctx.userId;
+    if (!user) {
+      return null; // Return null if no user is found
+    }
+    return ctx.db.query.mealPlanGenerations.findMany({
+      where: eq(mealPlanGenerations.userId, user),
+      orderBy: (mealPlanGenerations, { desc }) => [desc(mealPlanGenerations.generatedAt)],
       limit: 5,
     });
   }),

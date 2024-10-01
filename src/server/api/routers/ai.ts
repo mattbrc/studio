@@ -5,10 +5,14 @@ import { z } from "zod";
 import { generateMealPlan } from "~/lib/ai/nutrition";
 // import { generateWorkouts } from "~/lib/ai/generate";
 
-import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { posts } from "~/server/db/schema";
-import { and, eq, gte, count } from 'drizzle-orm';
-import { mealPlanGenerations } from '~/server/db/schema';
+import { and, eq, gte, count } from "drizzle-orm";
+import { mealPlanGenerations } from "~/server/db/schema";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -26,14 +30,16 @@ export const aiRouter = createTRPCRouter({
     }),
 
   generateMealPlan: privateProcedure
-    .input(z.object({ 
-      tdee: z.number(),
-      protein: z.number(),
-      carbs: z.number(),
-      fat: z.number(), 
-      meals: z.number(), 
-      instructions: z.string() 
-    }))
+    .input(
+      z.object({
+        tdee: z.number(),
+        protein: z.number(),
+        carbs: z.number(),
+        fat: z.number(),
+        meals: z.number(),
+        instructions: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const { success } = await ratelimit.limit(ctx.userId);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
@@ -49,15 +55,16 @@ export const aiRouter = createTRPCRouter({
         .where(
           and(
             eq(mealPlanGenerations.userId, ctx.userId),
-            gte(mealPlanGenerations.generatedAt, startOfMonth)
-          )
+            gte(mealPlanGenerations.generatedAt, startOfMonth),
+          ),
         )
         .execute();
 
       if (generationsThisMonth[0] && generationsThisMonth[0].count >= 100) {
         throw new TRPCError({
           code: "FORBIDDEN",
-          message: "LIMIT: You have reached the maximum number of meal plan generations for this month.",
+          message:
+            "LIMIT: You have reached the maximum number of meal plan generations for this month.",
         });
       }
 
@@ -74,6 +81,7 @@ export const aiRouter = createTRPCRouter({
       // Record the generation
       await ctx.db.insert(mealPlanGenerations).values({
         userId: ctx.userId,
+        mealPlan: mealPlan,
       });
 
       return {
@@ -81,29 +89,28 @@ export const aiRouter = createTRPCRouter({
       };
     }),
 
-  getMealPlanGenerationsCount: privateProcedure
-    .query(async ({ ctx }) => {
-      const startOfMonth = new Date();
-      startOfMonth.setDate(1);
-      startOfMonth.setHours(0, 0, 0, 0);
+  getMealPlanGenerationsCount: privateProcedure.query(async ({ ctx }) => {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
 
-      const generationsThisMonth = await ctx.db
-        .select({ count: count() })
-        .from(mealPlanGenerations)
-        .where(
-          and(
-            eq(mealPlanGenerations.userId, ctx.userId),
-            gte(mealPlanGenerations.generatedAt, startOfMonth)
-          )
-        )
-        .execute();
+    const generationsThisMonth = await ctx.db
+      .select({ count: count() })
+      .from(mealPlanGenerations)
+      .where(
+        and(
+          eq(mealPlanGenerations.userId, ctx.userId),
+          gte(mealPlanGenerations.generatedAt, startOfMonth),
+        ),
+      )
+      .execute();
 
-      return {
-        count: generationsThisMonth[0]?.count ?? 0,
-        limit: 100,
-        remaining: Math.max(100 - (generationsThisMonth[0]?.count ?? 0), 0),
-      };
-    }),
+    return {
+      count: generationsThisMonth[0]?.count ?? 0,
+      limit: 100,
+      remaining: Math.max(100 - (generationsThisMonth[0]?.count ?? 0), 0),
+    };
+  }),
 
   // generateWorkouts: publicProcedure
   //   .input(z.object({ text: z.string() }))

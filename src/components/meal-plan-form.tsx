@@ -38,6 +38,14 @@ const mealPlanSchema = z.object({
 
 type MealPlan = z.infer<typeof mealPlanSchema>;
 
+// Add this type if it's not already defined
+type StoredMealPlan = {
+  id: number;
+  userId: string;
+  generatedAt: Date;
+  mealPlan: MealPlan;
+};
+
 export function MealPlanForm({
   count,
   subscription,
@@ -52,11 +60,13 @@ export function MealPlanForm({
   const [loading, setLoading] = useState(false);
   const [mealPlan, setMealPlan] = useState<MealPlan | null>(null);
   const [numberOfMeals, setNumberOfMeals] = useState<string>("4");
-  const [customTDEE, setCustomTDEE] = useState<number | null>(tdee);
   const [goal, setGoal] = useState<string>("Maintenance");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
   const mealPlanRef = useRef<HTMLDivElement>(null);
+  const { data: latestMealPlans, isLoading: isLoadingMealPlans } =
+    api.profile.getLatestMealPlans.useQuery();
+  const [selectedPlanDate, setSelectedPlanDate] = useState<Date | null>(null);
 
   const handleAdditionalInstructionsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -188,7 +198,20 @@ export function MealPlanForm({
     writeText(`Total Carbs: ${mealPlan.totalCarbs}g`, 12, false);
     writeText(`Total Fat: ${mealPlan.totalFat}g`, 12, false);
 
-    doc.save("meal-plan.pdf");
+    // Instead of saving, let's create a blob and open it
+    const pdfBlob = doc.output("blob");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    // Create a link and trigger the download
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = "meal-plan.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up the URL object
+    URL.revokeObjectURL(pdfUrl);
   };
 
   return (
@@ -258,20 +281,54 @@ export function MealPlanForm({
         </div>
       </div>
       {subscription ? (
-        <Button
-          onClick={onSubmit}
-          disabled={loading || !!inputError || count === 100}
-          className="w-48"
-        >
-          {loading ? (
-            <>
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              Generating...
-            </>
-          ) : (
-            "Generate Meal Plan"
-          )}
-        </Button>
+        <div className="flex flex-col gap-4">
+          <Button
+            onClick={onSubmit}
+            disabled={loading || !!inputError || count === 100}
+            className="w-48"
+          >
+            {loading ? (
+              <>
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              "Generate Meal Plan"
+            )}
+          </Button>
+
+          {!isLoadingMealPlans &&
+            latestMealPlans &&
+            latestMealPlans.length > 0 && (
+              <div>
+                <h3 className="mb-2 text-lg font-semibold">
+                  Previous Meal Plans
+                </h3>
+                <Select
+                  onValueChange={(value) => {
+                    const selectedPlan = latestMealPlans.find(
+                      (plan) => plan.id.toString() === value,
+                    );
+                    if (selectedPlan) {
+                      setMealPlan(selectedPlan.mealPlan as MealPlan);
+                      setSelectedPlanDate(new Date(selectedPlan.generatedAt));
+                    }
+                  }}
+                >
+                  <SelectTrigger className="w-[300px]">
+                    <SelectValue placeholder="Select a previous meal plan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {latestMealPlans.map((plan) => (
+                      <SelectItem key={plan.id} value={plan.id.toString()}>
+                        Plan from {new Date(plan.generatedAt).toLocaleString()}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+        </div>
       ) : (
         <div className="flex flex-col gap-2">
           <div className="flex flex-row items-center gap-2 pb-2">
@@ -298,7 +355,12 @@ export function MealPlanForm({
       {mealPlan && (
         <>
           <div ref={mealPlanRef} className="mt-8">
-            <h2 className="mb-4 text-xl font-semibold">Generated Meal Plan:</h2>
+            <h2 className="mb-1 text-xl font-semibold">Meal Plan:</h2>
+            {selectedPlanDate && (
+              <p className="mb-4 text-sm text-muted-foreground">
+                Generated on: {selectedPlanDate.toLocaleString()}
+              </p>
+            )}
             <div className="space-y-6">
               {mealPlan.meals.map((meal, index) => (
                 <div key={index} className="rounded-lg border p-4">
