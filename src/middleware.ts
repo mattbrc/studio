@@ -5,7 +5,8 @@ import {
 
 const isProtectedRoute = createRouteMatcher([
   '/home/dashboard(.*)',
-  '/user/:userId(.*)'  // This pattern will match /user/user_id1234 and similar routes
+  '/user/:userId(.*)', // This pattern will match /user/user_id1234 and similar routes
+  '/macros/meal-plan(.*)',
 ]);
 
 // const isPublicRoute = createRouteMatcher(["/","/api/webhooks"]);

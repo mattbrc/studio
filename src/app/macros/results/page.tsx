@@ -7,8 +7,10 @@ import { Button } from "~/components/ui/button";
 import Link from "next/link";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUser } from "@clerk/nextjs";
 
 export default function Page() {
+  const { user } = useUser();
   const searchParams = useSearchParams();
   const age = searchParams.get("age");
   const weight = searchParams.get("weight");
@@ -262,9 +264,15 @@ export default function Page() {
         </TabsContent>
       </Tabs>
       <div className="flex justify-center pt-2">
-        <Button asChild variant="acid">
-          <Link href="https://app.acidgambit.com">Start Training</Link>
-        </Button>
+        {user ? (
+          <Button asChild variant="acid">
+            <Link href="/macros/meal-plan">Generate a Meal Plan</Link>
+          </Button>
+        ) : (
+          <Button asChild variant="acid">
+            <Link href="/sign-in">Generate a Meal Plan</Link>
+          </Button>
+        )}
       </div>
       <div className="pt-2">
         <Separator />

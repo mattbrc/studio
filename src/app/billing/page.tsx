@@ -52,10 +52,10 @@ const BillingDetails = async () => {
           </div>
           <h2 className="text-xl font-bold">Studio Pro</h2>
           <div className="flex flex-row gap-2">
-            <p className="text-5xl font-bold">$16</p>
+            <p className="text-5xl font-bold">$19</p>
             <div className="flex flex-col">
               <CardDescription>
-                Over 2 months free, $192 billed annually
+                Over 2 months free, $228 billed annually
               </CardDescription>
               <p>Per Month</p>
             </div>
@@ -81,6 +81,12 @@ const BillingDetails = async () => {
                 Access to all WODs
               </div>
             </li>
+            <li>
+              <div className="flex flex-row items-center gap-2">
+                <Icons.check />
+                Build your profile, save macros, and generate meal plans.
+              </div>
+            </li>
           </ul>
         </CardContent>
         <CardFooter>
@@ -95,7 +101,7 @@ const BillingDetails = async () => {
             // test mode
             // <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
             // live mode
-            <StripeCheckout priceId="price_1PbNQcL1iXnkfppRmW839vOG" />
+            <StripeCheckout priceId="price_1Q56cIL1iXnkfppRDjPw1xUM" />
             // <Button disabled={true} size="sm" variant="secondary">
             //   <span className="flex flex-row items-center gap-2">
             //     <p className="font-bold">Subscribe</p>
@@ -110,9 +116,9 @@ const BillingDetails = async () => {
         <CardHeader>
           <h2 className="text-xl font-bold">Studio Pro</h2>
           <div className="flex flex-row gap-2">
-            <p className="text-5xl font-bold">$20</p>
+            <p className="text-5xl font-bold">$24</p>
             <div className="flex flex-col">
-              <CardDescription>$20 billed monthly</CardDescription>
+              <CardDescription>$24 billed monthly</CardDescription>
               <p>Per Month</p>
             </div>
           </div>
@@ -137,6 +143,12 @@ const BillingDetails = async () => {
                 Access to all WODs
               </div>
             </li>
+            <li>
+              <div className="flex flex-row items-center gap-2">
+                <Icons.check />
+                Build your profile, save macros, and generate meal plans.
+              </div>
+            </li>
           </ul>
         </CardContent>
         <CardFooter>
@@ -151,7 +163,7 @@ const BillingDetails = async () => {
             // test mode
             // <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
             // live mode
-            <StripeCheckout priceId="price_1PbNF0L1iXnkfppRYzWD2Asr" />
+            <StripeCheckout priceId="price_1Q56dOL1iXnkfppRcJ7UE95a" />
             // <Button disabled={true} size="sm" variant="secondary">
             //   <span className="flex flex-row items-center gap-2">
             //     <p className="font-bold">Subscribe</p>

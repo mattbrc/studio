@@ -1,8 +1,20 @@
+import { TRPCError } from "@trpc/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { z } from "zod";
+import { generateMealPlan } from "~/lib/ai/nutrition";
 // import { generateWorkouts } from "~/lib/ai/generate";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 import { posts } from "~/server/db/schema";
+import { and, eq, gte, count } from 'drizzle-orm';
+import { mealPlanGenerations } from '~/server/db/schema';
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  analytics: true,
+});
 
 export const aiRouter = createTRPCRouter({
   hello: publicProcedure
@@ -10,6 +22,86 @@ export const aiRouter = createTRPCRouter({
     .query(({ input }) => {
       return {
         greeting: `Hello ${input.text}`,
+      };
+    }),
+
+  generateMealPlan: privateProcedure
+    .input(z.object({ 
+      tdee: z.number(),
+      protein: z.number(),
+      carbs: z.number(),
+      fat: z.number(), 
+      meals: z.number(), 
+      instructions: z.string() 
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { success } = await ratelimit.limit(ctx.userId);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
+      // Check the number of generations for the current month
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const generationsThisMonth = await ctx.db
+        .select({ count: count() })
+        .from(mealPlanGenerations)
+        .where(
+          and(
+            eq(mealPlanGenerations.userId, ctx.userId),
+            gte(mealPlanGenerations.generatedAt, startOfMonth)
+          )
+        )
+        .execute();
+
+      if (generationsThisMonth[0] && generationsThisMonth[0].count >= 100) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "LIMIT: You have reached the maximum number of meal plan generations for this month.",
+        });
+      }
+
+      // Generate the meal plan
+      const mealPlan = await generateMealPlan({
+        tdee: input.tdee,
+        protein: input.protein,
+        carbs: input.carbs,
+        fat: input.fat,
+        meals: input.meals,
+        additionalInstructions: input.instructions,
+      });
+
+      // Record the generation
+      await ctx.db.insert(mealPlanGenerations).values({
+        userId: ctx.userId,
+      });
+
+      return {
+        mealPlan,
+      };
+    }),
+
+  getMealPlanGenerationsCount: privateProcedure
+    .query(async ({ ctx }) => {
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const generationsThisMonth = await ctx.db
+        .select({ count: count() })
+        .from(mealPlanGenerations)
+        .where(
+          and(
+            eq(mealPlanGenerations.userId, ctx.userId),
+            gte(mealPlanGenerations.generatedAt, startOfMonth)
+          )
+        )
+        .execute();
+
+      return {
+        count: generationsThisMonth[0]?.count ?? 0,
+        limit: 100,
+        remaining: Math.max(100 - (generationsThisMonth[0]?.count ?? 0), 0),
       };
     }),
 

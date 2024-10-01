@@ -51,6 +51,11 @@ export default async function Page() {
             </div>
           </Alert>
         )}
+        {defaultValues && (
+          <p className="text-sm text-muted-foreground">
+            Welcome back! We&apos;ve saved your macros. Make changes as needed
+          </p>
+        )}
         <MacroCalculator defaultValues={defaultValues} />
       </div>
     </>

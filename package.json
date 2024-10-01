@@ -48,6 +48,8 @@
     "drizzle-zod": "^0.5.1",
     "embla-carousel-react": "^8.0.0-rc19",
     "geist": "^1.0.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "next": "^14.0.4",
     "openai": "^4.61.0",
     "pg": "^8.12.0",

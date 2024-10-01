@@ -178,7 +178,7 @@ export const subscriptions = mysqlTable("subscriptions", {
   stripeCurrentPeriodEnd: bigint("stripeCurrentPeriodEnd", { mode: "number" }).notNull(),
 });
 
-// userId to strieCustomerId xRef table - route handler can now access clerk userID
+// userId to stripeCustomerId xRef table - route handler can now access clerk userID
 export const customers = mysqlTable("customers", {
   userId: varchar("userId", { length: 256 }).notNull().primaryKey(),
   stripeCustomerId: text("stripeCustomerId").notNull(),
@@ -204,10 +204,6 @@ export const userProfiles = mysqlTable("userProfiles", {
   userIndex: index("user_idx").on(table.userId),
 }));
 
-//in my getUserMacros procedure, can you update it to return only these values from the table: gender, weight, height, age, activityFactor, bmr, tdee?
-
-// define the many relationship between userProgram ID and workouts for that program ID
-// define one relationship between userProgram ID and associated program info
 export const userProgramRelations = relations(userPrograms, ({ one, many }) => ({
   program: one(programs, {
     fields: [userPrograms.programId],
@@ -216,7 +212,6 @@ export const userProgramRelations = relations(userPrograms, ({ one, many }) => (
   workouts: many(programWorkouts)
 }));
 
-// define one relationship between programIds in programWorkouts ID and userProgram ID
 export const workoutsRelations = relations(programWorkouts, ({ one }) => ({
   user: one(userPrograms, {
     fields: [programWorkouts.programId],
@@ -231,4 +226,8 @@ export const workoutProgramRelations = relations(programWorkouts, ({ one }) => (
   }),
 }));
 
-
+export const mealPlanGenerations = mysqlTable('meal_plan_generations', {
+  id: int('id').primaryKey().autoincrement(),
+  userId: varchar('user_id', { length: 255 }).notNull(),
+  generatedAt: timestamp('generated_at').defaultNow().notNull(),
+});
