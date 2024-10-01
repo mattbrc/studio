@@ -38,6 +38,9 @@ export const aiRouter = createTRPCRouter({
         fat: z.number(),
         meals: z.number(),
         instructions: z.string(),
+        breakfastType: z.number().nullable().optional(),
+        lunchType: z.number().nullable().optional(),
+        dinnerType: z.number().nullable().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -76,6 +79,9 @@ export const aiRouter = createTRPCRouter({
         fat: input.fat,
         meals: input.meals,
         additionalInstructions: input.instructions,
+        breakfastType: input.breakfastType ?? undefined,
+        lunchType: input.lunchType ?? undefined,
+        dinnerType: input.dinnerType ?? undefined,
       });
 
       // Record the generation

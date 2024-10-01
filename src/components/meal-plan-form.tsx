@@ -38,14 +38,6 @@ const mealPlanSchema = z.object({
 
 type MealPlan = z.infer<typeof mealPlanSchema>;
 
-// Add this type if it's not already defined
-type StoredMealPlan = {
-  id: number;
-  userId: string;
-  generatedAt: Date;
-  mealPlan: MealPlan;
-};
-
 export function MealPlanForm({
   count,
   subscription,
@@ -67,6 +59,9 @@ export function MealPlanForm({
   const { data: latestMealPlans, isLoading: isLoadingMealPlans } =
     api.profile.getLatestMealPlans.useQuery();
   const [selectedPlanDate, setSelectedPlanDate] = useState<Date | null>(null);
+  const [breakfastType, setBreakfastType] = useState<number | null>(null);
+  const [lunchType, setLunchType] = useState<number | null>(null);
+  const [dinnerType, setDinnerType] = useState<number | null>(null);
 
   const handleAdditionalInstructionsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -120,6 +115,9 @@ export function MealPlanForm({
         fat: macros.fat,
         meals: parseInt(numberOfMeals, 10),
         instructions: additionalInstructions,
+        breakfastType,
+        lunchType,
+        dinnerType,
       });
     } catch (error) {
       console.error("Error:", error);
@@ -216,67 +214,150 @@ export function MealPlanForm({
 
   return (
     <>
-      <div className="mb-4 flex flex-col gap-2">
+      <div className="mb-4 space-y-4">
         {count !== undefined && (
-          <div className="flex flex-row items-center gap-2 pb-2">
+          <div className="flex items-center gap-2">
             <Icons.alert className="text-emerald-400" />
             <p className="text-sm text-muted-foreground">
               {100 - count}/100 meal plans remaining this month.
             </p>
           </div>
         )}
-        <div className="flex flex-col gap-2">
-          <p className="font-bold">Quick Options</p>
-          <div className="flex flex-row items-center gap-2 py-2">
-            <label htmlFor="meals">Meals/day</label>
-            <Select
-              onValueChange={setNumberOfMeals}
-              defaultValue={numberOfMeals}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Quick Options</h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            <div className="space-y-2">
+              <label htmlFor="meals" className="block text-sm font-medium">
+                Meals/day
+              </label>
+              <Select
+                onValueChange={setNumberOfMeals}
+                defaultValue={numberOfMeals}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select meals" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="2">2 Meals</SelectItem>
+                  <SelectItem value="3">3 Meals</SelectItem>
+                  <SelectItem value="4">4 Meals</SelectItem>
+                  <SelectItem value="5">5 Meals</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="goal" className="block text-sm font-medium">
+                Goal
+              </label>
+              <Select onValueChange={setGoal} defaultValue={goal}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Maintenance" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Maintenance">Maintenance</SelectItem>
+                  <SelectItem value="Bulking">Bulking</SelectItem>
+                  <SelectItem value="Cutting">Cutting</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="breakfastType"
+                className="block text-sm font-medium"
+              >
+                Breakfast Type
+              </label>
+              <Select
+                onValueChange={(value) =>
+                  setBreakfastType(value ? Number(value) : null)
+                }
+                defaultValue={breakfastType?.toString() ?? ""}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="I trust you" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">I trust you</SelectItem>
+                  <SelectItem value="1">
+                    English Muffin Breakfast Sandwich
+                  </SelectItem>
+                  <SelectItem value="2">Oatmeal</SelectItem>
+                  <SelectItem value="3">Protein Smoothie</SelectItem>
+                  <SelectItem value="4">Greek Yogurt Bowl</SelectItem>
+                  <SelectItem value="5">Breakfast Wrap</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="lunchType" className="block text-sm font-medium">
+                Lunch Type
+              </label>
+              <Select
+                onValueChange={(value) =>
+                  setLunchType(value ? Number(value) : null)
+                }
+                defaultValue={lunchType?.toString() ?? ""}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="AG knows best" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">AG knows best</SelectItem>
+                  <SelectItem value="1">Grilled Chicken Salad</SelectItem>
+                  <SelectItem value="2">Steak Salad</SelectItem>
+                  <SelectItem value="3">Same as Dinner</SelectItem>
+                  <SelectItem value="4">Tuna Wrap</SelectItem>
+                  <SelectItem value="5">Protein Pasta</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="dinnerType" className="block text-sm font-medium">
+                Dinner Type
+              </label>
+              <Select
+                onValueChange={(value) =>
+                  setDinnerType(value ? Number(value) : null)
+                }
+                defaultValue={dinnerType?.toString() ?? ""}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Trust System" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">Trust System</SelectItem>
+                  <SelectItem value="1">Ground Beef Dog Food</SelectItem>
+                  <SelectItem value="2">Chicken Dog Food</SelectItem>
+                  <SelectItem value="3">Salmon Dog Food</SelectItem>
+                  <SelectItem value="4">
+                    1 pan Chicken, roast potatos and veggies
+                  </SelectItem>
+                  <SelectItem value="5">Steak + mashed potatos</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label
+              htmlFor="additionalInstructions"
+              className="block text-sm font-medium"
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select meals" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="2">2 Meals</SelectItem>
-                <SelectItem value="3">3 Meals</SelectItem>
-                <SelectItem value="4">4 Meals</SelectItem>
-                <SelectItem value="5">5 Meals</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-row items-center gap-2 py-2">
-            <label htmlFor="goal">Goal</label>
-            <Select onValueChange={setGoal} defaultValue={goal}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Maintenance" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Maintenance">Maintenance</SelectItem>
-                <SelectItem value="Bulking">Bulking</SelectItem>
-                <SelectItem value="Cutting">Cutting</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="additionalInstructions">
               Additional Instructions (optional)
             </label>
-            <div>
-              <Input
-                id="additionalInstructions"
-                placeholder="E.g., No milk, I don't want elite dog food, etc."
-                value={additionalInstructions}
-                onChange={handleAdditionalInstructionsChange}
-                className="w-full text-base"
-                maxLength={300}
-              />
-              {inputError && (
-                <p className="text-sm text-destructive">{inputError}</p>
-              )}
-              <p className="px-2 text-sm text-muted-foreground">
-                {additionalInstructions.length}/300 characters
-              </p>
-            </div>
+            <Input
+              id="additionalInstructions"
+              placeholder="E.g., No milk, I don't want elite dog food, etc."
+              value={additionalInstructions}
+              onChange={handleAdditionalInstructionsChange}
+              className="w-full text-base"
+              maxLength={300}
+            />
+            {inputError && (
+              <p className="text-sm text-destructive">{inputError}</p>
+            )}
+            <p className="text-sm text-muted-foreground">
+              {additionalInstructions.length}/300 characters
+            </p>
           </div>
         </div>
       </div>
@@ -285,7 +366,7 @@ export function MealPlanForm({
           <Button
             onClick={onSubmit}
             disabled={loading || !!inputError || count === 100}
-            className="w-48"
+            className="w-full sm:w-48"
           >
             {loading ? (
               <>
