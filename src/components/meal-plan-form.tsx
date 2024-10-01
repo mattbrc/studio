@@ -16,7 +16,7 @@ import { Icons } from "~/components/icons";
 import { toast } from "react-hot-toast";
 import { api } from "~/trpc/react";
 import Link from "next/link";
-import { calculateMacros } from "~/lib/macroCalculations";
+import { calculateMacros } from "~/lib/helpers";
 
 const mealSchema = z.object({
   name: z.string(),
