@@ -51,9 +51,9 @@ export function MenuDropdown() {
           <DropdownMenuItem asChild>
             <Link href="/macros">Macros</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
+          {/* <DropdownMenuItem asChild>
             <Link href="/home/meet">Meet</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           {/* <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">Pricing</Link>
           </DropdownMenuItem> */}

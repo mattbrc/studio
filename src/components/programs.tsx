@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -57,6 +58,12 @@ export function Programs({
   activeProgram,
   uniqueProgramId,
 }: TrainingProps) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
@@ -85,7 +92,11 @@ export function Programs({
         {data ? (
           <div>
             {data.map((program) => (
-              <TrainingCard key={program.programId} program={program} />
+              <TrainingCard
+                key={program.programId}
+                program={program}
+                isClient={isClient}
+              />
             ))}
             <Card>
               <CardHeader>
@@ -115,7 +126,10 @@ export function Programs({
   );
 }
 
-const TrainingCard = ({ program }: TrainingCardProps) => {
+const TrainingCard = ({
+  program,
+  isClient,
+}: TrainingCardProps & { isClient: boolean }) => {
   if (!program)
     return (
       <Card className="w-full md:w-1/2">
@@ -142,10 +156,12 @@ const TrainingCard = ({ program }: TrainingCardProps) => {
           </div>
           <div className="flex flex-col gap-2">
             {program.active ? (
-              <StartProgram
-                programId={program.programId}
-                name={program.title}
-              />
+              isClient && (
+                <StartProgram
+                  programId={program.programId}
+                  name={program.title}
+                />
+              )
             ) : (
               <Button disabled={true} size="sm" variant="secondary">
                 Coming Soon
