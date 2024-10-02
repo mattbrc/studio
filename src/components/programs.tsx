@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -10,24 +9,11 @@ import {
   CardTitle,
 } from "./ui/card";
 import * as React from "react";
-import { useRouter } from "next/navigation";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Icons } from "@/components/icons";
-import toast from "react-hot-toast";
-import { api } from "~/trpc/react";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
+// import { StartProgram } from "./start-program-button";
+import dynamic from "next/dynamic";
 
 interface Program {
   title: string;
@@ -53,17 +39,18 @@ interface SubmitProgramProps {
   name: string;
 }
 
+const StartProgram = dynamic(
+  () => import("./start-program-button").then((mod) => mod.StartProgram),
+  {
+    ssr: false,
+  },
+);
+
 export function Programs({
   data,
   activeProgram,
   uniqueProgramId,
 }: TrainingProps) {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
@@ -92,11 +79,7 @@ export function Programs({
         {data ? (
           <div>
             {data.map((program) => (
-              <TrainingCard
-                key={program.programId}
-                program={program}
-                isClient={isClient}
-              />
+              <TrainingCard key={program.programId} program={program} />
             ))}
             <Card>
               <CardHeader>
@@ -126,10 +109,7 @@ export function Programs({
   );
 }
 
-const TrainingCard = ({
-  program,
-  isClient,
-}: TrainingCardProps & { isClient: boolean }) => {
+const TrainingCard = ({ program }: TrainingCardProps) => {
   if (!program)
     return (
       <Card className="w-full md:w-1/2">
@@ -156,12 +136,10 @@ const TrainingCard = ({
           </div>
           <div className="flex flex-col gap-2">
             {program.active ? (
-              isClient && (
-                <StartProgram
-                  programId={program.programId}
-                  name={program.title}
-                />
-              )
+              <StartProgram
+                programId={program.programId}
+                name={program.title}
+              />
             ) : (
               <Button disabled={true} size="sm" variant="secondary">
                 Coming Soon
@@ -177,57 +155,57 @@ const TrainingCard = ({
   );
 };
 
-function StartProgram({ programId, name }: SubmitProgramProps) {
-  const router = useRouter();
-  const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
+// function StartProgram({ programId, name }: SubmitProgramProps) {
+//   const router = useRouter();
+//   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
 
-  const mutation = api.wod.startProgram.useMutation({
-    onSuccess: () => {
-      toast.success("Program Started");
-      setIsSubmitLoading(false);
-      router.refresh();
-    },
-    onError: (e) => {
-      const errorCode = e.data?.code;
-      if (errorCode === "TOO_MANY_REQUESTS") {
-        toast.error("Rate limit reached. Try again in 1 minute.");
-      } else {
-        toast.error("Error, Something went wrong.");
-      }
-      setIsSubmitLoading(false);
-    },
-  });
+//   const mutation = api.wod.startProgram.useMutation({
+//     onSuccess: () => {
+//       toast.success("Program Started");
+//       setIsSubmitLoading(false);
+//       router.refresh();
+//     },
+//     onError: (e) => {
+//       const errorCode = e.data?.code;
+//       if (errorCode === "TOO_MANY_REQUESTS") {
+//         toast.error("Rate limit reached. Try again in 1 minute.");
+//       } else {
+//         toast.error("Error, Something went wrong.");
+//       }
+//       setIsSubmitLoading(false);
+//     },
+//   });
 
-  const handleSubmit = () => {
-    setIsSubmitLoading(true);
-    mutation.mutate({ programId });
-  };
+//   const handleSubmit = () => {
+//     setIsSubmitLoading(true);
+//     mutation.mutate({ programId });
+//   };
 
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button disabled={isSubmitLoading} size="sm" variant="acid">
-          <div>
-            {isSubmitLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <span>Start Program</span>
-            )}
-          </div>
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Confirm New Program</AlertDialogTitle>
-          <AlertDialogDescription>Begin {name}</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction disabled={isSubmitLoading} onClick={handleSubmit}>
-            <span>Submit</span>
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}
+//   return (
+//     <AlertDialog>
+//       <AlertDialogTrigger asChild>
+//         <Button disabled={isSubmitLoading} size="sm" variant="acid">
+//           <div>
+//             {isSubmitLoading ? (
+//               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+//             ) : (
+//               <span>Start Program</span>
+//             )}
+//           </div>
+//         </Button>
+//       </AlertDialogTrigger>
+//       <AlertDialogContent>
+//         <AlertDialogHeader>
+//           <AlertDialogTitle>Confirm New Program</AlertDialogTitle>
+//           <AlertDialogDescription>Begin {name}</AlertDialogDescription>
+//         </AlertDialogHeader>
+//         <AlertDialogFooter>
+//           <AlertDialogCancel>Cancel</AlertDialogCancel>
+//           <AlertDialogAction disabled={isSubmitLoading} onClick={handleSubmit}>
+//             <span>Submit</span>
+//           </AlertDialogAction>
+//         </AlertDialogFooter>
+//       </AlertDialogContent>
+//     </AlertDialog>
+//   );
+// }
