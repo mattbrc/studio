@@ -227,7 +227,8 @@ export function MealPlanForm({
           </div>
         )}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Quick Options</h3>
+          <h2 className="text-lg font-bold">AG Meal Planner v1</h2>
+          <h3 className="font-semibold">Quick Options</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             <div className="space-y-2">
               <label htmlFor="meals" className="block text-sm font-medium">
