@@ -254,17 +254,17 @@ export const wodRouter = createTRPCRouter({
       const { success } = await ratelimit.limit(id);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
 
-      const existingSubmission = await ctx.db
-      .select()
-      .from(workoutsLog)
-      .where(sql`${workoutsLog.athleteId} = ${id} AND DATE(${workoutsLog.createdAt}) = CURRENT_DATE AND ${workoutsLog.workoutId} = ${workoutId}`);
+      // const existingSubmission = await ctx.db
+      // .select()
+      // .from(workoutsLog)
+      // .where(sql`${workoutsLog.athleteId} = ${id} AND DATE(${workoutsLog.createdAt}) = CURRENT_DATE AND ${workoutsLog.workoutId} = ${workoutId}`);
   
-      if (existingSubmission.length !== 0) {
-        throw new TRPCError({
-          code: 'CONFLICT',
-          message: 'Workout has already been submitted'
-        });
-      }
+      // if (existingSubmission.length !== 0) {
+      //   throw new TRPCError({
+      //     code: 'CONFLICT',
+      //     message: 'Workout has already been submitted'
+      //   });
+      // }
 
       await ctx.db
         .update(userPrograms)
