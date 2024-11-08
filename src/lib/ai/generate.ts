@@ -209,7 +209,7 @@ ${exampleWorkouts}
 
   try {
     const { object: program } = await generateObject({
-      model: openai('gpt-4o-mini'),
+      model: openai('gpt-4o'),
       schema: programSchema,
       system: systemPrompt,
       prompt: updatedObjectPrompt,
@@ -221,13 +221,3 @@ ${exampleWorkouts}
     throw new Error('Failed to generate workouts');
   }
 }
-
-// generate the object
-// export const { object } = await generateObject({
-//   model: openai('gpt-4'),
-//   schema: workoutSchema,
-//   system: systemPrompt,
-//   prompt: objectPrompt,
-// });
-
-// console.log(JSON.stringify(object, null, 2));

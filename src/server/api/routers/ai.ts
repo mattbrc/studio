@@ -44,55 +44,69 @@ export const aiRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const { success } = await ratelimit.limit(ctx.userId);
-      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+      try {
+        const { success } = await ratelimit.limit(ctx.userId);
+        if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
-      // Check the number of generations for the current month
-      const startOfMonth = new Date();
-      startOfMonth.setDate(1);
-      startOfMonth.setHours(0, 0, 0, 0);
+        // Check the number of generations for the current month
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
 
-      const generationsThisMonth = await ctx.db
-        .select({ count: count() })
-        .from(mealPlanGenerations)
-        .where(
-          and(
-            eq(mealPlanGenerations.userId, ctx.userId),
-            gte(mealPlanGenerations.generatedAt, startOfMonth),
-          ),
-        )
-        .execute();
+        const generationsThisMonth = await ctx.db
+          .select({ count: count() })
+          .from(mealPlanGenerations)
+          .where(
+            and(
+              eq(mealPlanGenerations.userId, ctx.userId),
+              gte(mealPlanGenerations.generatedAt, startOfMonth),
+            ),
+          )
+          .execute();
 
-      if (generationsThisMonth[0] && generationsThisMonth[0].count >= 100) {
+        if (generationsThisMonth[0] && generationsThisMonth[0].count >= 100) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message:
+              "LIMIT: You have reached the maximum number of meal plan generations for this month.",
+          });
+        }
+
+        // Generate the meal plan
+        const mealPlan = await generateMealPlan({
+          tdee: input.tdee,
+          protein: input.protein,
+          carbs: input.carbs,
+          fat: input.fat,
+          meals: input.meals,
+          additionalInstructions: input.instructions,
+          breakfastType: input.breakfastType ?? undefined,
+          lunchType: input.lunchType ?? undefined,
+          dinnerType: input.dinnerType ?? undefined,
+        });
+
+        // Record the generation
+        await ctx.db.insert(mealPlanGenerations).values({
+          userId: ctx.userId,
+          mealPlan: mealPlan,
+        });
+
+        return {
+          mealPlan,
+        };
+      } catch (error) {
+        console.error("Meal plan generation error:", error);
+        
+        // Handle specific error types
+        if (error instanceof TRPCError) throw error;
+        
         throw new TRPCError({
-          code: "FORBIDDEN",
-          message:
-            "LIMIT: You have reached the maximum number of meal plan generations for this month.",
+          code: "INTERNAL_SERVER_ERROR",
+          message: error instanceof Error ? error.message : "Failed to generate meal plan",
+          // Optional: Add cause for debugging
+          cause: error,
         });
       }
-
-      // Generate the meal plan
-      const mealPlan = await generateMealPlan({
-        tdee: input.tdee,
-        protein: input.protein,
-        carbs: input.carbs,
-        fat: input.fat,
-        meals: input.meals,
-        additionalInstructions: input.instructions,
-        breakfastType: input.breakfastType ?? undefined,
-        lunchType: input.lunchType ?? undefined,
-        dinnerType: input.dinnerType ?? undefined,
-      });
-
-      // Record the generation
-      await ctx.db.insert(mealPlanGenerations).values({
-        userId: ctx.userId,
-        mealPlan: mealPlan,
-      });
-
-      return {
-        mealPlan,
-      };
     }),
 
   getMealPlanGenerationsCount: privateProcedure.query(async ({ ctx }) => {

@@ -1,30 +1,30 @@
-import PathTerminal from "@/components/path-terminal";
-import { clerkClient } from "@clerk/nextjs/server";
-import { generateWorkouts } from "@/lib/ai/generate";
+"use client";
 
-export const metadata = {
-  title: "The Path",
-};
+import { useState } from "react";
 
-export default async function Page() {
-  // Call generateWorkouts with a goal
-  const workouts = await generateWorkouts("hybrid");
-
-  // Log the generated workouts
-  console.log("Generated workouts:", JSON.stringify(workouts, null, 2));
-
+export default function Page() {
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
-      <div className="h-screen w-full md:w-2/3 lg:w-1/2">
+      <div className="w-full md:w-2/3 lg:w-1/2">
         <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
           <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">
-            The Path
+            Training Program Generator
           </h1>
         </header>
-        {/* <PathTerminal /> */}
-        <pre className="whitespace-pre-wrap">
-          {JSON.stringify(workouts, null, 2)}
-        </pre>
+        {/* 
+        {!program ? (
+          <TrainingForm onProgramGenerated={setProgram} />
+        ) : (
+          <div className="space-y-4">
+            <TrainingProgramDisplay program={program} />
+            <button
+              onClick={() => setProgram(null)}
+              className="w-full rounded-md bg-secondary px-4 py-2 text-secondary-foreground hover:bg-secondary/90"
+            >
+              Generate Another Program
+            </button>
+          </div>
+        )} */}
       </div>
     </div>
   );
