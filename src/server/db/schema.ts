@@ -12,7 +12,6 @@ import {
   json,
   text,
   boolean,
-  decimal,
 } from "drizzle-orm/mysql-core";
 import { createId } from '@paralleldrive/cuid2';
 import { relations } from 'drizzle-orm';
@@ -140,6 +139,7 @@ export const userPrograms = mysqlTable(
     isBeingCoached: int("isBeingCoached").notNull().default(0),
     coachId: varchar("coachId", { length: 256 }),
     programId: bigint("programId", { mode: "number" }),
+
     uniqueProgramId: varchar('uniqueProgramId', { length: 128 }).$defaultFn(() => createId()),
     currentWorkoutId: int("currentWorkoutId").notNull().default(0),
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
@@ -237,5 +237,5 @@ export const pathGenerations = mysqlTable('pathGenerations', {
   id: int('id').primaryKey().autoincrement(),
   userId: varchar('user_id', { length: 255 }).notNull(),
   generatedAt: timestamp('generated_at').defaultNow().notNull(),
-  program: json('program').notNull(), // Add this line to store the full meal plan
+  program: json('program').notNull(), 
 });

@@ -135,9 +135,10 @@ export const aiRouter = createTRPCRouter({
   generatePathProgram: privateProcedure
     .input(
       z.object({
-        level: z.string(),
         goal: z.string(),
         liftsPerWeek: z.number(),
+        // phase: z.string(),
+        split: z.string(),
         conditioningPerWeek: z.number(),
         instructions: z.string(),
       }),
@@ -173,7 +174,8 @@ export const aiRouter = createTRPCRouter({
 
         // Generate the meal plan
         const pathProgram = await generatePathProgram({
-          level: input.level,
+          // phase: input.phase,
+          split: input.split,
           goal: input.goal,
           liftsPerWeek: input.liftsPerWeek,
           conditioningPerWeek: input.conditioningPerWeek,
@@ -181,13 +183,14 @@ export const aiRouter = createTRPCRouter({
         });
 
         // Record the generation
-        await ctx.db.insert(pathGenerations).values({
+        const result = await ctx.db.insert(pathGenerations).values({
           userId: ctx.userId,
           program: pathProgram,
-        });
+        }).$returningId();
 
         return {
           pathProgram,
+          generationId: result[0]?.id,
         };
       } catch (error) {
         console.error("Path program generation error:", error);
@@ -226,4 +229,5 @@ export const aiRouter = createTRPCRouter({
       remaining: Math.max(100 - (generationsThisMonth[0]?.count ?? 0), 0),
     };
   }),
+
 });

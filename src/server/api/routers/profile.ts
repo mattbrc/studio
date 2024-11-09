@@ -3,7 +3,6 @@ import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/ap
 import { pathGenerations, userProfiles } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { mealPlanGenerations } from "~/server/db/schema";
-import { desc } from "drizzle-orm";
 
 export const profileRouter = createTRPCRouter({
   hello: publicProcedure
@@ -166,15 +165,15 @@ export const profileRouter = createTRPCRouter({
     });
   }),
 
-  // getLatestPathPrograms: publicProcedure.query(async ({ ctx }) => {
-  //   const user = ctx.userId;
-  //   if (!user) {
-  //     return null; // Return null if no user is found
-  //   }
-  //   return ctx.db.query.pathGenerations.findMany({
-  //     where: eq(pathGenerations.userId, user),
-  //     orderBy: (pathGenerations, { desc }) => [desc(pathGenerations.generatedAt)],
-  //     limit: 5,
-  //   });
-  // }),
+  getLatestPathPrograms: publicProcedure.query(async ({ ctx }) => {
+    const user = ctx.userId;
+    if (!user) {
+      return null; // Return null if no user is found
+    }
+    return ctx.db.query.pathGenerations.findMany({
+      where: eq(pathGenerations.userId, user),
+      orderBy: (pathGenerations, { desc }) => [desc(pathGenerations.generatedAt)],
+      limit: 5,
+    });
+  }),
 });

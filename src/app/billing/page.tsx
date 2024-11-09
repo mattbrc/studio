@@ -75,7 +75,7 @@ const BillingDetails = async () => {
             <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />
-                Build your profile, save macros, and generate meal plans.
+                Save macros, generate meal plans
               </div>
             </li>
           </ul>
@@ -149,7 +149,13 @@ const BillingDetails = async () => {
             <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />
-                Build your profile, save macros, and generate meal plans.
+                Save macros, generate meal plans
+              </div>
+            </li>
+            <li>
+              <div className="flex flex-row items-center gap-2">
+                <Icons.check />
+                Save with annual billing
               </div>
             </li>
           </ul>

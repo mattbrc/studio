@@ -2,12 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
 
 import type { MainNavItem } from "../types";
 import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { MobileNav } from "@/components/mobile-nav";
 
 interface MainNavProps {
   items?: MainNavItem[];

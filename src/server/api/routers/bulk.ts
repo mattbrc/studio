@@ -1,8 +1,6 @@
-import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, programWorkouts, trackWorkouts, userProgramRelations, userPrograms, wods, workoutsLog } from "~/server/db/schema";
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import { programWorkouts, trackWorkouts, wods } from "~/server/db/schema";
 import { z } from "zod";
-import { TRPCError } from "@trpc/server";
-import { eq, sql } from "drizzle-orm";
 
 // Define the input schema for the bulk insert procedure into Wods table
 const bulkInsertWodsInput = z.array(z.object({

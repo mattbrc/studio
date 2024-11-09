@@ -40,7 +40,9 @@ export function PathProgramForm({
   const [pathProgram, setPathProgram] = useState<PathProgram | null>(null);
   const [conditioningPerWeek, setConditioningPerWeek] = useState<string>("3");
   const [liftsPerWeek, setLiftsPerWeek] = useState<string>("3");
-  const [level, setLevel] = useState<string>("Intermediate");
+  // const [phase, setPhase] = useState<string>("1");
+  const [split, setSplit] = useState<string>("upper-lower");
+  // const [level, setLevel] = useState<string>("intermediate");
   const [goal, setGoal] = useState<string>("hybrid");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
@@ -66,6 +68,7 @@ export function PathProgramForm({
       setPathProgram(data.pathProgram);
       toast.success("Path program generated successfully");
       console.log(data.pathProgram);
+      console.log(data.generationId);
     },
     onError: (error) => {
       console.error("Error:", error);
@@ -87,7 +90,8 @@ export function PathProgramForm({
     try {
       console.log("Generating path program...");
       await generatePathMutation.mutateAsync({
-        level,
+        // phase,
+        split,
         goal,
         liftsPerWeek: parseInt(liftsPerWeek, 10),
         conditioningPerWeek: parseInt(conditioningPerWeek, 10),
@@ -116,8 +120,7 @@ export function PathProgramForm({
           <div>
             <h2 className="text-lg font-bold">The Path v1</h2>
             <p className="text-sm text-muted-foreground">
-              The Path is a custom program based on existing AG Programs and
-              your goals.
+              The Path is a custom program built specifically for your goals.
             </p>
           </div>
           <h3 className="font-semibold">Quick Options</h3>
@@ -174,30 +177,48 @@ export function PathProgramForm({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="hybrid">Hybrid</SelectItem>
-                  <SelectItem value="VO2 Max + HRV Focused (aerobic)">
+                  <SelectItem value="vo2-max-hrv">
                     VO2 Max + HRV Focused (aerobic)
                   </SelectItem>
-                  <SelectItem value="Speed">Speed (1-5 Miler)</SelectItem>
-                  <SelectItem value="Strength">Strength</SelectItem>
-                  <SelectItem value="Marathon">Half/Full Marathon</SelectItem>
-                  <SelectItem value="MilPrep">MilPrep</SelectItem>
-                  <SelectItem value="ACFT">ACFT</SelectItem>
+                  <SelectItem value="speed">Speed (1-5 Miler)</SelectItem>
+                  <SelectItem value="strength">Strength</SelectItem>
+                  <SelectItem value="marathon">Half/Full Marathon</SelectItem>
+                  <SelectItem value="milprep">MilPrep</SelectItem>
+                  <SelectItem value="acft">ACFT</SelectItem>
+                  <SelectItem value="maintenance">Maintenance</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <label htmlFor="level" className="block text-sm font-medium">
-                Training Level
+            {/* <div className="space-y-2">
+              <label htmlFor="phase" className="block text-sm font-medium">
+                Block Phase
               </label>
-              <Select onValueChange={setLevel} defaultValue={level}>
+              <Select onValueChange={setPhase} defaultValue={phase}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Intermediate" />
+                  <SelectValue placeholder="1" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Beginner">Beginner</SelectItem>
-                  <SelectItem value="Intermediate">Intermediate</SelectItem>
-                  <SelectItem value="Advanced">Advanced</SelectItem>
-                  <SelectItem value="Savage">Savage</SelectItem>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="3">3</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                </SelectContent>
+              </Select>
+            </div> */}
+            <div className="space-y-2">
+              <label htmlFor="split" className="block text-sm font-medium">
+                Lifting Split
+              </label>
+              <Select onValueChange={setSplit} defaultValue={split}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Upper/Lower" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="upper-lower">Upper/Lower</SelectItem>
+                  <SelectItem value="ppl">
+                    Push/Pull/Legs (bro split)
+                  </SelectItem>
+                  <SelectItem value="full-body">Full Body</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -300,9 +321,13 @@ export function PathProgramForm({
 
       {pathProgram && (
         <>
-          <div ref={pathProgramRef} className="mt-8">
+          <div ref={pathProgramRef} className="mt-8 space-y-4">
             <h2 className="mb-1 text-xl font-semibold">Path Program:</h2>
             <p>Preview (7 days)</p>
+
+            <pre className="whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm">
+              {JSON.stringify(pathProgram.workouts.slice(0, 7), null, 2)}
+            </pre>
 
             <Button>Set as Active Program</Button>
           </div>

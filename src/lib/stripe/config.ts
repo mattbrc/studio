@@ -1,7 +1,5 @@
 import Stripe from "stripe"
 
-import { env } from "@/env.mjs"
-
 // Ensure defined
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("STRIPE_SECRET_KEY is not defined");

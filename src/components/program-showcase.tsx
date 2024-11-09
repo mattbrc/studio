@@ -9,24 +9,6 @@ import {
   CardTitle,
 } from "./ui/card";
 import * as React from "react";
-import { useRouter } from "next/navigation";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Icons } from "@/components/icons";
-import toast from "react-hot-toast";
-import { api } from "~/trpc/react";
-import { Separator } from "./ui/separator";
-import { Badge } from "./ui/badge";
-import Link from "next/link";
 
 interface Program {
   title: string;
