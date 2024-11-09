@@ -59,38 +59,53 @@ Ensure the output matches the following JSON schema:
     // ... and more objects for a total of 28 days (4 weeks)
   ]
 }
-  I want you to design it based on the following goal and example workouts. Use my style of programming to design the workouts:
+  The volume of the program is {VOLUME}.
+  I want you to design it based on the following goal, example workouts, and split for weightlifting. Use my style of programming to design the workouts:
 `;
 
 interface PathProgramParams {
-  // phase: string;
   split: string;
   goal: string;
-  liftsPerWeek: number;
-  conditioningPerWeek: number;
+  volume: string;
   additionalInstructions?: string;
 }
 
-export async function generatePathProgram({ split, goal, liftsPerWeek, conditioningPerWeek, additionalInstructions }: PathProgramParams) {
-  // let updatedObjectPrompt = objectPrompt
-  //   .replace('{LEVEL}', level)
-  //   .replace('{GOAL}', goal)
-  //   .replace('{LIFTS_PER_WEEK}', liftsPerWeek.toString())
-  //   .replace('{CONDITIONING_PER_WEEK}', conditioningPerWeek.toString());
+const splitLookup: Record<string, string> = {
+  "ppl": "Use a push/pull/legs split for weightlifting.",
+  "upper-lower": "Use an upper/lower split for weightlifting.",
+  "full-body": "Use a full body split for weightlifting.",
+};
+const volumeLookup: Record<string, string> = {
+  "Balanced": "Balanced. Include 3-4 strength workouts, 3-4 conditioning workouts, and 1 high intensity session (intervals or metcons).",
+  "Low": "Low. Include 2-3 strength workouts, 2-3 conditioning workouts, and 1 high intensity session (intervals or metcons).",
+  "High": "High. Include 3-5 strength workouts, 4-5 conditioning workouts, and 2 high intensity sessions (intervals or metcons).",
+  "Savage": "Savage. Include 3-5 strength workouts, 5-6 conditioning workouts, and 2 high intensity sessions (intervals or metcons).",
+};
+export async function generatePathProgram({ split, goal, volume, additionalInstructions }: PathProgramParams) {
+  let updatedObjectPrompt = objectPrompt
+    .replace('{VOLUME}', volumeLookup[volume] ?? "Balanced")
 
   const exampleWorkouts = programReferences[goal as ProgramType]?.sample || '';
+  const metconRef = programReferences.metcons?.sample || '';
 
-  let updatedObjectPrompt = `
+  updatedObjectPrompt = `
 ${objectPrompt}
 
 Goal: ${goal}
 
 Example workouts for reference:
 ${exampleWorkouts}
+When adding metcons, feel free to use the following at random in the program you generate:
+${metconRef}
   `.trim();
 
   if (additionalInstructions) {
     updatedObjectPrompt += `\n\nAdditional Instructions: ${additionalInstructions}`;
+  }
+
+  if (split !== null && split !== undefined) {
+    const splitString = splitLookup[split] ?? "any";
+    updatedObjectPrompt += `\n\nFor the weightlifting split, include this type: ${splitString}`;
   }
 
   try {

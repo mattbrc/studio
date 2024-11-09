@@ -15,6 +15,7 @@ import { Icons } from "~/components/icons";
 import { toast } from "react-hot-toast";
 import { api } from "~/trpc/react";
 import Link from "next/link";
+import { Separator } from "./ui/separator";
 
 const workoutSchema = z.object({
   orderId: z.number().int(),
@@ -38,11 +39,8 @@ export function PathProgramForm({
 }) {
   const [loading, setLoading] = useState(false);
   const [pathProgram, setPathProgram] = useState<PathProgram | null>(null);
-  const [conditioningPerWeek, setConditioningPerWeek] = useState<string>("3");
-  const [liftsPerWeek, setLiftsPerWeek] = useState<string>("3");
-  // const [phase, setPhase] = useState<string>("1");
+  const [volume, setVolume] = useState<string>("Balanced");
   const [split, setSplit] = useState<string>("upper-lower");
-  // const [level, setLevel] = useState<string>("intermediate");
   const [goal, setGoal] = useState<string>("hybrid");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
@@ -90,11 +88,9 @@ export function PathProgramForm({
     try {
       console.log("Generating path program...");
       await generatePathMutation.mutateAsync({
-        // phase,
         split,
         goal,
-        liftsPerWeek: parseInt(liftsPerWeek, 10),
-        conditioningPerWeek: parseInt(conditioningPerWeek, 10),
+        volume,
         instructions: additionalInstructions,
       });
       console.log("path generated successfully");
@@ -126,44 +122,18 @@ export function PathProgramForm({
           <h3 className="font-semibold">Quick Options</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             <div className="space-y-2">
-              <label htmlFor="meals" className="block text-sm font-medium">
-                Conditioning/week
+              <label htmlFor="volume" className="block text-sm font-medium">
+                Training Volume
               </label>
-              <Select
-                onValueChange={setConditioningPerWeek}
-                defaultValue={conditioningPerWeek}
-              >
+              <Select onValueChange={setVolume} defaultValue={volume}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select conditioning/week" />
+                  <SelectValue placeholder="Balanced" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="6">6</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="liftsPerWeek"
-                className="block text-sm font-medium"
-              >
-                Lifts/week
-              </label>
-              <Select
-                onValueChange={setLiftsPerWeek}
-                defaultValue={liftsPerWeek}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select lifts/week" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="Balanced">Balanced</SelectItem>
+                  <SelectItem value="Low">Low</SelectItem>
+                  <SelectItem value="High">High</SelectItem>
+                  <SelectItem value="Savage">Savage</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -263,7 +233,6 @@ export function PathProgramForm({
               "Generate Path Program"
             )}
           </Button>
-
           {/* {!isLoadingPathPrograms &&
             latestPathPrograms &&
             latestPathPrograms.length > 0 && (
@@ -320,18 +289,41 @@ export function PathProgramForm({
       )}
 
       {pathProgram && (
-        <>
-          <div ref={pathProgramRef} className="mt-8 space-y-4">
-            <h2 className="mb-1 text-xl font-semibold">Path Program:</h2>
-            <p>Preview (7 days)</p>
+        <div ref={pathProgramRef} className="mt-8 space-y-4">
+          <h2 className="mb-1 text-xl font-semibold">Path Program:</h2>
+          <Button className="w-full" variant="acid">
+            Set as Active Program
+          </Button>
+          <div className="space-y-6 rounded-lg bg-muted p-4 text-sm">
+            <p className="text-muted-foreground">Preview (7 days)</p>
+            {pathProgram.workouts.slice(0, 7).map((workout, index) => (
+              <div key={index} className="space-y-2">
+                <h3>
+                  <span className="font-semibold">Day {index + 1}: </span>
+                  {workout.title}
+                </h3>
 
-            <pre className="whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm">
-              {JSON.stringify(pathProgram.workouts.slice(0, 7), null, 2)}
-            </pre>
+                <div className="space-y-1">
+                  <p className="font-medium text-muted-foreground">Strength:</p>
+                  {Object.entries(workout.strength).map(([key, value], i) => (
+                    <p key={i}>{value}</p>
+                  ))}
+                </div>
 
-            <Button>Set as Active Program</Button>
+                <div className="space-y-1">
+                  <p className="font-medium text-muted-foreground">
+                    Conditioning:
+                  </p>
+                  {Object.entries(workout.conditioning).map(
+                    ([key, value], i) => (
+                      <p key={i}>{value}</p>
+                    ),
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        </>
+        </div>
       )}
     </>
   );

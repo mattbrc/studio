@@ -10,7 +10,7 @@ import {
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { pathGenerations, posts } from "~/server/db/schema";
+import { pathGenerations } from "~/server/db/schema";
 import { and, eq, gte, count } from "drizzle-orm";
 import { mealPlanGenerations } from "~/server/db/schema";
 
@@ -136,10 +136,8 @@ export const aiRouter = createTRPCRouter({
     .input(
       z.object({
         goal: z.string(),
-        liftsPerWeek: z.number(),
-        // phase: z.string(),
+        volume: z.string(),
         split: z.string(),
-        conditioningPerWeek: z.number(),
         instructions: z.string(),
       }),
     )
@@ -177,8 +175,7 @@ export const aiRouter = createTRPCRouter({
           // phase: input.phase,
           split: input.split,
           goal: input.goal,
-          liftsPerWeek: input.liftsPerWeek,
-          conditioningPerWeek: input.conditioningPerWeek,
+          volume: input.volume,
           additionalInstructions: input.instructions,
         });
 
