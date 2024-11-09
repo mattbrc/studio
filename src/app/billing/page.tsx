@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
+import { Suspense } from "react";
 import { Icons } from "~/components/icons";
 import StripeCheckout from "~/components/stripe-checkout";
 import { StripeBillingPortal } from "~/components/stripe-checkout";
@@ -21,7 +22,6 @@ export const metadata = {
 const BillingDetails = async () => {
   const sub = await api.stripe.getSubscription.query();
   const user = await currentUser();
-  console.log("user: ", user);
   return (
     <div className="max-w flex flex-col gap-4 md:w-1/2">
       {sub && (
@@ -33,7 +33,18 @@ const BillingDetails = async () => {
           </AlertTitle>
           <AlertDescription>Manage your subscription here.</AlertDescription>
           <div className="flex py-2">
-            <StripeBillingPortal />
+            <Suspense
+              fallback={
+                <Button disabled={true} size="sm" variant="secondary">
+                  <span className="flex flex-row items-center gap-2">
+                    <p className="font-bold">Loading</p>
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  </span>
+                </Button>
+              }
+            >
+              <StripeBillingPortal />
+            </Suspense>
           </div>
         </Alert>
       )}
@@ -92,7 +103,18 @@ const BillingDetails = async () => {
             // test mode
             // <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
             // live mode
-            <StripeCheckout priceId="price_1Q56dOL1iXnkfppRcJ7UE95a" />
+            <Suspense
+              fallback={
+                <Button disabled={true} size="sm" variant="secondary">
+                  <span className="flex flex-row items-center gap-2">
+                    <p className="font-bold">Loading</p>
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  </span>
+                </Button>
+              }
+            >
+              <StripeCheckout priceId="price_1Q56dOL1iXnkfppRcJ7UE95a" />
+            </Suspense>
             // <Button disabled={true} size="sm" variant="secondary">
             //   <span className="flex flex-row items-center gap-2">
             //     <p className="font-bold">Subscribe</p>
@@ -152,12 +174,12 @@ const BillingDetails = async () => {
                 Save macros, generate meal plans
               </div>
             </li>
-            <li>
+            {/* <li>
               <div className="flex flex-row items-center gap-2">
                 <Icons.check />
                 Save with annual billing
               </div>
-            </li>
+            </li> */}
           </ul>
         </CardContent>
         <CardFooter>
@@ -172,7 +194,18 @@ const BillingDetails = async () => {
             // test mode
             // <StripeCheckout priceId="price_1PSeLoL1iXnkfppRLdlyzZcT" />
             // live mode
-            <StripeCheckout priceId="price_1Q56cIL1iXnkfppRDjPw1xUM" />
+            <Suspense
+              fallback={
+                <Button disabled={true} size="sm" variant="secondary">
+                  <span className="flex flex-row items-center gap-2">
+                    <p className="font-bold">Loading</p>
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  </span>
+                </Button>
+              }
+            >
+              <StripeCheckout priceId="price_1Q56cIL1iXnkfppRDjPw1xUM" />
+            </Suspense>
             // <Button disabled={true} size="sm" variant="secondary">
             //   <span className="flex flex-row items-center gap-2">
             //     <p className="font-bold">Subscribe</p>
@@ -182,68 +215,6 @@ const BillingDetails = async () => {
           )}
         </CardFooter>
       </Card>
-      {/* Top Tier Consultation Card */}
-      {/* <Card>
-        <CardHeader>
-          <h2 className="text-xl font-bold">Studio Pro</h2>
-          <div className="flex flex-row gap-2">
-            <p className="text-5xl font-bold">$123</p>
-            <div className="flex flex-col">
-              <CardDescription>$123 billed monthly</CardDescription>
-              <p>Per Month</p>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <ul>
-            <li>
-              <div className="flex flex-row items-center gap-2">
-                <Icons.check />
-                Access to the Path (custom programs)
-              </div>
-            </li>
-            <li>
-              <div className="flex flex-row items-center gap-2">
-                <Icons.check />
-                Access to all programs
-              </div>
-            </li>
-            <li>
-              <div className="flex flex-row items-center gap-2">
-                <Icons.check />
-                Access to all WODs
-              </div>
-            </li>
-            <li>
-              <div className="flex flex-row items-center gap-2">
-                <Icons.check />
-                Build your profile, save macros, and generate meal plans.
-              </div>
-            </li>
-          </ul>
-        </CardContent>
-        <CardFooter>
-          {sub ? (
-            <Button disabled={true} size="sm" variant="secondary">
-              <span className="flex flex-row items-center gap-2">
-                <p className="font-bold">Subscribe</p>
-                <Icons.subscribeArrow size={20} />
-              </span>
-            </Button>
-          ) : (
-            // test mode
-            // <StripeCheckout priceId="price_1PSeKqL1iXnkfppRzwPesskx" />
-            // live mode
-            <StripeCheckout priceId="price_1Q56dOL1iXnkfppRcJ7UE95a" />
-            // <Button disabled={true} size="sm" variant="secondary">
-            //   <span className="flex flex-row items-center gap-2">
-            //     <p className="font-bold">Subscribe</p>
-            //     <Icons.subscribeArrow size={20} />
-            //   </span>
-            // </Button>
-          )}
-        </CardFooter>
-      </Card> */}
     </div>
   );
 };
