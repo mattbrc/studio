@@ -3,14 +3,14 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { z } from "zod";
 import { generateMealPlan } from "~/lib/ai/nutrition";
-// import { generateWorkouts } from "~/lib/ai/generate";
+import { generatePathProgram } from "~/lib/ai/path";
 
 import {
   createTRPCRouter,
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { posts } from "~/server/db/schema";
+import { pathGenerations, posts } from "~/server/db/schema";
 import { and, eq, gte, count } from "drizzle-orm";
 import { mealPlanGenerations } from "~/server/db/schema";
 
@@ -132,50 +132,98 @@ export const aiRouter = createTRPCRouter({
     };
   }),
 
-  // generateWorkouts: publicProcedure
-  //   .input(z.object({ text: z.string() }))
-  //   .query(async ({ input }) => {
-  //     const workouts = await generateWorkouts();
-  //     return {
-  //       workouts,
-  //     };
-  //   }),
+  generatePathProgram: privateProcedure
+    .input(
+      z.object({
+        level: z.string(),
+        goal: z.string(),
+        liftsPerWeek: z.number(),
+        conditioningPerWeek: z.number(),
+        instructions: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { success } = await ratelimit.limit(ctx.userId);
+        if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
-  // generateWorkout: publicProcedure.query(async () => {
-  //   try {
-  //     // Call the generateWorkouts function
-  //     const workouts = await generateWorkouts();
+        // Check the number of generations for the current month
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
 
-  //     return workouts;
-  //   } catch (error) {
-  //     throw new Error('Failed to generate workout program');
-  //   }
-  // }),
+        const generationsThisMonth = await ctx.db
+          .select({ count: count() })
+          .from(mealPlanGenerations)
+          .where(
+            and(
+              eq(mealPlanGenerations.userId, ctx.userId),
+              gte(mealPlanGenerations.generatedAt, startOfMonth),
+            ),
+          )
+          .execute();
 
-  // create: publicProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .input(z.object({ content: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+        if (generationsThisMonth[0] && generationsThisMonth[0].count >= 100) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message:
+              "LIMIT: You have reached the maximum number of meal plan generations for this month.",
+          });
+        }
 
-  //     await ctx.db.insert(posts).values({
-  //       name: input.name,
-  //       content: input.content,
-  //     });
-  //   }),
+        // Generate the meal plan
+        const pathProgram = await generatePathProgram({
+          level: input.level,
+          goal: input.goal,
+          liftsPerWeek: input.liftsPerWeek,
+          conditioningPerWeek: input.conditioningPerWeek,
+          additionalInstructions: input.instructions,
+        });
 
-  // getLatest: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.query.posts
-  //   // return ctx.db.query.posts.findFirst({
-  //   //   orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-  //   // });
-  // }),
+        // Record the generation
+        await ctx.db.insert(pathGenerations).values({
+          userId: ctx.userId,
+          program: pathProgram,
+        });
 
-  // getAll: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.query.posts.findMany({
-  //     orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-  //     limit: 5,
-  //   });
-  // }),
+        return {
+          pathProgram,
+        };
+      } catch (error) {
+        console.error("Path program generation error:", error);
+        
+        // Handle specific error types
+        if (error instanceof TRPCError) throw error;
+        
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: error instanceof Error ? error.message : "Failed to generate meal plan",
+          // Optional: Add cause for debugging
+          cause: error,
+        });
+      }
+    }),
+
+  getPathGenerationsCount: privateProcedure.query(async ({ ctx }) => {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const generationsThisMonth = await ctx.db
+      .select({ count: count() })
+      .from(pathGenerations)
+      .where(
+        and(
+          eq(pathGenerations.userId, ctx.userId),
+          gte(pathGenerations.generatedAt, startOfMonth),
+        ),
+      )
+      .execute();
+
+    return {
+      count: generationsThisMonth[0]?.count ?? 0,
+      limit: 100,
+      remaining: Math.max(100 - (generationsThisMonth[0]?.count ?? 0), 0),
+    };
+  }),
 });

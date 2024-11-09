@@ -66,7 +66,10 @@ export default function RootLayout({
                 }}
               />
               {children}
-              <Analytics />
+              {/* <Analytics /> */}
+              {process.env.NEXT_PUBLIC_NODE_ENV === "PRODUCTION" && (
+                <Analytics />
+              )}
             </TRPCReactProvider>
           </body>
         </CSPostHogProvider>

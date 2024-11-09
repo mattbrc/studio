@@ -232,3 +232,10 @@ export const mealPlanGenerations = mysqlTable('meal_plan_generations', {
   generatedAt: timestamp('generated_at').defaultNow().notNull(),
   mealPlan: json('meal_plan').notNull(), // Add this line to store the full meal plan
 });
+
+export const pathGenerations = mysqlTable('pathGenerations', {
+  id: int('id').primaryKey().autoincrement(),
+  userId: varchar('user_id', { length: 255 }).notNull(),
+  generatedAt: timestamp('generated_at').defaultNow().notNull(),
+  program: json('program').notNull(), // Add this line to store the full meal plan
+});

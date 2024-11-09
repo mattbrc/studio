@@ -34,7 +34,7 @@ export function MenuDropdown() {
             <Link href="/home/programs">Programs</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="">The Path</Link>
+            <Link href="/home/path">The Path</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/home/wod">Daily Workouts</Link>
