@@ -12,6 +12,20 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  rules: {
+    // General rules apply to both dev and prod
+    "@typescript-eslint/no-unused-vars": "warn",
+  },
+  overrides: [
+    {
+      // Only applies in production
+      files: ["*.ts", "*.tsx"],
+      env: { production: true },
+      rules: {
+        "@typescript-eslint/no-unused-vars": "off",
+      },
+    },
+  ],
   async rewrites() {
     return [
       {
