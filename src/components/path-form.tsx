@@ -80,7 +80,7 @@ export function PathProgramForm({
         );
       } else {
         // toast.error(error.message);
-        toast.error("Failed to generate meal plan. Please try again shortly.");
+        toast.error("Failed to generate program. Please try again shortly.");
       }
     },
   });
