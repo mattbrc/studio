@@ -113,7 +113,7 @@ ${metconRef}
   try {
     console.log(updatedObjectPrompt);
     const { object: mealPlan } = await generateObject({
-      model: openai('gpt-4o'),
+      model: openai('gpt-4o-mini'),
       schema: programSchema,
       system: systemPrompt,
       prompt: updatedObjectPrompt,
