@@ -2,7 +2,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Icons } from "~/components/icons";
 import { ResourcesCard } from "~/components/resources";
-import ProgramCard from "~/components/program-card-home";
+import ProgramCard, { PathCard } from "~/components/program-card-home";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { UserCard } from "~/components/user-card";
@@ -15,6 +15,8 @@ export const metadata = {
 export default async function Page() {
   const user = await currentUser();
   const userWorkoutDetails = await api.wod.getUserSingleWorkout.query();
+  const userPathDetails = await api.ai.getUserPathDetails.query();
+  console.log(userPathDetails);
   const sub = await api.stripe.getSubscription.query();
 
   return (
@@ -42,7 +44,11 @@ export default async function Page() {
         title={userWorkoutDetails?.program?.title}
         subscription={sub}
       />
-      <ProgramCard workout={userWorkoutDetails?.workouts[0]} />
+      {userPathDetails && <PathCard path={userPathDetails} />}
+      <ProgramCard
+        workout={userWorkoutDetails?.workouts[0]}
+        title={userWorkoutDetails?.program?.title}
+      />
       <ResourcesCard />
     </div>
   );

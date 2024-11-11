@@ -139,7 +139,6 @@ export const userPrograms = mysqlTable(
     isBeingCoached: int("isBeingCoached").notNull().default(0),
     coachId: varchar("coachId", { length: 256 }),
     programId: bigint("programId", { mode: "number" }),
-
     uniqueProgramId: varchar('uniqueProgramId', { length: 128 }).$defaultFn(() => createId()),
     currentWorkoutId: int("currentWorkoutId").notNull().default(0),
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
@@ -204,6 +203,31 @@ export const userProfiles = mysqlTable("userProfiles", {
   userIndex: index("user_idx").on(table.userId),
 }));
 
+export const mealPlanGenerations = mysqlTable('meal_plan_generations', {
+  id: int('id').primaryKey().autoincrement(),
+  userId: varchar('user_id', { length: 255 }).notNull(),
+  generatedAt: timestamp('generated_at').defaultNow().notNull(),
+  mealPlan: json('meal_plan').notNull(), // Add this line to store the full meal plan
+});
+
+export const pathGenerations = mysqlTable('pathGenerations', {
+  id: int('id').primaryKey().autoincrement(),
+  userId: varchar('user_id', { length: 255 }).notNull(),
+  generatedAt: timestamp('generated_at').defaultNow().notNull(),
+  program: json('program').notNull(), 
+});
+
+export const userPathProgram = mysqlTable('userPathProgram', {
+  userId: varchar('user_id', { length: 255 }).notNull(),
+  pathId: int('path_id').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+  active: boolean('active').notNull().default(false),
+  currentWorkoutId: int('currentWorkoutId').notNull().default(0),
+}, (table) => ({
+  userPathIndex: index("user_path_idx").on(table.userId),
+}));
+
 export const userProgramRelations = relations(userPrograms, ({ one, many }) => ({
   program: one(programs, {
     fields: [userPrograms.programId],
@@ -226,16 +250,9 @@ export const workoutProgramRelations = relations(programWorkouts, ({ one }) => (
   }),
 }));
 
-export const mealPlanGenerations = mysqlTable('meal_plan_generations', {
-  id: int('id').primaryKey().autoincrement(),
-  userId: varchar('user_id', { length: 255 }).notNull(),
-  generatedAt: timestamp('generated_at').defaultNow().notNull(),
-  mealPlan: json('meal_plan').notNull(), // Add this line to store the full meal plan
-});
-
-export const pathGenerations = mysqlTable('pathGenerations', {
-  id: int('id').primaryKey().autoincrement(),
-  userId: varchar('user_id', { length: 255 }).notNull(),
-  generatedAt: timestamp('generated_at').defaultNow().notNull(),
-  program: json('program').notNull(), 
-});
+export const userPathProgramRelations = relations(userPathProgram, ({ one }) => ({
+  program: one(pathGenerations, {
+    fields: [userPathProgram.pathId],
+    references: [pathGenerations.id],
+  }),
+}));

@@ -27,6 +27,7 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { usePostHog } from "posthog-js/react";
+import { Badge } from "./ui/badge";
 
 interface Workout {
   createdAt: Date;
@@ -41,16 +42,87 @@ interface Workout {
 
 interface ProgramCardProps {
   workout: Workout | undefined;
+  title: string | undefined;
 }
 
 type WodData = Record<string, string>;
+
+interface UserPathDetails {
+  createdAt: Date;
+  updatedAt: Date | null;
+  active: boolean;
+  userId: string;
+  currentWorkoutId: number;
+  pathId: number;
+  program: {
+    id: number;
+    userId: string;
+    generatedAt: Date;
+    program: unknown;
+  };
+}
 
 function formatUTCDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toUTCString().split(" ").slice(0, 4).join(" ");
 }
 
-export default function ProgramCard({ workout }: ProgramCardProps) {
+export function PathCard({ path }: { path: UserPathDetails }) {
+  const program = path.program.program as {
+    workouts: {
+      title: string;
+      orderId: number;
+      strength: Record<string, string>;
+      conditioning: Record<string, string>;
+    }[];
+  };
+
+  const currentWorkout = program.workouts.find(
+    (workout) => workout.orderId === path.currentWorkoutId,
+  );
+
+  if (!currentWorkout) return <p>No workout found</p>;
+
+  return (
+    <Card className="w-full md:w-1/2">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            {/* <CardTitle>{currentWorkout.title}</CardTitle> */}
+            <CardTitle>{currentWorkout.title}</CardTitle>
+            <CardDescription>{formatUTCDate(Date())}</CardDescription>
+            <Badge variant="acid">The Path</Badge>
+          </div>
+          <div className="self-start">
+            <Button size="sm" variant="secondary">
+              Complete
+            </Button>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p className="font-bold">Strength:</p>
+        <span>
+          <ul>
+            {Object.entries(currentWorkout.strength).map(([key, value]) => (
+              <li key={key}>{`${value}`}</li>
+            ))}
+          </ul>
+        </span>
+        <p className="mt-2 font-bold">Conditioning:</p>
+        <span>
+          <ul>
+            {Object.entries(currentWorkout.conditioning).map(([key, value]) => (
+              <li key={key}>{`${value}`}</li>
+            ))}
+          </ul>
+        </span>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function ProgramCard({ workout, title }: ProgramCardProps) {
   const posthog = usePostHog();
   const str: WodData = workout?.strength as WodData;
   const cond: WodData = workout?.conditioning as WodData;
@@ -117,34 +189,41 @@ export default function ProgramCard({ workout }: ProgramCardProps) {
           <div>
             <CardTitle>{workout?.title}</CardTitle>
             <CardDescription>{formatUTCDate(Date())}</CardDescription>
+            <Badge variant="acid">{title}</Badge>
           </div>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button disabled={isSubmitLoading} size="sm" variant="secondary">
-                Complete Workout
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Complete today&apos;s workout
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  Once complete with the workout, click submit to continue
-                  progressing in rank.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
+          <div className="self-start">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
                   disabled={isSubmitLoading}
-                  onClick={handleUpdate}
+                  size="sm"
+                  variant="secondary"
                 >
-                  <span>Submit</span>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                  Complete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Complete today&apos;s workout
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Once complete with the workout, click submit to continue
+                    progressing in rank.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isSubmitLoading}
+                    onClick={handleUpdate}
+                  >
+                    <span>Submit</span>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </CardHeader>
       <CardContent>

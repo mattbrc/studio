@@ -26,8 +26,8 @@ interface SubmitProgramProps {
 
 export function StartProgram({ programId, name }: SubmitProgramProps) {
   const router = useRouter();
-  const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
 
+  const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
   const mutation = api.wod.startProgram.useMutation({
     onSuccess: () => {
       toast.success("Program Started");

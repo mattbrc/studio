@@ -10,6 +10,7 @@ interface Subscription {
   stripePriceId: string;
   stripeCurrentPeriodEnd: number;
 }
+
 interface UserCardProps {
   id: string | undefined;
   username: string | null | undefined;
@@ -51,22 +52,6 @@ export function UserCard({ ...props }: UserCardProps) {
           </div>
         </div>
       </CardHeader>
-      {/* <CardContent>
-        <p className="">Progress</p>
-        <CardDescription className="pb-1">
-          Next Level: {remaining} remaining
-        </CardDescription>
-        <Progress
-          value={
-            ((count - levelQuery.requiredWorkouts) /
-              (nextLevel - levelQuery.requiredWorkouts)) *
-            100
-          }
-        />
-        <Badge className="mt-2" variant="acid">
-          <span>{level}</span>
-        </Badge>
-      </CardContent> */}
     </Card>
   );
 }

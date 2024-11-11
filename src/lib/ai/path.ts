@@ -1,7 +1,8 @@
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
-import { programReferences, ProgramType } from './pathReference';
+import { programReferences } from './pathReference';
+import type { ProgramType } from './pathReference';
 
 // structured output
 const workoutSchema = z.object({
@@ -59,7 +60,7 @@ Ensure the output matches the following JSON schema:
     // ... and more objects for a total of 28 days (4 weeks)
   ]
 }
-  The volume of the program is {VOLUME}.
+  ALWAYS ENSURE THE ORDERID STARTS AT 0. The volume of the program is {VOLUME}.
   I want you to design it based on the following goal, example workouts, and split for weightlifting. Use my style of programming to design the workouts:
 `;
 
@@ -82,6 +83,7 @@ const volumeLookup: Record<string, string> = {
   "Savage": "Savage. Include 3-5 strength workouts, 5-6 conditioning workouts, and 2 high intensity sessions (intervals or metcons).",
 };
 export async function generatePathProgram({ split, goal, volume, additionalInstructions }: PathProgramParams) {
+  // building context for the program
   let updatedObjectPrompt = objectPrompt
     .replace('{VOLUME}', volumeLookup[volume] ?? "Balanced")
 

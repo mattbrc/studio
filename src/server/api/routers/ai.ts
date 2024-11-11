@@ -10,9 +10,10 @@ import {
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { pathGenerations } from "~/server/db/schema";
-import { and, eq, gte, count } from "drizzle-orm";
+import { pathGenerations, userPathProgram } from "~/server/db/schema";
+import { and, eq, gte, count, sql } from "drizzle-orm";
 import { mealPlanGenerations } from "~/server/db/schema";
+import { createId } from "@paralleldrive/cuid2";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -170,7 +171,6 @@ export const aiRouter = createTRPCRouter({
           });
         }
 
-        // Generate the meal plan
         const pathProgram = await generatePathProgram({
           // phase: input.phase,
           split: input.split,
@@ -225,6 +225,62 @@ export const aiRouter = createTRPCRouter({
       limit: 100,
       remaining: Math.max(100 - (generationsThisMonth[0]?.count ?? 0), 0),
     };
+  }),
+
+  startPathProgram: privateProcedure
+    .input(z.object({ pathId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const id = ctx.userId;
+      const { pathId } = input;
+
+      const { success } = await ratelimit.limit(id);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
+
+      const existingSubmission = await ctx.db
+      .select()
+      .from(userPathProgram)
+      .where(sql`${userPathProgram.userId} = ${id}`)
+  
+      // if program exists, update row
+      if (existingSubmission.length !== 0) {
+        const update = await ctx.db.update(userPathProgram).set({ pathId: pathId, currentWorkoutId: 0, active: true }).where(eq(userPathProgram.userId, id));
+        return update
+      }
+
+      // if no program, add new row for userId
+      const submit = await ctx.db.insert(userPathProgram).values({ userId: id, pathId: pathId, currentWorkoutId: 0, active: true });
+
+      return submit;
+    }),
+
+  getUserPathProgram: privateProcedure.query(async ({ ctx }) => {
+    const id = ctx.userId;
+    const pathProgram = await ctx.db.select().from(userPathProgram).where(eq(userPathProgram.userId, id));
+    return pathProgram;
+  }),
+
+  getUserPathDetails: publicProcedure.query(async ({ ctx }) => {
+    const id = ctx.userId
+    if (!id) {
+      return
+    }
+
+    const result = await ctx.db.query.userPathProgram.findFirst({
+      where: (userPathProgram, { eq }) => eq(userPathProgram.userId, id),
+      columns: {
+        currentWorkoutId: true,
+      }
+    })
+    
+    if (result) {
+      const success = await ctx.db.query.userPathProgram.findFirst({
+        where: (userPathProgram, { eq }) => eq(userPathProgram.userId, id),
+        with: {
+          program: true
+        }
+      })
+      return success
+    }
   }),
 
 });

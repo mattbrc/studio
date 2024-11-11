@@ -16,6 +16,7 @@ import { toast } from "react-hot-toast";
 import { api } from "~/trpc/react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
+import { StartPathProgram } from "./start-path-button";
 
 const workoutSchema = z.object({
   orderId: z.number().int(),
@@ -291,9 +292,10 @@ export function PathProgramForm({
       {pathProgram && (
         <div ref={pathProgramRef} className="mt-8 space-y-4">
           <h2 className="mb-1 text-xl font-semibold">Path Program:</h2>
-          <Button className="w-full" variant="acid">
+          {/* <Button className="w-full" variant="acid">
             Set as Active Program
-          </Button>
+          </Button> */}
+          <StartPathProgram pathId={generatePathMutation.data?.generationId} />
           <div className="space-y-6 rounded-lg bg-muted p-4 text-sm">
             <p className="text-muted-foreground">Preview (7 days)</p>
             {pathProgram.workouts.slice(0, 7).map((workout, index) => (
