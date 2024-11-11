@@ -68,6 +68,60 @@ function formatUTCDate(dateString: string): string {
 }
 
 export function PathCard({ path }: { path: UserPathDetails }) {
+  const posthog = usePostHog();
+  const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
+  const [isSubmitRemoveLoading, setIsSubmitRemoveLoading] =
+    React.useState<boolean>(false);
+
+  const router = useRouter();
+
+  const mutation = api.ai.submitPathWorkout.useMutation({
+    onSuccess: () => {
+      toast.success("Well done! Workout completed.");
+      setIsSubmitLoading(false);
+      router.refresh();
+    },
+    onError: (e) => {
+      const errorCode = e.data?.code;
+      if (errorCode === "CONFLICT") {
+        toast.error(e.message);
+      } else {
+        toast.error("Error, please try again later");
+      }
+      setIsSubmitLoading(false);
+    },
+  });
+
+  const handleUpdate = () => {
+    setIsSubmitLoading(true);
+    posthog.capture("complete_path_workout");
+    mutation.mutate({
+      workoutId: path.currentWorkoutId,
+    });
+  };
+
+  const removeMutation = api.ai.removePathProgram.useMutation({
+    onSuccess: () => {
+      toast.success("Path removed from home.");
+      setIsSubmitRemoveLoading(false);
+      router.refresh();
+    },
+    onError: (e) => {
+      const errorCode = e.data?.code;
+      if (errorCode === "CONFLICT") {
+        toast.error(e.message);
+      } else {
+        toast.error("Error, please try again later");
+      }
+      setIsSubmitRemoveLoading(false);
+    },
+  });
+
+  const handleRemove = () => {
+    setIsSubmitRemoveLoading(true);
+    removeMutation.mutate();
+  };
+
   const program = path.program.program as {
     workouts: {
       title: string;
@@ -81,22 +135,91 @@ export function PathCard({ path }: { path: UserPathDetails }) {
     (workout) => workout.orderId === path.currentWorkoutId,
   );
 
-  if (!currentWorkout) return <p>No workout found</p>;
+  if (!path.active) {
+    return null;
+  }
+
+  if (!currentWorkout) {
+    return (
+      <Card className="w-full md:w-1/2">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>No workout available</CardTitle>
+              <CardDescription>{formatUTCDate(Date())}</CardDescription>
+              <Badge variant="acid">The Path</Badge>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center">
+            You completed all workouts for this Path program!
+          </p>
+          <div className="flex flex-col items-center gap-2 pt-4">
+            <Link
+              href="/home/path"
+              className={cn(buttonVariants({ size: "sm" }), "px-4")}
+            >
+              Build a new Path
+            </Link>
+            <p>OR</p>
+            <Button
+              onClick={handleRemove}
+              disabled={isSubmitRemoveLoading}
+              className={cn(buttonVariants({ size: "sm" }), "px-4")}
+            >
+              Remove Path from Home
+            </Button>
+            <CardDescription>
+              (You can always add it back later.)
+            </CardDescription>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full md:w-1/2">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            {/* <CardTitle>{currentWorkout.title}</CardTitle> */}
             <CardTitle>{currentWorkout.title}</CardTitle>
             <CardDescription>{formatUTCDate(Date())}</CardDescription>
             <Badge variant="acid">The Path</Badge>
           </div>
           <div className="self-start">
-            <Button size="sm" variant="secondary">
-              Complete
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  disabled={isSubmitLoading}
+                  size="sm"
+                  variant="secondary"
+                >
+                  Complete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Complete today&apos;s workout
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Once complete with the workout, click submit to continue
+                    progressing in rank.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isSubmitLoading}
+                    onClick={handleUpdate}
+                  >
+                    <span>Submit</span>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </CardHeader>

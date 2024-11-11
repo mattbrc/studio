@@ -12,6 +12,8 @@ export const metadata = {
   title: "Home",
 };
 
+export const revalidate = 0; // Disable caching for this page
+
 export default async function Page() {
   const user = await currentUser();
   const userWorkoutDetails = await api.wod.getUserSingleWorkout.query();

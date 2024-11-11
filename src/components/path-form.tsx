@@ -17,6 +17,7 @@ import { api } from "~/trpc/react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
 import { StartPathProgram } from "./start-path-button";
+import { desc } from "drizzle-orm";
 
 const workoutSchema = z.object({
   orderId: z.number().int(),
@@ -46,9 +47,9 @@ export function PathProgramForm({
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
   const pathProgramRef = useRef<HTMLDivElement>(null);
-  // const { data: latestPathPrograms, isLoading: isLoadingPathPrograms } =
-  //   api.profile.getLatestPathPrograms.useQuery();
-  // const [selectedPlanDate, setSelectedPlanDate] = useState<Date | null>(null);
+  const { data: latestPathPrograms, isLoading: isLoadingPathPrograms } =
+    api.ai.getLatestPathPrograms.useQuery();
+  const [selectedPlanDate, setSelectedPlanDate] = useState<Date | null>(null);
 
   const handleAdditionalInstructionsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -234,12 +235,12 @@ export function PathProgramForm({
               "Generate Path Program"
             )}
           </Button>
-          {/* {!isLoadingPathPrograms &&
+          {!isLoadingPathPrograms &&
             latestPathPrograms &&
             latestPathPrograms.length > 0 && (
               <div>
                 <h3 className="mb-2 text-lg font-semibold">
-                  Previous Programs Built
+                  Previous Programs
                 </h3>
                 <Select
                   onValueChange={(value) => {
@@ -253,7 +254,7 @@ export function PathProgramForm({
                   }}
                 >
                   <SelectTrigger className="w-[300px]">
-                    <SelectValue placeholder="Select a previous meal plan" />
+                    <SelectValue placeholder="Select a previous program" />
                   </SelectTrigger>
                   <SelectContent>
                     {latestPathPrograms.map((plan) => (
@@ -264,7 +265,7 @@ export function PathProgramForm({
                   </SelectContent>
                 </Select>
               </div>
-            )} */}
+            )}
         </div>
       ) : (
         <div className="flex flex-col gap-2">
@@ -285,17 +286,24 @@ export function PathProgramForm({
             <Icons.alert className="text-destructive" />
             <p>Generating...</p>
           </div>
-          <p>Please do not leave this page. This can take up to 30 seconds.</p>
+          <p>Please do not leave this page. This can take up to 60 seconds.</p>
         </div>
       )}
 
       {pathProgram && (
         <div ref={pathProgramRef} className="mt-8 space-y-4">
           <h2 className="mb-1 text-xl font-semibold">Path Program:</h2>
-          {/* <Button className="w-full" variant="acid">
-            Set as Active Program
-          </Button> */}
-          <StartPathProgram pathId={generatePathMutation.data?.generationId} />
+          {selectedPlanDate && (
+            <p className="mb-4 text-sm text-muted-foreground">
+              Generated on: {selectedPlanDate.toLocaleString()}
+            </p>
+          )}
+          <StartPathProgram
+            pathId={
+              generatePathMutation.data?.generationId ??
+              latestPathPrograms?.find((p) => p.program === pathProgram)?.id
+            }
+          />
           <div className="space-y-6 rounded-lg bg-muted p-4 text-sm">
             <p className="text-muted-foreground">Preview (7 days)</p>
             {pathProgram.workouts.slice(0, 7).map((workout, index) => (

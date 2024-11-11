@@ -218,6 +218,7 @@ export const pathGenerations = mysqlTable('pathGenerations', {
 });
 
 export const userPathProgram = mysqlTable('userPathProgram', {
+  id: int('id').primaryKey().autoincrement(),
   userId: varchar('user_id', { length: 255 }).notNull(),
   pathId: int('path_id').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),

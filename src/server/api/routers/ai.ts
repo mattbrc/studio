@@ -11,9 +11,10 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { pathGenerations, userPathProgram } from "~/server/db/schema";
-import { and, eq, gte, count, sql } from "drizzle-orm";
+import { and, eq, gte, count, sql, desc } from "drizzle-orm";
 import { mealPlanGenerations } from "~/server/db/schema";
 import { createId } from "@paralleldrive/cuid2";
+import { revalidatePath } from "next/cache";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -250,6 +251,9 @@ export const aiRouter = createTRPCRouter({
       // if no program, add new row for userId
       const submit = await ctx.db.insert(userPathProgram).values({ userId: id, pathId: pathId, currentWorkoutId: 0, active: true });
 
+      // Add revalidation after DB operations
+      revalidatePath("/home");
+      
       return submit;
     }),
 
@@ -281,6 +285,31 @@ export const aiRouter = createTRPCRouter({
       })
       return success
     }
+  }),
+
+  submitPathWorkout: privateProcedure
+    .input(z.object({ workoutId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const { workoutId } = input;
+      const newWorkoutId = workoutId + 1;
+      const result = await ctx.db.update(userPathProgram).set({ currentWorkoutId: newWorkoutId }).where(eq(userPathProgram.userId, ctx.userId));
+      return result;
+    }),
+
+  removePathProgram: privateProcedure.mutation(async ({ ctx }) => {
+    const result = await ctx.db.update(userPathProgram).set({ active: false }).where(eq(userPathProgram.userId, ctx.userId));
+    return result;
+  }),
+
+  getLatestPathPrograms: privateProcedure.query(async ({ ctx }) => {
+    const latestPrograms = await ctx.db
+      .select()
+      .from(pathGenerations)
+      .where(eq(pathGenerations.userId, ctx.userId))
+      .orderBy(desc(pathGenerations.generatedAt))
+      .limit(5);
+
+    return latestPrograms;
   }),
 
 });

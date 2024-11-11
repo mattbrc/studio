@@ -23,14 +23,14 @@ interface SubmitPathProgramProps {
 }
 
 export function StartPathProgram({ pathId }: SubmitPathProgramProps) {
-  // const router = useRouter();
+  const router = useRouter();
 
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
   const mutation = api.ai.startPathProgram.useMutation({
     onSuccess: () => {
-      toast.success("Started. Go Home to start training.");
+      toast.success("Program started!");
       setIsSubmitLoading(false);
-      // router.refresh();
+      router.refresh();
     },
     onError: (e) => {
       const errorCode = e.data?.code;
