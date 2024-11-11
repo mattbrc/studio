@@ -216,16 +216,267 @@ export const programReferences = {
 {
   "workouts": [
     {
-      "orderId": 1,
-      "title": "Monday: VO2 Max Development",
-      "strength": {
-        "a": "Light Circuit: 3 rounds - 10 push-ups, 10 pull-ups, 20 air squats"
-      },
-      "conditioning": {
-        "a": "8x400m intervals at 90% effort with 1:1 work:rest ratio",
-        "b": "20 min Z2 cooldown"
-      }
-    }
+    "orderId": 56,
+    "title": "Day 57",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "1 mile warmup",
+      "b": "3 miles @ tempo pace",
+      "c": "1 mile cooldown"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 57,
+    "title": "Day 58",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "30-60 min easy spin (cycling / rowing / swimming)"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 58,
+    "title": "Day 59",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "10-20 min Warmup",
+      "b": "4x1200m interval with 90 sec recovery walk/jog between intervals",
+      "c": "10 min cooldown"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 59,
+    "title": "Day 60",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "3 Miles Easy Pace"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 60,
+    "title": "Day 61",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Cycling/Rowing/Swimming: 10 min easy warmup",
+      "b": "5x2 min 75% effort + 2 min recovery effort",
+      "c": "Cooldown 5-10 min easy"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 61,
+    "title": "Day 62",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "10 Miles Easy Pace"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 62,
+    "title": "Day 63",
+    "strength": {
+      "a": "REST. 30 min of mobility/yoga"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 63,
+    "title": "Day 64",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "1 mile warmup",
+      "b": "5 miles @ tempo pace",
+      "c": "1 mile cooldown"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 64,
+    "title": "Day 65",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "30-60 min easy spin (cycling / rowing / swimming)"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 65,
+    "title": "Day 66",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "10-20 min Warmup",
+      "b": "5x1000m interval with 90 sec recovery walk/jog between intervals",
+      "c": "10 min cooldown"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 66,
+    "title": "Day 67",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "3 Miles Easy Pace"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 67,
+    "title": "Day 68",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Cycling/Rowing/Swimming: 10 min easy warmup",
+      "b": "8x1 min 90% effort + 2 min recovery effort",
+      "c": "Cooldown 5-10 min easy"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 68,
+    "title": "Day 69",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "8 Miles Easy Pace"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 69,
+    "title": "Day 70",
+    "strength": {
+      "a": "REST. 30 min of mobility/yoga"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 70,
+    "title": "Day 71",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "1 mile warmup",
+      "b": "3 miles @ tempo pace",
+      "c": "1 mile cooldown"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 71,
+    "title": "Day 72",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "30-60 min easy spin (cycling / rowing / swimming)"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 72,
+    "title": "Day 73",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "10-20 min Warmup",
+      "b": "3x1600m interval with 90 sec recovery walk/jog between intervals",
+      "c": "10 min cooldown"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 73,
+    "title": "Day 74",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "3 Miles Easy Pace"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 74,
+    "title": "Day 75",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Cycling/Rowing/Swimming: 10 min easy warmup",
+      "b": "5x2 min 75% effort + 2 min recovery effort",
+      "c": "Cooldown 5-10 min easy"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 75,
+    "title": "Day 76",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "7 Miles Easy Pace"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 76,
+    "title": "Day 77",
+    "strength": {
+      "a": "REST. 30 min of mobility/yoga"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 9
+  },
+  {
+    "orderId": 77,
+    "title": "Day 78",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "1 mile warmup",
+      "b": "3 miles easy",
+      "c": "1 mile cooldown"
+    },
+    "programId": 9
+  },
   ]
 }`,
   },
@@ -465,18 +716,112 @@ export const programReferences = {
     sample: `
 {
   "workouts": [
-    {
-      "orderId": 1,
-      "title": "Monday: Endurance Base",
-      "strength": {
-        "a": "Bodyweight Circuit: 2 rounds of 15 each movement",
-        "b": "Core Work: 3x1 minute planks"
-      },
-      "conditioning": {
-        "a": "90 min Zone 2 run",
-        "b": "10 min mobility work"
-      }
-    }
+    	WEEK 1	2-WEEK PREP PHASE
+ 	MONDAY	Off
+ 	TUESDAY	3-4 miles
+ 	WEDNESDAY	4-5 miles
+ 	THURSDAY	Off
+ 	FRIDAY	4-5 miles
+ 	SATURDAY	3-4 miles
+ 	SUNDAY	Long Run: 7-8 miles on rolling hill course
+ 	  	 
+ 	WEEK 2	2-WEEK PREP PHASE
+ 	MONDAY	Off
+ 	TUESDAY	Tempo Intervals:  6-8 x 1/2 mile at Half Marathon Pace with 90 seconds rest
+ 	WEDNESDAY	5-6 miles
+ 	THURSDAY	Off
+ 	FRIDAY	5-6 miles
+ 	SATURDAY	3-4 miles
+ 	SUNDAY	Long Run: 8-9 miles on rolling hill course
+ 	 	 
+ 	WEEK 3	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	4-5 miles
+ 	WEDNESDAY	Tempo Intervals:  4-5 x 3/4mile at Half Marathon Pace with 2 minutes rest
+ 	THURSDAY	Off
+ 	FRIDAY	5-6 miles, 3-4 minutes rest, then 6 x 30 seconds hard with 60 seconds rest
+ 	SATURDAY	3-4 miles
+ 	SUNDAY	Long Run: 9-10 miles on rolling hill course
+ 	 	 
+ 	WEEK 4	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Progression Run: 4 miles, 3-4 minutes rest, then 4 x 60 seconds hard with 90 seconds rest 
+ 	THURSDAY	Off
+ 	FRIDAY	3-4 miles
+ 	SATURDAY	Half Marathon Simulation: 4 miles easy, 4 miles at goal pace, 2 miles easy
+ 	SUNDAY	3-4 miles
+ 	  	 
+ 	WEEK 5	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Tempo Intervals: 4 x mile at Half Marathon Pace with 2 minutes rest
+ 	THURSDAY	Off
+ 	FRIDAY	5-6 miles, 3-4 minutes rest, then 6 x 30 seconds hard with 60 seconds rest
+ 	SATURDAY	4-5 miles
+ 	SUNDAY	Long Run: 9-10 miles on rolling hill course
+ 	 	 
+ 	WEEK 6	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Progression Run: 4 miles, 3-4 minutes rest, then 8 x 30 seconds hard with 60 seconds rest 
+ 	THURSDAY	Off
+ 	FRIDAY	3-4 miles
+ 	SATURDAY	Half Marathon Simulation: 4 miles easy, 4 miles at goal pace, 2 miles easy
+ 	SUNDAY	3-4 miles
+ 	 	 
+ 	WEEK 7	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Intervals:  2 miles at Half Marathon Pace, 3 minutes rest, 2 x mile at 10k pace with 3 minutes rest
+ 	THURSDAY	Off
+ 	FRIDAY	5-6 miles, 3-4 minutes rest, then 5 x 45 seconds hard with 60 seconds rest
+ 	SATURDAY	4-5 miles
+ 	SUNDAY	Long Run: 10-11 miles steady effort
+ 	 	 
+ 	WEEK 8	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Progression Run: 5 miles, 3-4 minutes rest, then 8 x 30 seconds hard with 60 seconds rest 
+ 	THURSDAY	Off
+ 	FRIDAY	4-5 miles
+ 	SATURDAY	Half Marathon Simulation: 5 miles easy, 5 miles at goal pace, 2 miles easy on rolling hills course
+ 	SUNDAY	3-4 miles
+ 	 	 
+ 	WEEK 9	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Intervals: 2 miles at Half Marathon Pace, 3 minutes rest, 2 miles at 10k pace, 3 minutes rest, 4 x 1/4 mile at 5k pace with 2 minutes rest
+ 	THURSDAY	Off
+ 	FRIDAY	5-6 miles, 3-4 minutes rest, then 5 x 50 seconds hard with 75 seconds rest
+ 	SATURDAY	4-5 miles
+ 	SUNDAY	Long Run: 11-12 miles steady effort
+ 	 	 
+ 	WEEK 10	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	5-6 miles
+ 	WEDNESDAY	Progression Run: 6 miles, 3-4 minutes rest, then 8 x 30 seconds hard with 60 seconds rest 
+ 	THURSDAY	Off
+ 	FRIDAY	4-5 miles
+ 	SATURDAY	Half Marathon Simulation: 5 miles easy, 5 miles at goal pace, 2 miles easy on rolling hills course
+ 	SUNDAY	3-4 miles
+ 	 	 
+ 	WEEK 11	9-WEEK MAIN PHASE
+ 	MONDAY	Off
+ 	TUESDAY	4-5 miles
+ 	WEDNESDAY	Tempo Intervals: 3 miles at Half Marathon Pace, 4 minutes rest, 1 miles at 10k Pace, 3 minutes rest, 4 x 1/4 mile at 5k Pace with 2 minutes rest
+ 	THURSDAY	Off
+ 	FRIDAY	5 miles, 3-4 minutes rest, then 4-5 x 30 seconds hard with 60 seconds rest
+ 	SATURDAY	3-4 miles
+ 	SUNDAY	Long Run: 8 miles easy on flat course
+ 	 	 
+ 	WEEK 12	1-WEEK TAPER PHASE
+ 	MONDAY	Off
+ 	TUESDAY	Progression Run: 3 miles, 3-4 minutes rest, then 4-5 x 30 seconds hard with 60 seconds rest 
+ 	WEDNESDAY	4-5 miles
+ 	THURSDAY	3 miles
+ 	FRIDAY	Off
+ 	SATURDAY	Pre-Race: 2-3 miles (easy effort)
   ]
 }`,
   },
@@ -486,18 +831,359 @@ export const programReferences = {
 {
   "workouts": [
     {
-      "orderId": 1,
-      "title": "Monday: Rucking + Strength",
-      "strength": {
-        "a": "Weighted Pull-ups: 5x5",
-        "b": "Push-ups: 5x20",
-        "c": "Squats: 5x10 with ruck"
-      },
-      "conditioning": {
-        "a": "45lb Ruck: 6 miles in 90 min or less",
-        "b": "400m runs x5 with ruck"
-      }
-    }
+    "orderId": 56,
+    "title": "Day 57",
+    "strength": {
+      "a": "Squat: Warm Up, 65% x5, 75% x5, 85% x5+ (max reps)",
+      "b": "Weighted Lunges: 3x20",
+      "c": "Box Jumps: 5x5"
+    },
+    "conditioning": {
+      "a": "Run: 2 mile tempo",
+      "b": "100 burpees for time"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 57,
+    "title": "Day 58",
+    "strength": {
+      "a": "Bench: Warm Up, 65% x5, 75% x5, 85% x5+ (max reps)",
+      "b": "Weight Pull ups: 3x5",
+      "c": "Tricep Extension: 3x10-12",
+      "d": "Hammer Curls: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "Chipper: 200 push ups + 200 butterfly sit ups. Break it up as necessary."
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 58,
+    "title": "Day 59",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "6 mile ruck @ 35lbs. Push your pace on this one"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 59,
+    "title": "Day 60",
+    "strength": {
+      "a": "Deadlift: Warm Up, 65% x5, 75% x5, 85% x5+ (max reps)",
+      "b": "DB Curls: 3x10-12",
+      "c": "Skullcrushers: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "Cindy repeat: 20 min AMRAP: 5 pull ups + 10 push ups + 15 air squats"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 60,
+    "title": "Day 61",
+    "strength": {
+      "a": "Strict Press: Warm Up, 65% x5, 75% x5, 85% x5+ (max reps)",
+      "b": "Arnold Press: 3x10-12",
+      "c": "Lateral DB Raise: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 1/2 mile warmup, 8x400m interval, rest 2 min between intervals"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 61,
+    "title": "Day 62",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "80 min aerobic capacity: easy effort swim, bike, run"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 62,
+    "title": "Day 63 Rest Day",
+    "strength": {
+      "a": "Rest"
+    },
+    "conditioning": {
+      "a": "REST DAY. Do mobility/yoga/stretching for 15-30 minutes"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 63,
+    "title": "Day 64",
+    "strength": {
+      "a": "Squat: Warm Up, 70% x3, 80% x3, 90% x3+ (max reps)",
+      "b": "Weighted Lunges: 3x20",
+      "c": "Box Jumps: 5x5"
+    },
+    "conditioning": {
+      "a": "Run: 3 mile tempo"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 64,
+    "title": "Day 65",
+    "strength": {
+      "a": "Bench: Warm Up, 70% x3, 80% x3, 90% x3+ (max reps)",
+      "b": "Weight Pull ups: 3x5",
+      "c": "Tricep Extension: 3x10-12",
+      "d": "Hammer Curls: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "150 KB Swing for time: 55lbs"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 65,
+    "title": "Day 66",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "2m kit run, 10RFT: 5 pull ups, 10 push ups, 15 air squats"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 66,
+    "title": "Day 67",
+    "strength": {
+      "a": "Deadlift: Warm Up, 70% x3, 80% x3, 90% x3+ (max reps)",
+      "b": "DB Curls: 3x10-12",
+      "c": "Skullcrushers: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 67,
+    "title": "Day 68",
+    "strength": {
+      "a": "Strict Press: Warm Up, 70% x3, 80% x3, 90% x3+ (max reps)",
+      "b": "Arnold Press: 3x10-12",
+      "c": "Lateral DB Raise: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 1/2 mile warmup, 4x800 intervals, aim for sub-1/2 your best mile pace. Rest 3 min between intervals",
+      "b": "100 leg tucks for time"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 68,
+    "title": "Day 69",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "80 min aerobic capacity: easy effort swim, bike, run"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 69,
+    "title": "Day 70 Rest Day",
+    "strength": {
+      "a": "Rest"
+    },
+    "conditioning": {
+      "a": "REST DAY. Do mobility/yoga/stretching for 15-30 minutes"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 70,
+    "title": "Day 71",
+    "strength": {
+      "a": "Squat: Warm Up, 75% x5, 85% x3, 95% x1+ (max reps)",
+      "b": "Weighted Lunges: 3x20",
+      "c": "Box Jumps: 5x5"
+    },
+    "conditioning": {
+      "a": "Run: 4 mile tempo",
+      "b": "27-21-15-9 air squats + sit ups"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 71,
+    "title": "Day 72",
+    "strength": {
+      "a": "Bench: Warm Up, 75% x5, 85% x3, 95% x1+ (max reps)",
+      "b": "Weight Pull ups: 3x5",
+      "c": "Tricep Extension: 3x10-12",
+      "d": "Hammer Curls: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "10 min EMOM: 10 hand release push ups"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 72,
+    "title": "Day 73",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "8 mile ruck @ 45lbs"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 73,
+    "title": "Day 74",
+    "strength": {
+      "a": "Deadlift: Warm Up, 75% x5, 85% x3, 95% x1+ (max reps)",
+      "b": "DB Curls: 3x10-12",
+      "c": "Skullcrushers: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "10 RFT: 10 toes to bar"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 74,
+    "title": "Day 75",
+    "strength": {
+      "a": "Strict Press: Warm Up, 75% x5, 85% x3, 95% x1+ (max reps)",
+      "b": "Arnold Press: 3x10-12",
+      "c": "Lateral DB Raise: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 1 mile easy run",
+      "b": "20 min AMRAP: 10 burpees + 10 wallballs"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 75,
+    "title": "Day 76",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "90 min aerobic capacity: easy effort swim, bike, run"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 76,
+    "title": "Day 77 Rest Day",
+    "strength": {
+      "a": "Rest"
+    },
+    "conditioning": {
+      "a": "REST DAY. Do mobility/yoga/stretching for 15-30 minutes"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 77,
+    "title": "Day 78",
+    "strength": {
+      "a": "Squat: Warm Up, 40% x5, 50% x5, 60% x5",
+      "b": "Weighted Lunges: 3x20",
+      "c": "Box Jumps: 5x5"
+    },
+    "conditioning": {
+      "a": "Run: 4 mile tempo run"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 78,
+    "title": "Day 79",
+    "strength": {
+      "a": "Bench: Warm Up, 40% x5, 50% x5, 60% x5",
+      "b": "Weight Pull ups: 3x5",
+      "c": "Tricep Extension: 3x10-12",
+      "d": "Hammer Curls: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "150 hand release push up for time"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 79,
+    "title": "Day 80",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "FINAL MURPH (IN KIT): Beat your previous two times: 1 mile run + 300 air squats + 200 push ups + 100 pull ups + 1 mile run"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 80,
+    "title": "Day 81",
+    "strength": {
+      "a": "Deadlift: Warm Up, 40% x5, 50% x5, 60% x5",
+      "b": "DB Curls: 3x10-12",
+      "c": "Skullcrushers: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 3 miles recovery pace",
+      "b": "25-20-15-10-5: leg tucks"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 81,
+    "title": "Day 82",
+    "strength": {
+      "a": "Strict Press: Warm Up, 40% x5, 50% x5, 60% x5",
+      "b": "Arnold Press: 3x10-12",
+      "c": "Lateral DB Raise: 3x10-12"
+    },
+    "conditioning": {
+      "a": "Run: 4x1 mile repeats, slow jog 3 min between repeats"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 82,
+    "title": "Day 83",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "90 min aerobic capacity: easy effort swim, bike, run"
+    },
+    "programId": 8
+  },
+  {
+    "orderId": 83,
+    "title": "Day 84 Rest Day",
+    "strength": {
+      "a": "Rest"
+    },
+    "conditioning": {
+      "a": "REST DAY. Do mobility/yoga/stretching for 15-30 minutes"
+    },
+    "programId": 8
   ]
 }`,
   },
@@ -506,19 +1192,96 @@ export const programReferences = {
     sample: `
 {
   "workouts": [
-    {
-      "orderId": 1,
-      "title": "Monday: ACFT Focus",
-      "strength": {
-        "a": "Hex Bar Deadlift: 5x3 @ 80%",
-        "b": "Hand Release Push-ups: 4x20",
-        "c": "Power Throws: 5x5"
-      },
-      "conditioning": {
-        "a": "Sprint-Drag-Carry practice: 3 rounds",
-        "b": "2 mile run time trial"
-      }
-    }
+     {
+    "orderId": 35,
+    "title": "Day 1: Upper / High Intensity",
+    "strength": {
+      "a": "Bench 3x10-12",
+      "b": "Lateral Raises 2x12-15",
+      "c": "Tricep Extensions 3x12-15",
+      "d": "5x12-15 Hand-Release Pushups (HRPU) w/ 15/25/45# plate on back"
+    },
+    "conditioning": {
+      "a": "10 Rounds: 100m sprint + easy jog 100m rest"
+    },
+    "programId": 6
+  },
+  {
+    "orderId": 36,
+    "title": "Day 2: Lower / Steady State / Power",
+    "strength": {
+      "a": "Straight Bar Deadlift 3x5",
+      "b": "DB Lunges 2x12-15",
+      "c": "Bulgarian Split Squats 2x12-15",
+      "d": "Heavy Power Throws: 3x3 w/ 20#/30#",
+      "e": "3x1 max distance w/ 10# med ball"
+    },
+    "conditioning": {
+      "a": "4 mile run @ easy pace"
+    },
+    "programId": 6
+  },
+  {
+    "orderId": 37,
+    "title": "Day 3: Muscular Endurance",
+    "strength": {
+      "a": "5x15-20 HRPU w/ 1 min rest",
+      "b": "4x60 sec plank"
+    },
+    "conditioning": {
+      "a": "Retest benchmark WOD - Cindy: 20 minute AMRAP: 5 pull ups + 10 push ups + 15 air squats"
+    },
+    "programId": 6
+  },
+  {
+    "orderId": 38,
+    "title": "Day 4: Upper / High Intensity / Power",
+    "strength": {
+      "a": "Weighted Pull-Ups 3x5-8",
+      "b": "RDL 2x12-15",
+      "c": "DB/BB Curls 2x12-15",
+      "d": "3x10 burpee broad jumps"
+    },
+    "conditioning": {
+      "a": "5 RFT: 400m run + 50 air squats + 15 pull ups"
+    },
+    "programId": 6
+  },
+  {
+    "orderId": 39,
+    "title": "Day 5: Lower / Steady State",
+    "strength": {
+      "a": "Straight Bar Deadlift 5x3",
+      "b": "Powerclean 5x3",
+      "c": "5 min time cap: As many HRPU as possible"
+    },
+    "conditioning": {
+      "a": "3-5 mile run @ easy pace"
+    },
+    "programId": 6
+  },
+  {
+    "orderId": 40,
+    "title": "Day 6: Conditioning",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "60-120 minutes of Zone 2"
+    },
+    "programId": 6
+  },
+  {
+    "orderId": 41,
+    "title": "Day 7: Rest",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 6
+  }
   ]
 }`,
   },
@@ -528,17 +1291,378 @@ export const programReferences = {
 {
   "workouts": [
     {
-      "orderId": 1,
-      "title": "Monday: Maintenance",
-      "strength": {
-        "a": "Bodyweight Circuit: 2 rounds of 15 each movement",
-        "b": "Core Work: 3x1 minute planks"
-      },
-      "conditioning": {
-        "a": "90 min Zone 2 run",
-        "b": "10 min mobility work"
-      }
-    }
+    "orderId": 0,
+    "title": "Day 1",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 1,
+    "title": "Day 2: Full Body A",
+    "strength": {
+      "a": "Leg Curls: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Walking DB Lunges: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Incline DB/Machine Bench Press: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Assisted/BW/Weighted Chin-Ups: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Machine Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Preacher Curls: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 2,
+    "title": "Day 3",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 3,
+    "title": "Day 4",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 4,
+    "title": "Day 5: Full Body B",
+    "strength": {
+      "a": "Leg Extensions: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Bulgarian Split Squats: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Cable Crossover: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Seated Row: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Lateral Raises: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Cable Tricep Extensions: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 5,
+    "title": "Day 6",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Long Zone 2: 45-90 min, jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 6,
+    "title": "Day 7",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 7,
+    "title": "Day 8: Full Body A",
+    "strength": {
+      "a": "Leg Curls: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Walking DB Lunges: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Incline DB/Machine Bench Press: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Assisted/BW/Weighted Chin-Ups: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Machine Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Preacher Curls: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 8,
+    "title": "Day 9",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 9,
+    "title": "Day 10: Full Body B",
+    "strength": {
+      "a": "Leg Extensions: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Bulgarian Split Squats: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Cable Crossover: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Seated Row: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Lateral Raises: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Cable Tricep Extensions: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 10,
+    "title": "Day 11: Conditioning",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "METCON: 5 rounds for time:",
+      "b": "20 cal row +",
+      "c": "10 burpees over rower +",
+      "d": "20 BF Sit-Ups +",
+      "e": "10 pull-ups"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 11,
+    "title": "Day 12: Calves, Shoulders, and Arms",
+    "strength": {
+      "a": "Calf Raises: 1 set of 15-20, 1 set of 12-15. Feel deep stretch at the bottom of each rep",
+      "b": "DB/BB Shrugs: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Rear Delt Raises: 1 set of 15-20, 2 sets of 8-12",
+      "d": "DB Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Drag Curls: 1 set of 15-20, 2 sets of 8-12",
+      "f": "DB Skullcrushers: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 12,
+    "title": "Day 13",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Long Zone 2: 45-90 min, jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 13,
+    "title": "Day 14",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 14,
+    "title": "Day 15",
+    "strength": {
+      "a": "Leg Curls: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Walking DB Lunges: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Incline DB/Machine Bench Press: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Assisted/BW/Weighted Chin-Ups: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Machine Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Preacher Curls: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 15,
+    "title": "Day 16",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 16,
+    "title": "Day 17",
+    "strength": {
+      "a": "Leg Extensions: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Bulgarian Split Squats: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Cable Crossover: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Seated Row: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Lateral Raises: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Cable Tricep Extensions: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 17,
+    "title": "Day 18",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "A) METCON: Cindy:",
+      "b": "20 min AMRAP: 5 pull-ups + 10 push-ups + 15 air squats",
+      "c": "B) Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 18,
+    "title": "Day 19",
+    "strength": {
+      "a": "Calf Raises: 1 set of 15-20, 1 set of 12-15. Feel deep stretch at the bottom of each rep",
+      "b": "DB/BB Shrugs: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Rear Delt Raises: 1 set of 15-20, 2 sets of 8-12",
+      "d": "DB Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Drag Curls: 1 set of 15-20, 2 sets of 8-12",
+      "f": "DB Skullcrushers: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 19,
+    "title": "Day 20",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Long Zone 2: 45-90 min, jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 20,
+    "title": "Day 21",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 21,
+    "title": "Day 22",
+    "strength": {
+      "a": "Leg Curls: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Walking DB Lunges: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Incline DB/Machine Bench Press: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Assisted/BW/Weighted Chin-Ups: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Machine Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Preacher Curls: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 22,
+    "title": "Day 23",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "A) METCON for time:",
+      "b": "50/40/30/20/10 KB Swings + BF Sit ups",
+      "c": "B) Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 23,
+    "title": "Day 24",
+    "strength": {
+      "a": "Leg Extensions: 1 set of 15-20, 2 sets of 8-12",
+      "b": "Bulgarian Split Squats: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Cable Crossover: 1 set of 15-20, 2 sets of 8-12",
+      "d": "Seated Row: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Lateral Raises: 1 set of 15-20, 2 sets of 8-12",
+      "f": "Cable Tricep Extensions: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 24,
+    "title": "Day 25",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "A) METCON for time:",
+      "b": "12 min AMRAP: 6 Devils Press + 12 cal row + 12 BF Sit ups",
+      "c": "B) Easy 30 min Zone 2: jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 25,
+    "title": "Day 26",
+    "strength": {
+      "a": "Calf Raises: 1 set of 15-20, 1 set of 12-15. Feel deep stretch at the bottom of each rep",
+      "b": "DB/BB Shrugs: 1 set of 15-20, 2 sets of 8-12",
+      "c": "Rear Delt Raises: 1 set of 15-20, 2 sets of 8-12",
+      "d": "DB Shoulder Press: 1 set of 15-20, 2 sets of 8-12",
+      "e": "Drag Curls: 1 set of 15-20, 2 sets of 8-12",
+      "f": "DB Skullcrushers: 1 set of 15-20, 2 sets of 8-12"
+    },
+    "conditioning": {
+      "a": "None"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 26,
+    "title": "Day 27",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Long Zone 2: 45-90 min, jog, hike, swim, row, bike"
+    },
+    "programId": 11
+  },
+  {
+    "orderId": 27,
+    "title": "Day 28",
+    "strength": {
+      "a": "None"
+    },
+    "conditioning": {
+      "a": "Rest"
+    },
+    "programId": 11
+  }
   ]
 }`,
   },
