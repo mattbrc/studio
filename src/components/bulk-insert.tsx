@@ -13,11 +13,13 @@ import { api } from "~/trpc/react";
 
 // import { data } from "~/lib/data/studio_wod";
 
+// import { data } from "~/lib/data/newyear";
+
 import toast from "react-hot-toast";
 
 export function BulkInsert() {
   // insert into wods table
-  const mutation = api.bulk.bulkInsertWods.useMutation();
+  // const mutation = api.bulk.bulkInsertWods.useMutation();
 
   // insert into programWorkouts table
   // const mutation = api.bulk.bulkInsertProgramWorkouts.useMutation();
@@ -40,7 +42,7 @@ export function BulkInsert() {
   return (
     <div className="container flex flex-col items-center justify-center gap-6 px-4 py-6">
       {/* <Button onClick={handleInsert}>Click to insert</Button> */}
-      hello ddd
+      hello
     </div>
   );
 }
