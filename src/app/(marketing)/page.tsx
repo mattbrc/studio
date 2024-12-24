@@ -27,10 +27,13 @@ export default function Home() {
   return (
     <>
       <section className="flex h-screen snap-start flex-col justify-between">
-        <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
           <p className="text-3xl font-extrabold tracking-tight sm:text-[3rem]">
             Something must be{" "}
             <span className="text-[hsl(161,78%,58%)]">done.</span>
+          </p>
+          <p className="pb-2 font-mono">
+            This is a fitness app. Let&apos;s train.
           </p>
           <Link
             href="/sign-in"
