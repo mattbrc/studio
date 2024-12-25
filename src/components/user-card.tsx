@@ -33,9 +33,9 @@ export function UserCard({ ...props }: UserCardProps) {
           <div>
             <div className="flex flex-row items-start gap-2 pb-2">
               <CardTitle className="pb-1">{props.username}</CardTitle>
-              <Link href={`/home/user/${props.id}`}>
+              {/* <Link href={`/home/user/${props.id}`}>
                 <FaUserEdit className="h-4 w-4" />
-              </Link>
+              </Link> */}
             </div>
             <div className="flex flex-row gap-2 pt-1">
               {sub ? (
