@@ -140,7 +140,7 @@ export function StartProgramOptions({
                           key={program.programId}
                           value={program.programId.toString()}
                         >
-                          {program.title}
+                          {program.title} ({program.length})
                         </SelectItem>
                       ))}
                     </SelectContent>
