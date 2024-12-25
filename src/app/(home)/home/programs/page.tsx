@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const programs = await api.wod.getAllPrograms.query();
+  const programs = await api.wod.getAllParentPrograms.query();
   const userProgramDetails = await api.wod.getUserWorkouts.query();
   const sub = await api.stripe.getSubscription.query();
 

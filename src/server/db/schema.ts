@@ -97,6 +97,8 @@ export const programs = mysqlTable(
     length: text("length").notNull(),
     description: text("desc").notNull(),
     active: boolean("active").default(false).notNull(),
+    options: boolean("options").default(false).notNull(),
+    parentId: bigint("parentId", { mode: "number" }),
   },
   (programTable) => ({
     programIndex: index("program_idx").on(programTable.programId),

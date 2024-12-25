@@ -14,6 +14,7 @@ import { Badge } from "./ui/badge";
 import Link from "next/link";
 // import { StartProgram } from "./start-program-button";
 import dynamic from "next/dynamic";
+import { StartProgramOptions } from "./start-program-options";
 
 interface Program {
   title: string;
@@ -22,6 +23,8 @@ interface Program {
   description: string;
   programId: number;
   active: boolean;
+  options: boolean;
+  parentId: number | null;
 }
 
 interface TrainingProps {
@@ -78,10 +81,14 @@ export function Programs({
 
         {data ? (
           <div>
-            {data.map((program) => (
-              <TrainingCard key={program.programId} program={program} />
-            ))}
-            <Card>
+            {data.map((program) =>
+              program.options ? (
+                <OptionsCard key={program.programId} program={program} />
+              ) : (
+                <TrainingCard key={program.programId} program={program} />
+              ),
+            )}
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Don&apos;t see anything you like?</CardTitle>
               </CardHeader>
@@ -99,7 +106,7 @@ export function Programs({
                   </Button>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
         ) : (
           <div>No programs available</div>
@@ -137,6 +144,52 @@ const TrainingCard = ({ program }: TrainingCardProps) => {
           <div className="flex flex-col gap-2">
             {program.active ? (
               <StartProgram
+                programId={program.programId}
+                name={program.title}
+              />
+            ) : (
+              <Button disabled={true} size="sm" variant="secondary">
+                Coming Soon
+              </Button>
+            )}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p>{program.description}</p>
+      </CardContent>
+    </Card>
+  );
+};
+
+const OptionsCard = ({ program }: TrainingCardProps) => {
+  if (!program)
+    return (
+      <Card className="w-full md:w-1/2">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>No programs available</CardTitle>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p>Try again later...</p>
+        </CardContent>
+      </Card>
+    );
+
+  return (
+    <Card className="mb-4 mt-4">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>{program.title}</CardTitle>
+            <CardDescription>Duration: {program.length}</CardDescription>
+          </div>
+          <div className="flex flex-col gap-2">
+            {program.active ? (
+              <StartProgramOptions
                 programId={program.programId}
                 name={program.title}
               />
