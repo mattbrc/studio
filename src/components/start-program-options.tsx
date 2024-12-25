@@ -18,20 +18,63 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 import { Icons } from "@/components/icons";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+interface Program {
+  title: string;
+  length: string;
+  createdAt: Date;
+  description: string;
+  programId: number;
+  active: boolean;
+  options: boolean;
+  parentId: number | null;
+}
 
 interface SubmitProgramProps {
   programId: number;
   name: string;
+  childPrograms?: Program[];
 }
 
-export function StartProgramOptions({ programId, name }: SubmitProgramProps) {
-  const router = useRouter();
+const formSchema = z.object({
+  childProgramId: z.string(),
+});
 
+export function StartProgramOptions({
+  programId,
+  name,
+  childPrograms,
+}: SubmitProgramProps) {
+  const router = useRouter();
   const [isSubmitLoading, setIsSubmitLoading] = React.useState<boolean>(false);
+  const [open, setOpen] = React.useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
   const mutation = api.wod.startProgram.useMutation({
     onSuccess: () => {
       toast.success("Program Started");
       setIsSubmitLoading(false);
+      setOpen(false);
       router.refresh();
     },
     onError: (e) => {
@@ -45,13 +88,13 @@ export function StartProgramOptions({ programId, name }: SubmitProgramProps) {
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
     setIsSubmitLoading(true);
-    mutation.mutate({ programId });
+    mutation.mutate({ programId: parseInt(values.childProgramId) });
   };
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button disabled={isSubmitLoading} size="sm" variant="acid">
           <div>
@@ -65,14 +108,55 @@ export function StartProgramOptions({ programId, name }: SubmitProgramProps) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Select Program Options</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle>Select Program Variation</AlertDialogTitle>
+          {/* <AlertDialogDescription>
             Select the options for your program
-          </AlertDialogDescription>
+          </AlertDialogDescription> */}
         </AlertDialogHeader>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="childProgramId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Program Variation</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a program variation" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {childPrograms?.map((program) => (
+                        <SelectItem
+                          key={program.programId}
+                          value={program.programId.toString()}
+                        >
+                          {program.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction disabled={isSubmitLoading} onClick={handleSubmit}>
+          <AlertDialogAction
+            disabled={isSubmitLoading || !form.formState.isValid}
+            onClick={form.handleSubmit(handleSubmit)}
+          >
             <span>Submit</span>
           </AlertDialogAction>
         </AlertDialogFooter>

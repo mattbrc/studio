@@ -29,12 +29,14 @@ interface Program {
 
 interface TrainingProps {
   data?: Program[];
+  childPrograms?: Program[];
   activeProgram: string | undefined;
   uniqueProgramId: string | null | undefined;
 }
 
 interface TrainingCardProps {
   program?: Program;
+  childPrograms?: Program[];
 }
 
 interface SubmitProgramProps {
@@ -51,6 +53,7 @@ const StartProgram = dynamic(
 
 export function Programs({
   data,
+  childPrograms,
   activeProgram,
   uniqueProgramId,
 }: TrainingProps) {
@@ -83,7 +86,11 @@ export function Programs({
           <div>
             {data.map((program) =>
               program.options ? (
-                <OptionsCard key={program.programId} program={program} />
+                <OptionsCard
+                  key={program.programId}
+                  program={program}
+                  childPrograms={childPrograms}
+                />
               ) : (
                 <TrainingCard key={program.programId} program={program} />
               ),
@@ -162,7 +169,7 @@ const TrainingCard = ({ program }: TrainingCardProps) => {
   );
 };
 
-const OptionsCard = ({ program }: TrainingCardProps) => {
+const OptionsCard = ({ program, childPrograms }: TrainingCardProps) => {
   if (!program)
     return (
       <Card className="w-full md:w-1/2">
@@ -192,6 +199,9 @@ const OptionsCard = ({ program }: TrainingCardProps) => {
               <StartProgramOptions
                 programId={program.programId}
                 name={program.title}
+                childPrograms={childPrograms?.filter(
+                  (p) => p.parentId === program.programId,
+                )}
               />
             ) : (
               <Button disabled={true} size="sm" variant="secondary">

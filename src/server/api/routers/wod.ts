@@ -69,6 +69,15 @@ export const wodRouter = createTRPCRouter({
     return programs;
   }),
 
+  getChildPrograms: privateProcedure
+    .query(async ({ ctx }) => {
+      const programs = await ctx.db.query.programs.findMany({
+        where: (programs, { isNotNull }) => isNotNull(programs.parentId),
+        orderBy: (programs, { asc }) => [asc(programs.createdAt)]
+      });
+      return programs;
+    }),
+
   getAllTracks: publicProcedure.query(async ({ ctx }) => {
     const tracks = await ctx.db.query.tracks.findMany({
       // orderBy: (programs, { asc }) => [asc(programs.createdAt)]

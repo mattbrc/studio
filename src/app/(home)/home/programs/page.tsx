@@ -14,12 +14,15 @@ export default async function Page() {
   const programs = await api.wod.getAllParentPrograms.query();
   const userProgramDetails = await api.wod.getUserWorkouts.query();
   const sub = await api.stripe.getSubscription.query();
+  const childPrograms = await api.wod.getChildPrograms.query();
+  console.log(childPrograms);
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
       {sub ? (
         <Programs
           data={programs}
+          childPrograms={childPrograms}
           activeProgram={userProgramDetails?.program?.title}
           uniqueProgramId={userProgramDetails?.uniqueProgramId}
         />
