@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="flex h-screen snap-start flex-col justify-between">
+      <section className="flex h-screen snap-start flex-col justify-between overflow-hidden">
         <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
           <p className="text-3xl font-extrabold tracking-tight sm:text-[3rem]">
             Something must be{" "}
@@ -50,7 +50,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex h-screen snap-start items-center justify-center">
+      <section className="flex h-screen snap-start items-center justify-center overflow-hidden">
         <MarketingCard />
       </section>
     </>

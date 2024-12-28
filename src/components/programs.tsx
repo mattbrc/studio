@@ -15,6 +15,7 @@ import Link from "next/link";
 // import { StartProgram } from "./start-program-button";
 import dynamic from "next/dynamic";
 import { StartProgramOptions } from "./start-program-options";
+import { Input } from "./ui/input";
 
 interface Program {
   title: string;
@@ -57,68 +58,69 @@ export function Programs({
   activeProgram,
   uniqueProgramId,
 }: TrainingProps) {
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  const filteredPrograms = React.useMemo(() => {
+    if (!data) return [];
+    return data.filter((program) => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        program.title.toLowerCase().includes(searchLower) ||
+        program.description.toLowerCase().includes(searchLower)
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <div className="w-full md:w-1/2">
       <header className="mx-1 mb-4 md:mb-6 lg:mb-8">
         <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Programs</h1>
         <p className="text-gray-400">View or start a new program</p>
       </header>
-      <div className="pt-4">
-        {activeProgram && (
-          <div className="pb-4">
-            <div className="flex items-center gap-2 pb-2">
-              <p>Current Program:</p>
-              <Badge variant="secondary">{activeProgram}</Badge>
-            </div>
-            <Button variant="acid" size="sm" asChild>
-              <Link href={`/home/programs/${uniqueProgramId}`}>
-                Program Overview
-              </Link>
-            </Button>
 
-            <div className="pt-4">
-              <Separator />
-            </div>
+      {activeProgram && (
+        <div className="pb-4">
+          <div className="flex items-center gap-2 pb-2">
+            <p>Current Program:</p>
+            <Badge variant="secondary">{activeProgram}</Badge>
           </div>
-        )}
+          <Button variant="acid" size="sm" asChild>
+            <Link href={`/home/programs/${uniqueProgramId}`}>
+              Program Overview
+            </Link>
+          </Button>
 
-        {data ? (
-          <div>
-            {data.map((program) =>
-              program.options ? (
-                <OptionsCard
-                  key={program.programId}
-                  program={program}
-                  childPrograms={childPrograms}
-                />
-              ) : (
-                <TrainingCard key={program.programId} program={program} />
-              ),
-            )}
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Don&apos;t see anything you like?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div>
-                  <p>Drop a request here and we&apos;ll make it happen.</p>
-                  <Button className="mt-4" variant={"acid"} asChild>
-                    <Link
-                      href="https://tally.so/r/nG0LNL"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Request a Program
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card> */}
+          <div className="pt-4">
+            <Separator />
           </div>
-        ) : (
-          <div>No programs available</div>
-        )}
+        </div>
+      )}
+
+      <div className="mb-6 w-full">
+        <Input
+          placeholder="Filter programs..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
+
+      {data ? (
+        <div>
+          {filteredPrograms.map((program) =>
+            program.options ? (
+              <OptionsCard
+                key={program.programId}
+                program={program}
+                childPrograms={childPrograms}
+              />
+            ) : (
+              <TrainingCard key={program.programId} program={program} />
+            ),
+          )}
+        </div>
+      ) : (
+        <div>No programs available</div>
+      )}
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
-import { levels, userPrograms, workoutsLog, trackWorkouts } from "~/server/db/schema";
+import { levels, userPrograms, workoutsLog, trackWorkouts, programs } from "~/server/db/schema";
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis"; 
 import { TRPCError } from "@trpc/server";
-import { eq, sql, and, inArray, asc } from "drizzle-orm";
+import { eq, sql, and, inArray, asc, or } from "drizzle-orm";
 import { createId } from '@paralleldrive/cuid2';
 
 // Create a new ratelimiter, that allows 5 requests per 1 minute
