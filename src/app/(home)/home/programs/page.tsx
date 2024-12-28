@@ -11,17 +11,16 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const programs = await api.wod.getAllParentPrograms.query();
+  const { parentPrograms, childPrograms } =
+    await api.wod.getAllPrograms.query();
   const userProgramDetails = await api.wod.getUserWorkouts.query();
   const sub = await api.stripe.getSubscription.query();
-  const childPrograms = await api.wod.getChildPrograms.query();
-  console.log(childPrograms);
 
   return (
     <div className="container flex flex-col items-center justify-center px-4 py-6">
       {sub ? (
         <Programs
-          data={programs}
+          data={parentPrograms}
           childPrograms={childPrograms}
           activeProgram={userProgramDetails?.program?.title}
           uniqueProgramId={userProgramDetails?.uniqueProgramId}
@@ -48,7 +47,7 @@ export default async function Page() {
               </Link>
             </div>
           </Alert>
-          <ProgramShowcase data={programs} />
+          <ProgramShowcase data={parentPrograms} />
         </div>
       )}
     </div>

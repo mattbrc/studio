@@ -80,15 +80,19 @@ export function Programs({
 
       {activeProgram && (
         <div className="pb-4">
-          <div className="flex items-center gap-2 pb-2">
-            <p>Current Program:</p>
-            <Badge variant="secondary">{activeProgram}</Badge>
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-1">
+              <p>Current Program:</p>
+              <Badge variant="secondary" className="inline-block text-center">
+                {activeProgram}
+              </Badge>
+            </div>
+            <Button variant="acid" size="sm" asChild>
+              <Link href={`/home/programs/${uniqueProgramId}`}>
+                Program Overview
+              </Link>
+            </Button>
           </div>
-          <Button variant="acid" size="sm" asChild>
-            <Link href={`/home/programs/${uniqueProgramId}`}>
-              Program Overview
-            </Link>
-          </Button>
 
           <div className="pt-4">
             <Separator />
@@ -96,7 +100,7 @@ export function Programs({
         </div>
       )}
 
-      <div className="mb-6 w-full">
+      <div className="mb-4 w-full">
         <Input
           placeholder="Filter programs..."
           value={searchTerm}

@@ -6,6 +6,7 @@ import { Redis } from "@upstash/redis";
 import { TRPCError } from "@trpc/server";
 import { eq, sql, and, inArray, asc, or } from "drizzle-orm";
 import { createId } from '@paralleldrive/cuid2';
+import { unstable_cache } from "next/cache";
 
 // Create a new ratelimiter, that allows 5 requests per 1 minute
 const ratelimit = new Ratelimit({
@@ -13,6 +14,35 @@ const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(5, "1 m"),
   analytics: true,
 });
+
+const cachedProgramsFetcher = unstable_cache(
+  async () => {
+    const db = await import("~/server/db").then(mod => mod.db);
+    const [parentPrograms, childPrograms] = await Promise.all([
+      db.query.programs.findMany({
+        where: (programs, { isNull }) => isNull(programs.parentId),
+        orderBy: (programs, { desc, asc }) => [
+          desc(programs.active),
+          asc(programs.createdAt)
+        ]
+      }),
+      db.query.programs.findMany({
+        where: (programs, { isNotNull }) => isNotNull(programs.parentId),
+        orderBy: (programs, { asc }) => [asc(programs.createdAt)]
+      })
+    ]);
+
+    return {
+      parentPrograms,
+      childPrograms
+    };
+  },
+  ["all-programs"],
+  {
+    revalidate: 3600, // Cache for 1 hour
+    tags: ["programs"]
+  }
+);
 
 export const wodRouter = createTRPCRouter({
   getLatest: publicProcedure.query(async({ ctx }) => {
@@ -326,5 +356,9 @@ export const wodRouter = createTRPCRouter({
       const submit = await ctx.db.insert(userPrograms).values({ userId: id, programId: programId, currentWorkoutId: 0 });
 
       return submit;
+    }),
+
+    getAllPrograms: publicProcedure.query(async () => {
+      return cachedProgramsFetcher();
     }),
 });
