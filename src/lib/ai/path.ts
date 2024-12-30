@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { programReferences } from './pathReference';
 import type { ProgramType } from './pathReference';
 
-// structured output
+
 const workoutSchema = z.object({
   orderId: z.number().int(),
   title: z.string(),
@@ -12,7 +12,7 @@ const workoutSchema = z.object({
   conditioning: z.record(z.string()),
 });
 
-// Create a new schema for the entire program
+
 const programSchema = z.object({
   workouts: z.array(workoutSchema)
 });
