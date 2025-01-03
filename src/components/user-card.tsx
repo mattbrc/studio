@@ -16,6 +16,7 @@ interface UserCardProps {
   username: string | null | undefined;
   title: string | undefined;
   subscription: Subscription | null;
+  path?: boolean;
 }
 
 export function UserCard({ ...props }: UserCardProps) {
@@ -42,6 +43,11 @@ export function UserCard({ ...props }: UserCardProps) {
                 <Badge variant="acid">Studio Pro</Badge>
               ) : (
                 <Badge variant="secondary">Studio Free</Badge>
+              )}
+              {props.path && (
+                <Badge variant="secondary">
+                  <Link href="/home/path">The Path</Link>
+                </Badge>
               )}
               {props.title && (
                 <Badge variant="secondary">

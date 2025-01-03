@@ -45,6 +45,7 @@ export default async function Page() {
         username={user?.username}
         title={userWorkoutDetails?.program?.title}
         subscription={sub}
+        path={!!userPathDetails && userPathDetails.active}
       />
       {userPathDetails && <PathCard path={userPathDetails} />}
       <ProgramCard
