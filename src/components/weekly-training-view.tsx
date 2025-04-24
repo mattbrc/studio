@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { TrainWorkoutCard, type TrainWorkout } from "./train-workout-card"; // Use the new card
-import { data as mockWorkouts } from "~/lib/data/free-training";
+import { data as mockWorkouts } from "~/app/train/training";
 
 const WORKOUTS_PER_WEEK = 7;
 
