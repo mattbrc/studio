@@ -76,7 +76,6 @@ export default async function Page() {
     </div>
   );
 }
-
 type WodData = Record<string, string>;
 
 interface Workout {

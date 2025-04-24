@@ -19,7 +19,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           </div>
           <div className="flex flex-col items-center pb-2 text-sm leading-loose">
             <p className="text-center text-sm leading-loose md:text-left">
-              2024 ACID GAMBIT
+              2025 ACID GAMBIT
             </p>
             <Link className="underline" href="https://instagram.com/acidgambit">
               Contact

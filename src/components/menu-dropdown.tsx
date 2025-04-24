@@ -36,15 +36,18 @@ export function MenuDropdown() {
           <DropdownMenuItem asChild>
             <Link href="/home/path">The Path</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
+          {/* <DropdownMenuItem asChild>
             <Link href="/home/wod">Daily Workouts</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           {/* <DropdownMenuItem asChild>
             <Link href="/home/nutrition">Nutrition (beta)</Link>
           </DropdownMenuItem> */}
           {/* <DropdownMenuItem className="text-zinc-500" asChild>
             <Link href="">History</Link>
           </DropdownMenuItem> */}
+          <DropdownMenuItem asChild>
+            <Link href="/train">Free Training</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/billing">Billing + Plans</Link>
           </DropdownMenuItem>
